@@ -1,26 +1,19 @@
-use dofusopti::models::*;
+use anyhow::Result;
 
-fn main() {
+use dofusopti::dofus_db_client::fetch_amulets;
+use dofusopti::dofus_db_parser::parse_gear;
 
-    let crocoshield = Gear {
-      name: String::from("Crocoshield"),
-      object_type: ObjectType::Shield,
-      level: 200,
-      characteristics: vec!(
-        CharacteristicRange {
-            kind: CharacteristicType::Vitality, 
-            min: 201,
-            max: 250
-        },
-        CharacteristicRange {
-            kind: CharacteristicType::Power, 
-            min: 41,
-            max: 50
-        },   
-      ),
-    };
+#[tokio::main]
+async fn main() -> Result<()> {
 
-    println!("Example of a gear: {:?}", crocoshield);
+    let result = fetch_amulets(0).await?;
+
+    for data in result.data {
+        let gear = parse_gear(data);
+        println!("Fetched gear from dofus db: {:?}", gear);
+    }
+
+    Ok(())
 
 }
 
