@@ -1,13 +1,13 @@
 #[derive(Debug)]
 pub struct Gear {
   pub name: String,  
-  pub object_type: ObjectType,
+  pub gear_type: GearType,
   pub level: u32,
   pub characteristics: Vec<CharacteristicRange>
 }
 
 #[derive(Debug)]
-pub enum ObjectType {
+pub enum GearType {
     Amulet,
     Hat,
     Ring,
