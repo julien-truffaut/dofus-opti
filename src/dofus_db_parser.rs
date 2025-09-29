@@ -5,7 +5,7 @@ use crate::models::*;
 pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
     Ok(Gear { 
         name: object.name.en, 
-        gear_type: parse_gear_type(object.object_type.id)?, 
+        gear_type: parse_gear_type(object.typeId)?, 
         level: object.level, 
         characteristics: parse_characteristics(object.effects)
     })
