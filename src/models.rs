@@ -1,3 +1,5 @@
+use std::fmt;
+
 #[derive(Debug)]
 pub struct Gear {
   pub name: String,  
@@ -12,6 +14,18 @@ pub enum GearType {
     Hat,
     Ring,
     Shield
+}
+
+
+impl fmt::Display for GearType {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            GearType::Amulet => write!(f, "Amulet"),
+            GearType::Hat => write!(f, "Hat"),
+            GearType::Ring => write!(f, "Ring"),
+            GearType::Shield => write!(f, "Shield"),
+        }
+    }
 }
 
 #[derive(Debug)]
