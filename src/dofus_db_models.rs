@@ -13,8 +13,7 @@ pub struct GetObjectsResponse {
 #[derive(Debug, Deserialize)]
 pub struct DofusDbObject {
     pub name: TranslatedString,
-    #[serde(rename = "type")]
-    pub object_type: ObjectType,
+    pub typeId: i32,
     pub level: u32,
     pub img: String,
     pub effects: Vec<Effect>
@@ -28,16 +27,8 @@ pub struct TranslatedString {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct ObjectType {
-    pub id: i32
-}
-
-#[derive(Debug, Deserialize)]
 pub struct Effect {
   pub from: i32,
   pub to: i32,
   pub characteristic: i32,
-  pub category: i32,
-  pub elementId: i32,
-  pub effectId: i32
 }
