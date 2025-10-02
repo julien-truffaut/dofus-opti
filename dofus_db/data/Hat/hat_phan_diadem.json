@@ -1,0 +1,376 @@
+{
+  "_id": "674e524164788cc74141a9e2",
+  "achievementsThatReward": [],
+  "appearanceId": 0,
+  "castInDiagonal": false,
+  "castInLine": false,
+  "castTestLos": false,
+  "className": "ItemData",
+  "craftConditionalCriterion": "",
+  "craftFeasibleCriterion": "SC!5|ST!5",
+  "craftVisibleCriterion": "SC!5|ST!5",
+  "craftXpRatio": -1,
+  "createdAt": "2024-12-03T00:35:12.820Z",
+  "criterions": "",
+  "criterionsTarget": "",
+  "description": {
+    "de": "Dank des Lichts, das von dieser Kappe ausgeht, wird euch kein Geist überrumpeln können, wenn ihr Incarnam durchstreift. Unheimlich praktisch, oder?",
+    "en": "Thanks to the light coming from this headpiece, no one will be able to surprise you, which is a useful feature for walking around Incarnam in peace.",
+    "es": "Gracias a la luz que desprende esta cofia, ningún espíritu volverá a pillarte por sorpresa. Un poder bastante práctico para pasear por Incarnam en toda tranquilidad.",
+    "fr": "Grâce à la lumière issue de cette coiffe, aucun esprit ne pourra plus vous surprendre. Un pouvoir bien utile pour se balader sur Incarnam en toute tranquillité.",
+    "id": "555242",
+    "pt": "Graças à luz emanada por este acessório, nenhum espírito poderá pegar você de surpresa. É muito útil para andar por Incarnam tranquilamente."
+  },
+  "dropMonsterIds": [
+    970,
+    979,
+    980,
+    981
+  ],
+  "dropSubAreaIds": [
+    444
+  ],
+  "dropTemporisMonsterIds": [],
+  "effects": [
+    {
+      "category": 0,
+      "characteristic": 11,
+      "effectId": 125,
+      "elementId": -1,
+      "from": 11,
+      "to": 15
+    },
+    {
+      "category": 0,
+      "characteristic": 12,
+      "effectId": 124,
+      "elementId": -1,
+      "from": 5,
+      "to": 7
+    }
+  ],
+  "enhanceable": true,
+  "etheral": false,
+  "evolutiveEffectIds": [],
+  "exchangeable": true,
+  "favoriteRecyclingSubareas": [
+    444
+  ],
+  "favoriteSubAreas": [],
+  "favoriteSubAreasBonus": 0,
+  "hasLivingObjectSkinJntMood": false,
+  "hasRecipe": true,
+  "hideEffects": false,
+  "iconId": 16470,
+  "id": 16503,
+  "img": "https://api.dofusdb.fr/img/items/16470.png",
+  "importantNotice": {
+    "id": "0"
+  },
+  "isColorable": false,
+  "isLegendary": false,
+  "isSaleable": true,
+  "itemSet": {
+    "_id": "674e523f64788cc7414181e0",
+    "bonusIsSecret": false,
+    "className": "ItemSetData",
+    "createdAt": "2024-12-03T00:35:11.399Z",
+    "effects": [
+      [],
+      [
+        {
+          "category": 0,
+          "characteristic": 11,
+          "effectId": 125,
+          "elementId": -1,
+          "from": 15,
+          "to": 0
+        }
+      ],
+      [
+        {
+          "category": 0,
+          "characteristic": 11,
+          "effectId": 125,
+          "elementId": -1,
+          "from": 30,
+          "to": 0
+        }
+      ]
+    ],
+    "id": 376,
+    "isCosmetic": false,
+    "items": [
+      16503,
+      16504,
+      16505
+    ],
+    "level": 8,
+    "m_id": 376,
+    "name": {
+      "de": "Seelen-Set",
+      "en": "Soul Set",
+      "es": "Set de las almas",
+      "fr": "Panoplie des Âmes",
+      "id": "544021",
+      "pt": "Conjunto das Almas"
+    },
+    "possibleEffects": [
+      [],
+      [
+        {
+          "baseEffectId": 5,
+          "className": "EffectInstanceDice",
+          "delay": 0,
+          "diceNum": 15,
+          "diceSide": 0,
+          "dispellable": 1,
+          "displayZero": false,
+          "duration": 0,
+          "effectElement": -1,
+          "effectId": 125,
+          "effectTriggerDuration": 0,
+          "effectUid": 0,
+          "forClientOnly": false,
+          "group": 0,
+          "m_flags": 8,
+          "modificator": 0,
+          "order": 0,
+          "random": 0,
+          "spellId": -1,
+          "targetId": 0,
+          "targetMask": "",
+          "trigger": false,
+          "triggers": "",
+          "value": 0,
+          "visibleInBuffUi": false,
+          "visibleInFightLog": false,
+          "visibleInTooltip": false,
+          "visibleOnTerrain": true,
+          "zoneDescr": {
+            "cellIds": [],
+            "damageDecreaseStepPercent": 10,
+            "isStopAtTarget": false,
+            "maxDamageDecreaseApplyCount": 4,
+            "param1": 1,
+            "param2": 0,
+            "shape": 67
+          }
+        }
+      ],
+      [
+        {
+          "baseEffectId": 5,
+          "className": "EffectInstanceDice",
+          "delay": 0,
+          "diceNum": 30,
+          "diceSide": 0,
+          "dispellable": 1,
+          "displayZero": false,
+          "duration": 0,
+          "effectElement": -1,
+          "effectId": 125,
+          "effectTriggerDuration": 0,
+          "effectUid": 0,
+          "forClientOnly": false,
+          "group": 0,
+          "m_flags": 8,
+          "modificator": 0,
+          "order": 0,
+          "random": 0,
+          "spellId": -1,
+          "targetId": 0,
+          "targetMask": "",
+          "trigger": false,
+          "triggers": "",
+          "value": 0,
+          "visibleInBuffUi": false,
+          "visibleInFightLog": false,
+          "visibleInTooltip": false,
+          "visibleOnTerrain": true,
+          "zoneDescr": {
+            "cellIds": [],
+            "damageDecreaseStepPercent": 10,
+            "isStopAtTarget": false,
+            "maxDamageDecreaseApplyCount": 4,
+            "param1": 1,
+            "param2": 0,
+            "shape": 67
+          }
+        }
+      ]
+    ],
+    "slug": {
+      "de": "seelen-set",
+      "en": "soul set",
+      "es": "set de las almas",
+      "fr": "panoplie des ames",
+      "pt": "conjunto das almas"
+    },
+    "typeIds": [
+      16,
+      17,
+      1
+    ],
+    "updatedAt": "2025-09-23T12:09:09.394Z"
+  },
+  "itemSetId": 376,
+  "legendaryTreasureHuntThatReward": 0,
+  "level": 8,
+  "m_flags": 1092,
+  "m_id": 16503,
+  "name": {
+    "de": "Esoterikappe",
+    "en": "Phan Diadem",
+    "es": "Cofia N'Tasma",
+    "fr": "Coiffe Antôme",
+    "id": "555241",
+    "pt": "Chapespectro"
+  },
+  "needUseConfirm": false,
+  "nonUsableOnAnother": false,
+  "possibleEffects": [
+    {
+      "baseEffectId": 5,
+      "className": "EffectInstanceDice",
+      "delay": 0,
+      "diceNum": 11,
+      "diceSide": 15,
+      "dispellable": 1,
+      "displayZero": false,
+      "duration": 0,
+      "effectElement": -1,
+      "effectId": 125,
+      "effectTriggerDuration": 0,
+      "effectUid": 0,
+      "forClientOnly": false,
+      "group": 0,
+      "m_flags": 15,
+      "modificator": 0,
+      "order": 0,
+      "random": 0,
+      "spellId": -1,
+      "targetId": 0,
+      "targetMask": "",
+      "trigger": false,
+      "triggers": "",
+      "value": 0,
+      "visibleInBuffUi": true,
+      "visibleInFightLog": true,
+      "visibleInTooltip": true,
+      "visibleOnTerrain": true,
+      "zoneDescr": {
+        "cellIds": [],
+        "damageDecreaseStepPercent": 10,
+        "isStopAtTarget": false,
+        "maxDamageDecreaseApplyCount": 4,
+        "param1": 1,
+        "param2": 0,
+        "shape": 67
+      }
+    },
+    {
+      "baseEffectId": 6,
+      "className": "EffectInstanceDice",
+      "delay": 0,
+      "diceNum": 5,
+      "diceSide": 7,
+      "dispellable": 1,
+      "displayZero": false,
+      "duration": 0,
+      "effectElement": -1,
+      "effectId": 124,
+      "effectTriggerDuration": 0,
+      "effectUid": 0,
+      "forClientOnly": false,
+      "group": 0,
+      "m_flags": 15,
+      "modificator": 0,
+      "order": 0,
+      "random": 0,
+      "spellId": -1,
+      "targetId": 0,
+      "targetMask": "",
+      "trigger": false,
+      "triggers": "",
+      "value": 0,
+      "visibleInBuffUi": true,
+      "visibleInFightLog": true,
+      "visibleInTooltip": true,
+      "visibleOnTerrain": true,
+      "zoneDescr": {
+        "cellIds": [],
+        "damageDecreaseStepPercent": 10,
+        "isStopAtTarget": false,
+        "maxDamageDecreaseApplyCount": 4,
+        "param1": 1,
+        "param2": 0,
+        "shape": 67
+      }
+    }
+  ],
+  "price": 1,
+  "questsThatReward": [],
+  "questsThatUse": [],
+  "realWeight": 1,
+  "recipeIds": [],
+  "recipeSlots": 2,
+  "recipesThatUse": [],
+  "recyclingNuggets": 0.1200000048698265,
+  "resourcesBySubarea": [],
+  "secretRecipe": false,
+  "slug": {
+    "de": "esoterikappe",
+    "en": "phan diadem",
+    "es": "cofia n'tasma",
+    "fr": "coiffe antome",
+    "pt": "chapespectro"
+  },
+  "startLegendaryTreasureHunt": 0,
+  "targetable": false,
+  "twoHanded": false,
+  "type": {
+    "_id": "674e524064788cc741418413",
+    "categoryId": 0,
+    "className": "ItemTypeData",
+    "craftXpRatio": -1,
+    "createdAt": "2024-12-03T00:35:12.568Z",
+    "evolutiveTypeId": 0,
+    "id": 16,
+    "isInEncyclopedia": true,
+    "m_id": 16,
+    "name": {
+      "de": "Hut",
+      "en": "Hat",
+      "es": "Sombrero",
+      "fr": "Chapeau",
+      "id": "29719",
+      "pt": "Chapéu"
+    },
+    "rawZone": "",
+    "superType": {
+      "_id": "60abc435a664687005dfd1c3",
+      "className": "ItemSuperTypeData",
+      "createdAt": "2021-05-24T15:16:28.560Z",
+      "id": 10,
+      "m_id": 10,
+      "name": {
+        "de": "Hut",
+        "en": "Hat",
+        "es": "Sombrero",
+        "fr": "Chapeau",
+        "pt": "Chapéu"
+      },
+      "positions": [
+        6
+      ],
+      "updatedAt": "2025-09-23T12:09:10.064Z"
+    },
+    "superTypeId": 10,
+    "updatedAt": "2025-09-23T12:09:10.309Z"
+  },
+  "typeId": 16,
+  "updatedAt": "2025-09-23T12:09:26.700Z",
+  "usable": false,
+  "visibilityCriterion": ""
+}

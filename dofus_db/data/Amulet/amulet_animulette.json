@@ -1,0 +1,376 @@
+{
+  "_id": "674e524164788cc74141a9e4",
+  "achievementsThatReward": [],
+  "appearanceId": 0,
+  "castInDiagonal": false,
+  "castInLine": false,
+  "castTestLos": false,
+  "className": "ItemData",
+  "craftConditionalCriterion": "",
+  "craftFeasibleCriterion": "SC!5|ST!5",
+  "craftVisibleCriterion": "SC!5|ST!5",
+  "craftXpRatio": -1,
+  "createdAt": "2024-12-03T00:35:12.820Z",
+  "criterions": "",
+  "criterionsTarget": "",
+  "description": {
+    "de": "Der Legende nach birgt dieses Amulett die Seele eines mächtigen Magiers, der Ecaflip beim himmlischen Schafkopf herausgefordert und besiegt hat, dem populärsten Kartenspiel der Zwölf. Wenn ihr es um den Hals tragt, während ihr eine Partie spielt, erscheint er vielleicht ...",
+    "en": "The legend says that this amulet contains the soul of a powerful magician who challenged Ecaflip to a game of celestial belote – the favourite card game of the Twelve – and won. If you wear it around your neck while playing cards, maybe he'll make an appearance...",
+    "es": "La leyenda cuenta que este amuleto encierra el alma de un poderoso mago que había desafiado y vencido a Zurcarák al belote celeste, el juego de cartas preferido de los Doce. Si te lo pones alrededor del cuello mientras juegas, puede que se manifieste...",
+    "fr": "La légende raconte que cette amulette renferme l'âme d'un puissant magicien qui avait défié et vaincu Ecaflip à la belote céleste, le jeu de cartes préféré des Douze. Si vous la portez autour du cou en jouant aux cartes, peut-être qu'il se manifestera...",
+    "id": "872527",
+    "pt": "Diz a lenda que este amuleto contém a alma de um poderoso mágico que desafiou e derrotou Ecaflip em uma partida de tranca celeste, o jogo de cartas preferido dos Doze. Se você usar este amuleto no pescoço enquanto joga cartas, pode ser que ele se manifeste."
+  },
+  "dropMonsterIds": [
+    971,
+    972,
+    973,
+    984
+  ],
+  "dropSubAreaIds": [
+    445
+  ],
+  "dropTemporisMonsterIds": [],
+  "effects": [
+    {
+      "category": 0,
+      "characteristic": 18,
+      "effectId": 171,
+      "elementId": -1,
+      "from": -5,
+      "to": 0
+    },
+    {
+      "category": 0,
+      "characteristic": 26,
+      "effectId": 182,
+      "elementId": -1,
+      "from": 1,
+      "to": 0
+    }
+  ],
+  "enhanceable": true,
+  "etheral": false,
+  "evolutiveEffectIds": [],
+  "exchangeable": true,
+  "favoriteRecyclingSubareas": [
+    445
+  ],
+  "favoriteSubAreas": [],
+  "favoriteSubAreasBonus": 0,
+  "hasLivingObjectSkinJntMood": false,
+  "hasRecipe": true,
+  "hideEffects": false,
+  "iconId": 1269,
+  "id": 16505,
+  "img": "https://api.dofusdb.fr/img/items/1269.png",
+  "importantNotice": {
+    "id": "0"
+  },
+  "isColorable": false,
+  "isLegendary": false,
+  "isSaleable": true,
+  "itemSet": {
+    "_id": "674e523f64788cc7414181e0",
+    "bonusIsSecret": false,
+    "className": "ItemSetData",
+    "createdAt": "2024-12-03T00:35:11.399Z",
+    "effects": [
+      [],
+      [
+        {
+          "category": 0,
+          "characteristic": 11,
+          "effectId": 125,
+          "elementId": -1,
+          "from": 15,
+          "to": 0
+        }
+      ],
+      [
+        {
+          "category": 0,
+          "characteristic": 11,
+          "effectId": 125,
+          "elementId": -1,
+          "from": 30,
+          "to": 0
+        }
+      ]
+    ],
+    "id": 376,
+    "isCosmetic": false,
+    "items": [
+      16503,
+      16504,
+      16505
+    ],
+    "level": 8,
+    "m_id": 376,
+    "name": {
+      "de": "Seelen-Set",
+      "en": "Soul Set",
+      "es": "Set de las almas",
+      "fr": "Panoplie des Âmes",
+      "id": "544021",
+      "pt": "Conjunto das Almas"
+    },
+    "possibleEffects": [
+      [],
+      [
+        {
+          "baseEffectId": 5,
+          "className": "EffectInstanceDice",
+          "delay": 0,
+          "diceNum": 15,
+          "diceSide": 0,
+          "dispellable": 1,
+          "displayZero": false,
+          "duration": 0,
+          "effectElement": -1,
+          "effectId": 125,
+          "effectTriggerDuration": 0,
+          "effectUid": 0,
+          "forClientOnly": false,
+          "group": 0,
+          "m_flags": 8,
+          "modificator": 0,
+          "order": 0,
+          "random": 0,
+          "spellId": -1,
+          "targetId": 0,
+          "targetMask": "",
+          "trigger": false,
+          "triggers": "",
+          "value": 0,
+          "visibleInBuffUi": false,
+          "visibleInFightLog": false,
+          "visibleInTooltip": false,
+          "visibleOnTerrain": true,
+          "zoneDescr": {
+            "cellIds": [],
+            "damageDecreaseStepPercent": 10,
+            "isStopAtTarget": false,
+            "maxDamageDecreaseApplyCount": 4,
+            "param1": 1,
+            "param2": 0,
+            "shape": 67
+          }
+        }
+      ],
+      [
+        {
+          "baseEffectId": 5,
+          "className": "EffectInstanceDice",
+          "delay": 0,
+          "diceNum": 30,
+          "diceSide": 0,
+          "dispellable": 1,
+          "displayZero": false,
+          "duration": 0,
+          "effectElement": -1,
+          "effectId": 125,
+          "effectTriggerDuration": 0,
+          "effectUid": 0,
+          "forClientOnly": false,
+          "group": 0,
+          "m_flags": 8,
+          "modificator": 0,
+          "order": 0,
+          "random": 0,
+          "spellId": -1,
+          "targetId": 0,
+          "targetMask": "",
+          "trigger": false,
+          "triggers": "",
+          "value": 0,
+          "visibleInBuffUi": false,
+          "visibleInFightLog": false,
+          "visibleInTooltip": false,
+          "visibleOnTerrain": true,
+          "zoneDescr": {
+            "cellIds": [],
+            "damageDecreaseStepPercent": 10,
+            "isStopAtTarget": false,
+            "maxDamageDecreaseApplyCount": 4,
+            "param1": 1,
+            "param2": 0,
+            "shape": 67
+          }
+        }
+      ]
+    ],
+    "slug": {
+      "de": "seelen-set",
+      "en": "soul set",
+      "es": "set de las almas",
+      "fr": "panoplie des ames",
+      "pt": "conjunto das almas"
+    },
+    "typeIds": [
+      16,
+      17,
+      1
+    ],
+    "updatedAt": "2025-09-23T12:09:09.394Z"
+  },
+  "itemSetId": 376,
+  "legendaryTreasureHuntThatReward": 0,
+  "level": 7,
+  "m_flags": 1092,
+  "m_id": 16505,
+  "name": {
+    "de": "Animulett",
+    "en": "Animulette",
+    "es": "Ánimamuleto",
+    "fr": "Animulette",
+    "id": "555189",
+    "pt": "Animuleto"
+  },
+  "needUseConfirm": false,
+  "nonUsableOnAnother": false,
+  "possibleEffects": [
+    {
+      "baseEffectId": 98,
+      "className": "EffectInstanceDice",
+      "delay": 0,
+      "diceNum": 5,
+      "diceSide": 0,
+      "dispellable": 1,
+      "displayZero": false,
+      "duration": 0,
+      "effectElement": -1,
+      "effectId": 171,
+      "effectTriggerDuration": 0,
+      "effectUid": 0,
+      "forClientOnly": false,
+      "group": 0,
+      "m_flags": 15,
+      "modificator": 0,
+      "order": 0,
+      "random": 0,
+      "spellId": -1,
+      "targetId": 0,
+      "targetMask": "",
+      "trigger": false,
+      "triggers": "",
+      "value": 0,
+      "visibleInBuffUi": true,
+      "visibleInFightLog": true,
+      "visibleInTooltip": true,
+      "visibleOnTerrain": true,
+      "zoneDescr": {
+        "cellIds": [],
+        "damageDecreaseStepPercent": 10,
+        "isStopAtTarget": false,
+        "maxDamageDecreaseApplyCount": 4,
+        "param1": 1,
+        "param2": 0,
+        "shape": 67
+      }
+    },
+    {
+      "baseEffectId": 23,
+      "className": "EffectInstanceDice",
+      "delay": 0,
+      "diceNum": 1,
+      "diceSide": 0,
+      "dispellable": 1,
+      "displayZero": false,
+      "duration": 0,
+      "effectElement": -1,
+      "effectId": 182,
+      "effectTriggerDuration": 0,
+      "effectUid": 0,
+      "forClientOnly": false,
+      "group": 0,
+      "m_flags": 15,
+      "modificator": 0,
+      "order": 0,
+      "random": 0,
+      "spellId": -1,
+      "targetId": 0,
+      "targetMask": "",
+      "trigger": false,
+      "triggers": "",
+      "value": 0,
+      "visibleInBuffUi": true,
+      "visibleInFightLog": true,
+      "visibleInTooltip": true,
+      "visibleOnTerrain": true,
+      "zoneDescr": {
+        "cellIds": [],
+        "damageDecreaseStepPercent": 10,
+        "isStopAtTarget": false,
+        "maxDamageDecreaseApplyCount": 4,
+        "param1": 1,
+        "param2": 0,
+        "shape": 67
+      }
+    }
+  ],
+  "price": 1,
+  "questsThatReward": [],
+  "questsThatUse": [],
+  "realWeight": 1,
+  "recipeIds": [],
+  "recipeSlots": 2,
+  "recipesThatUse": [],
+  "recyclingNuggets": 0.1176848914294651,
+  "resourcesBySubarea": [],
+  "secretRecipe": false,
+  "slug": {
+    "de": "animulett",
+    "en": "animulette",
+    "es": "animamuleto",
+    "fr": "animulette",
+    "pt": "animuleto"
+  },
+  "startLegendaryTreasureHunt": 0,
+  "targetable": false,
+  "twoHanded": false,
+  "type": {
+    "_id": "674e524064788cc741418404",
+    "categoryId": 0,
+    "className": "ItemTypeData",
+    "craftXpRatio": -1,
+    "createdAt": "2024-12-03T00:35:12.568Z",
+    "evolutiveTypeId": 0,
+    "id": 1,
+    "isInEncyclopedia": true,
+    "m_id": 1,
+    "name": {
+      "de": "Amulett",
+      "en": "Amulet",
+      "es": "Amuleto",
+      "fr": "Amulette",
+      "id": "915868",
+      "pt": "Amuleto"
+    },
+    "rawZone": "",
+    "superType": {
+      "_id": "60abc34ca664687005dfd1b9",
+      "className": "ItemSuperTypeData",
+      "createdAt": "2021-05-24T15:16:28.560Z",
+      "id": 1,
+      "m_id": 1,
+      "name": {
+        "de": "Amulett",
+        "en": "Amulet",
+        "es": "Amuleto",
+        "fr": "Amulette",
+        "pt": "Amuleto"
+      },
+      "positions": [
+        0
+      ],
+      "updatedAt": "2025-09-23T12:09:10.064Z"
+    },
+    "superTypeId": 1,
+    "updatedAt": "2025-09-23T12:09:10.305Z"
+  },
+  "typeId": 1,
+  "updatedAt": "2025-09-23T12:09:26.701Z",
+  "usable": false,
+  "visibilityCriterion": ""
+}

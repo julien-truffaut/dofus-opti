@@ -1,0 +1,183 @@
+{
+  "_id": "674e524164788cc74141b3ca",
+  "achievementsThatReward": [],
+  "appearanceId": 0,
+  "castInDiagonal": false,
+  "castInLine": false,
+  "castTestLos": false,
+  "className": "ItemData",
+  "craftConditionalCriterion": "Qo>13838&(Qo<13845|(Qo>13845&Qo<13846&PO!19644))",
+  "craftFeasibleCriterion": "Qo>13838&(Qo<13845|(Qo>13845&Qo<13846&PO!19644))",
+  "craftVisibleCriterion": "",
+  "craftXpRatio": 10,
+  "createdAt": "2024-12-03T00:35:12.820Z",
+  "criterions": "BI=1",
+  "criterionsTarget": "",
+  "description": {
+    "de": "An den von diesem Schild abgewehrten Schlägen ließe sich der gesamte Verlauf aller bisherigen Kämpfe eines Abenteurers nachvollziehen.",
+    "en": "You can tell an adventurer's fight history just by looking at the hits taken by this shield.",
+    "es": "Se puede adivinar el historial de combates de un aventurero examinando los golpes que ha recibido este escudo.",
+    "fr": "On peut deviner l'historique des combats d'un aventurier en examinant les coups reçus par ce bouclier.",
+    "id": "749118",
+    "pt": "Dá para ver o histórico dos combates de um aventureiro pelos golpes recebidos por este escudo."
+  },
+  "dropMonsterIds": [],
+  "dropSubAreaIds": [],
+  "dropTemporisMonsterIds": [],
+  "effects": [
+    {
+      "category": 0,
+      "characteristic": 0,
+      "effectId": 2818,
+      "elementId": -1,
+      "from": 0,
+      "to": 0
+    }
+  ],
+  "enhanceable": false,
+  "etheral": false,
+  "evolutiveEffectIds": [],
+  "exchangeable": true,
+  "favoriteRecyclingSubareas": [],
+  "favoriteSubAreas": [],
+  "favoriteSubAreasBonus": 0,
+  "hasLivingObjectSkinJntMood": false,
+  "hasRecipe": true,
+  "hideEffects": false,
+  "iconId": 82001,
+  "id": 19639,
+  "img": "https://api.dofusdb.fr/img/items/82001.png",
+  "importantNotice": {
+    "id": "0"
+  },
+  "isColorable": false,
+  "isLegendary": false,
+  "isSaleable": false,
+  "itemSet": false,
+  "itemSetId": -1,
+  "legendaryTreasureHuntThatReward": 0,
+  "level": 1,
+  "m_flags": 4,
+  "m_id": 19639,
+  "name": {
+    "de": "Schlagfertiger Schild",
+    "en": "Syllabu Shield",
+    "es": "Kur Ríkulo",
+    "fr": "Écu Rikulome",
+    "id": "749117",
+    "pt": "Escudo Kumento"
+  },
+  "needUseConfirm": false,
+  "nonUsableOnAnother": false,
+  "possibleEffects": [
+    {
+      "baseEffectId": 465,
+      "className": "EffectInstanceDice",
+      "delay": 0,
+      "diceNum": 0,
+      "diceSide": 0,
+      "dispellable": 1,
+      "displayZero": false,
+      "duration": 0,
+      "effectElement": -1,
+      "effectId": 2818,
+      "effectTriggerDuration": 0,
+      "effectUid": 0,
+      "forClientOnly": false,
+      "group": 0,
+      "m_flags": 15,
+      "modificator": 0,
+      "order": 0,
+      "random": 0,
+      "spellId": -1,
+      "targetId": 0,
+      "targetMask": "",
+      "trigger": false,
+      "triggers": "",
+      "value": 0,
+      "visibleInBuffUi": true,
+      "visibleInFightLog": true,
+      "visibleInTooltip": true,
+      "visibleOnTerrain": true,
+      "zoneDescr": {
+        "cellIds": [],
+        "damageDecreaseStepPercent": 10,
+        "isStopAtTarget": false,
+        "maxDamageDecreaseApplyCount": 4,
+        "param1": 1,
+        "param2": 0,
+        "shape": 67
+      }
+    }
+  ],
+  "price": 100,
+  "questsThatReward": [],
+  "questsThatUse": [
+    1986
+  ],
+  "realWeight": 1,
+  "recipeIds": [
+    19644
+  ],
+  "recipeSlots": 2,
+  "recipesThatUse": [
+    19644
+  ],
+  "recyclingNuggets": 0,
+  "resourcesBySubarea": [],
+  "secretRecipe": false,
+  "slug": {
+    "de": "schlagfertiger schild",
+    "en": "syllabu shield",
+    "es": "kur rikulo",
+    "fr": "ecu rikulome",
+    "pt": "escudo kumento"
+  },
+  "startLegendaryTreasureHunt": 0,
+  "targetable": false,
+  "twoHanded": false,
+  "type": {
+    "_id": "674e524064788cc74141844b",
+    "categoryId": 0,
+    "className": "ItemTypeData",
+    "craftXpRatio": -1,
+    "createdAt": "2024-12-03T00:35:12.568Z",
+    "evolutiveTypeId": 0,
+    "id": 82,
+    "isInEncyclopedia": true,
+    "m_id": 82,
+    "name": {
+      "de": "Schild",
+      "en": "Shield",
+      "es": "Escudo",
+      "fr": "Bouclier",
+      "id": "29702",
+      "pt": "Escudo"
+    },
+    "rawZone": "",
+    "superType": {
+      "_id": "60abc3e9a664687005dfd1c0",
+      "className": "ItemSuperTypeData",
+      "createdAt": "2021-05-24T15:16:28.560Z",
+      "id": 7,
+      "m_id": 7,
+      "name": {
+        "de": "Schild",
+        "en": "Shield",
+        "es": "Escudo",
+        "fr": "Bouclier",
+        "pt": "Escudo"
+      },
+      "positions": [
+        15
+      ],
+      "updatedAt": "2025-09-23T12:09:10.064Z"
+    },
+    "superTypeId": 7,
+    "updatedAt": "2025-09-23T12:09:10.318Z"
+  },
+  "typeId": 82,
+  "updatedAt": "2025-09-23T12:09:27.402Z",
+  "usable": false,
+  "visibilityCriterion": ""
+}

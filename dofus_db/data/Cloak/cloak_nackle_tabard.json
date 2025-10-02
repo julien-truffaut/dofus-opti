@@ -1,0 +1,183 @@
+{
+  "_id": "674e524164788cc74141b3cc",
+  "achievementsThatReward": [],
+  "appearanceId": 0,
+  "castInDiagonal": false,
+  "castInLine": false,
+  "castTestLos": false,
+  "className": "ItemData",
+  "craftConditionalCriterion": "Qo>13840&(Qo<13845|(Qo>13845&Qo<13846&PO!19644))",
+  "craftFeasibleCriterion": "Qo>13840&(Qo<13845|(Qo>13845&Qo<13846&PO!19644))",
+  "craftVisibleCriterion": "",
+  "craftXpRatio": 10,
+  "createdAt": "2024-12-03T00:35:12.820Z",
+  "criterions": "BI=1",
+  "criterionsTarget": "",
+  "description": {
+    "de": "Früher wurde er nur bei religiösen Zeremonien verwendet, doch mittlerweile nutzt man ihn für alles Mögliche.",
+    "en": "Once used in religious ceremonies, nowadays this item of clothing can be worn for any occasion.",
+    "es": "Antiguamente utilizado en ceremonias religiosas, esta prenda ahora se utiliza para mil y una cosas.",
+    "fr": "Autrefois utilisé lors des cérémonies religieuses, ce vêtement est aujourd'hui employé pour tout et n'importe quoi.",
+    "id": "749122",
+    "pt": "Muito usada antigamente em cerimônias religiosas, esta veste serve para qualquer coisa hoje."
+  },
+  "dropMonsterIds": [],
+  "dropSubAreaIds": [],
+  "dropTemporisMonsterIds": [],
+  "effects": [
+    {
+      "category": 0,
+      "characteristic": 0,
+      "effectId": 2818,
+      "elementId": -1,
+      "from": 0,
+      "to": 0
+    }
+  ],
+  "enhanceable": false,
+  "etheral": false,
+  "evolutiveEffectIds": [],
+  "exchangeable": true,
+  "favoriteRecyclingSubareas": [],
+  "favoriteSubAreas": [],
+  "favoriteSubAreasBonus": 0,
+  "hasLivingObjectSkinJntMood": false,
+  "hasRecipe": true,
+  "hideEffects": false,
+  "iconId": 17356,
+  "id": 19641,
+  "img": "https://api.dofusdb.fr/img/items/17356.png",
+  "importantNotice": {
+    "id": "0"
+  },
+  "isColorable": false,
+  "isLegendary": false,
+  "isSaleable": false,
+  "itemSet": false,
+  "itemSetId": -1,
+  "legendaryTreasureHuntThatReward": 0,
+  "level": 1,
+  "m_flags": 4,
+  "m_id": 19641,
+  "name": {
+    "de": "Taber Nakl",
+    "en": "Nackle Tabard",
+    "es": "Tubarnékalo",
+    "fr": "Tabard Nak",
+    "id": "749121",
+    "pt": "Tabahdo"
+  },
+  "needUseConfirm": false,
+  "nonUsableOnAnother": false,
+  "possibleEffects": [
+    {
+      "baseEffectId": 465,
+      "className": "EffectInstanceDice",
+      "delay": 0,
+      "diceNum": 0,
+      "diceSide": 0,
+      "dispellable": 1,
+      "displayZero": false,
+      "duration": 0,
+      "effectElement": -1,
+      "effectId": 2818,
+      "effectTriggerDuration": 0,
+      "effectUid": 0,
+      "forClientOnly": false,
+      "group": 0,
+      "m_flags": 15,
+      "modificator": 0,
+      "order": 0,
+      "random": 0,
+      "spellId": -1,
+      "targetId": 0,
+      "targetMask": "",
+      "trigger": false,
+      "triggers": "",
+      "value": 0,
+      "visibleInBuffUi": true,
+      "visibleInFightLog": true,
+      "visibleInTooltip": true,
+      "visibleOnTerrain": true,
+      "zoneDescr": {
+        "cellIds": [],
+        "damageDecreaseStepPercent": 10,
+        "isStopAtTarget": false,
+        "maxDamageDecreaseApplyCount": 4,
+        "param1": 1,
+        "param2": 0,
+        "shape": 67
+      }
+    }
+  ],
+  "price": 100,
+  "questsThatReward": [],
+  "questsThatUse": [
+    1986
+  ],
+  "realWeight": 1,
+  "recipeIds": [
+    19644
+  ],
+  "recipeSlots": 2,
+  "recipesThatUse": [
+    19644
+  ],
+  "recyclingNuggets": 0,
+  "resourcesBySubarea": [],
+  "secretRecipe": false,
+  "slug": {
+    "de": "taber nakl",
+    "en": "nackle tabard",
+    "es": "tubarnekalo",
+    "fr": "tabard nak",
+    "pt": "tabahdo"
+  },
+  "startLegendaryTreasureHunt": 0,
+  "targetable": false,
+  "twoHanded": false,
+  "type": {
+    "_id": "674e524064788cc741418414",
+    "categoryId": 0,
+    "className": "ItemTypeData",
+    "craftXpRatio": -1,
+    "createdAt": "2024-12-03T00:35:12.568Z",
+    "evolutiveTypeId": 0,
+    "id": 17,
+    "isInEncyclopedia": true,
+    "m_id": 17,
+    "name": {
+      "de": "Umhang",
+      "en": "Cloak",
+      "es": "Capa",
+      "fr": "Cape",
+      "id": "29710",
+      "pt": "Capa"
+    },
+    "rawZone": "",
+    "superType": {
+      "_id": "60abc445a664687005dfd1c4",
+      "className": "ItemSuperTypeData",
+      "createdAt": "2021-05-24T15:16:28.560Z",
+      "id": 11,
+      "m_id": 11,
+      "name": {
+        "de": "Umhang",
+        "en": "Cloak",
+        "es": "Capa",
+        "fr": "Cape",
+        "pt": "Capa"
+      },
+      "positions": [
+        7
+      ],
+      "updatedAt": "2025-09-23T12:09:10.064Z"
+    },
+    "superTypeId": 11,
+    "updatedAt": "2025-09-23T12:09:10.309Z"
+  },
+  "typeId": 17,
+  "updatedAt": "2025-09-23T12:09:27.402Z",
+  "usable": false,
+  "visibilityCriterion": ""
+}

@@ -6,7 +6,7 @@ use std::io::BufReader;
 use std::path::Path;
 
 use dofusopti::dofus_db_models::DofusDbObject;
-use dofusopti::dofus_db_client::fetch_gear;
+use dofusopti::dofus_db_client::{fetch_all_gears, fetch_gear};
 use dofusopti::dofus_db_parser::parse_gear;
 use dofusopti::models::*;
 
@@ -16,11 +16,11 @@ const DOFUS_DB_EXPORT_PATH: &str = "dofus_db/data";
 async fn main() -> Result<()> {
 
     for gear_type in ALL_GEAR_TYPES {
-        let result = fetch_gear(gear_type, 0).await?;
+        let result = fetch_all_gears(gear_type).await?;
 
-        println!("Imported {} {} from dofus db", result.data.len(), gear_type);
+        println!("Imported {} {} from dofus db", result.len(), gear_type);
 
-        import_dofus_db_data(&result.data, gear_type).unwrap();
+        import_dofus_db_data(&result, gear_type).unwrap();
     }
 
     // let object = read_object_from_file(format!("{DOFUS_DB_EXPORT_PATH}/amulet_albueran_warrior_amulet.json")).unwrap();
