@@ -11,11 +11,34 @@ pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
     })
 }
 
-fn parse_gear_type(id: i32) -> Result<GearType, String> {
-    match id {
-        1 => Ok(GearType::Amulet),
-        _ => Err(format!("Unrecognized object type {}", id)),
+pub fn gear_type_to_code(gear_type: &GearType) -> i32 {
+    match gear_type {
+        GearType::Amulet => 1,
+        GearType::Axe    => 19,
+        GearType::Belt   => 30,
+        GearType::Boots  => 11,
+        GearType::Bow    => 2,
+        GearType::Cloak  => 17,
+        GearType::Dagger => 5,
+        GearType::Hammer => 7,
+        GearType::Hat    => 16,
+        GearType::Lance  => 271,
+        GearType::Ring   => 9,
+        GearType::Scythe => 22,
+        GearType::Shield => 82,
+        GearType::Shovel => 8,
+        GearType::Staff  => 4,
+        GearType::Sword  => 6,
+        GearType::Wand   => 3,
     }
+}
+
+fn parse_gear_type(id: i32) -> Result<GearType, String> {
+    ALL_GEAR_TYPES
+      .iter()
+      .find(|gear_type| gear_type_to_code(gear_type) == id)
+      .ok_or(format!("Unrecognized object type {}", id))
+      .map(|g| g.to_owned()) 
 }
 
 fn parse_characteristics(effects: Vec<Effect>) -> Vec<CharacteristicRange> {

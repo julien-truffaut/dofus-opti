@@ -8,22 +8,68 @@ pub struct Gear {
   pub characteristics: Vec<CharacteristicRange>
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum GearType {
     Amulet,
+    Axe,
+    Belt,
+    Boots,
+    Bow,
+    Cloak,
+    Dagger,
     Hat,
+    Lance,
+    Hammer,
     Ring,
-    Shield
+    Scythe,
+    Shield,
+    Shovel,
+    Staff,
+    Sword,
+    Wand
 }
+
+pub static ALL_GEAR_TYPES: &[GearType] = &[
+    GearType::Amulet,
+    GearType::Axe,
+    GearType::Belt,
+    GearType::Boots,
+    GearType::Bow,
+    GearType::Cloak,
+    GearType::Dagger,
+    GearType::Hammer,
+    GearType::Hat,
+    GearType::Lance,
+    GearType::Ring,
+    GearType::Scythe,
+    GearType::Shield,
+    GearType::Shovel,
+    GearType::Staff,
+    GearType::Sword,
+    GearType::Wand,
+];
 
 
 impl fmt::Display for GearType {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             GearType::Amulet => write!(f, "Amulet"),
-            GearType::Hat => write!(f, "Hat"),
-            GearType::Ring => write!(f, "Ring"),
+            GearType::Axe    => write!(f, "Axe"),
+            GearType::Belt   => write!(f, "Belt"),
+            GearType::Boots  => write!(f, "Boots"),
+            GearType::Bow    => write!(f, "Bow"),
+            GearType::Cloak  => write!(f, "Cloak"),
+            GearType::Dagger => write!(f, "Dagger"),
+            GearType::Hat    => write!(f, "Hat"),
+            GearType::Hammer => write!(f, "Hammer"),
+            GearType::Lance  => write!(f, "Lance"),
+            GearType::Ring   => write!(f, "Ring"),
+            GearType::Scythe => write!(f, "Scythe"),
             GearType::Shield => write!(f, "Shield"),
+            GearType::Shovel => write!(f, "Shovel"),
+            GearType::Staff  => write!(f, "Staff"),
+            GearType::Sword  => write!(f, "Sword"),
+            GearType::Wand   => write!(f, "Wand"),
         }
     }
 }

@@ -6,32 +6,36 @@ use std::io::BufReader;
 use std::path::Path;
 
 use dofusopti::dofus_db_models::DofusDbObject;
-use dofusopti::dofus_db_client::fetch_amulets;
+use dofusopti::dofus_db_client::fetch_gear;
 use dofusopti::dofus_db_parser::parse_gear;
-use dofusopti::models::GearType;
+use dofusopti::models::*;
 
 const DOFUS_DB_EXPORT_PATH: &str = "dofus_db/data";
 
 #[tokio::main]
 async fn main() -> Result<()> {
 
-    let result = fetch_amulets(0).await?;
+    for gear_type in ALL_GEAR_TYPES {
+        let result = fetch_gear(gear_type, 0).await?;
 
-    import_dofus_db_data(&result.data, GearType::Amulet).unwrap();
+        println!("Imported {} {} from dofus db", result.data.len(), gear_type);
 
-    let object = read_object_from_file(format!("{DOFUS_DB_EXPORT_PATH}/amulet_albueran_warrior_amulet.json")).unwrap();
-    let gear = parse_gear(object);
+        import_dofus_db_data(&result.data, gear_type).unwrap();
+    }
 
-    println!("Gear from the filesystem: {:?}", gear);
+    // let object = read_object_from_file(format!("{DOFUS_DB_EXPORT_PATH}/amulet_albueran_warrior_amulet.json")).unwrap();
+    // let gear = parse_gear(object);
+
+    // println!("Gear from the filesystem: {:?}", gear);
 
     Ok(())
 
 }
 
 
-fn import_dofus_db_data(objects: &Vec<serde_json::Value>, gear_type: GearType) -> Result<(), Box<dyn std::error::Error>> {
-    let out_dir = Path::new(DOFUS_DB_EXPORT_PATH);
-    fs::create_dir_all(out_dir)?;
+fn import_dofus_db_data(objects: &Vec<serde_json::Value>, gear_type: &GearType) -> Result<(), Box<dyn std::error::Error>> {
+    let out_dir = Path::new(DOFUS_DB_EXPORT_PATH).join(gear_type.to_string());
+    fs::create_dir_all(&out_dir)?;
 
     for (i, object) in objects.iter().enumerate() {
         let object_name = get_object_name(object, i);
