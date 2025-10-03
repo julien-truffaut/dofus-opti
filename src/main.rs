@@ -1,4 +1,4 @@
-use anyhow::Result;
+use anyhow::{Context, Result};
 
 use std::fs;
 use std::fs::File;
@@ -6,7 +6,7 @@ use std::io::BufReader;
 use std::path::Path;
 
 use dofusopti::dofus_db_models::DofusDbObject;
-use dofusopti::dofus_db_client::{fetch_all_gears, fetch_gear};
+use dofusopti::dofus_db_client::fetch_all_gears;
 use dofusopti::dofus_db_parser::parse_gear;
 use dofusopti::models::*;
 
@@ -20,7 +20,7 @@ async fn main() -> Result<()> {
 
         println!("Imported {} {} from dofus db", result.len(), gear_type);
 
-        import_dofus_db_data(&result, gear_type).unwrap();
+        save_dofus_db_data(&result, gear_type)?;
     }
 
     // let object = read_object_from_file(format!("{DOFUS_DB_EXPORT_PATH}/amulet_albueran_warrior_amulet.json")).unwrap();
@@ -33,9 +33,9 @@ async fn main() -> Result<()> {
 }
 
 
-fn import_dofus_db_data(objects: &Vec<serde_json::Value>, gear_type: &GearType) -> Result<(), Box<dyn std::error::Error>> {
+fn save_dofus_db_data(objects: &Vec<serde_json::Value>, gear_type: &GearType) -> Result<()> {
     let out_dir = Path::new(DOFUS_DB_EXPORT_PATH).join(gear_type.to_string());
-    fs::create_dir_all(&out_dir)?;
+    fs::create_dir_all(&out_dir).context("Failed to create output dir")?;
 
     for (i, object) in objects.iter().enumerate() {
         let object_name = get_object_name(object, i);
@@ -44,7 +44,7 @@ fn import_dofus_db_data(objects: &Vec<serde_json::Value>, gear_type: &GearType) 
 
         let json_str = serde_json::to_string_pretty(object)?;
 
-        fs::write(file_path, json_str)?;
+        fs::write(file_path, json_str).context("Failed to write json file")?;
     }
 
     Ok(())
