@@ -11,7 +11,7 @@ pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
     })
 }
 
-pub fn gear_type_to_code(gear_type: &GearType) -> i32 {
+pub fn gear_type_to_type_id(gear_type: &GearType) -> i32 {
     match gear_type {
         GearType::Amulet => 1,
         GearType::Axe    => 19,
@@ -36,7 +36,7 @@ pub fn gear_type_to_code(gear_type: &GearType) -> i32 {
 fn parse_gear_type(id: i32) -> Result<GearType, String> {
     ALL_GEAR_TYPES
       .iter()
-      .find(|gear_type| gear_type_to_code(gear_type) == id)
+      .find(|gear_type| gear_type_to_type_id(gear_type) == id)
       .ok_or(format!("Unrecognized object type {}", id))
       .map(|g| g.to_owned()) 
 }
