@@ -10,18 +10,22 @@ use dofusopti::dofus_db_client::fetch_all_gears;
 use dofusopti::dofus_db_parser::parse_gear;
 use dofusopti::models::*;
 
+use futures::{stream, StreamExt};
+
 const DOFUS_DB_EXPORT_PATH: &str = "dofus_db/data";
 
 #[tokio::main]
 async fn main() -> Result<()> {
 
-    for gear_type in ALL_GEAR_TYPES {
-        let result = fetch_all_gears(gear_type).await?;
-
-        println!("Imported {} {} from dofus db", result.len(), gear_type);
-
-        save_dofus_db_data(&result, gear_type)?;
-    }
+    stream::iter(ALL_GEAR_TYPES)
+        .for_each_concurrent(5, |gear_type| async move {
+            if let Err(e) = fetch_and_save_gears(gear_type).await {
+                eprintln!("❌ Failed to save {gear_type}: {e}");
+            } else {
+                println!("✅ Finished saving {gear_type}");
+            }
+        })
+        .await;
 
     // let object = read_object_from_file(format!("{DOFUS_DB_EXPORT_PATH}/amulet_albueran_warrior_amulet.json")).unwrap();
     // let gear = parse_gear(object);
@@ -32,6 +36,11 @@ async fn main() -> Result<()> {
 
 }
 
+async fn fetch_and_save_gears(gear_type: &GearType) -> Result<()> {
+    let result = fetch_all_gears(gear_type).await?;
+    println!("Imported {} {} from dofus db", result.len(), gear_type);
+    save_dofus_db_data(&result, gear_type)
+}
 
 fn save_dofus_db_data(objects: &Vec<serde_json::Value>, gear_type: &GearType) -> Result<()> {
     let out_dir = Path::new(DOFUS_DB_EXPORT_PATH).join(gear_type.to_string());

@@ -26,6 +26,14 @@
   "dropTemporisMonsterIds": [],
   "effects": [
     {
+      "category": 7,
+      "characteristic": 0,
+      "effectId": 724,
+      "elementId": -1,
+      "from": 94,
+      "to": 0
+    },
+    {
       "category": 0,
       "characteristic": 11,
       "effectId": 125,
@@ -112,14 +120,6 @@
       "elementId": 5,
       "from": 11,
       "to": 15
-    },
-    {
-      "category": 7,
-      "characteristic": 0,
-      "effectId": 724,
-      "elementId": -1,
-      "from": 94,
-      "to": 0
     }
   ],
   "enhanceable": true,
@@ -158,6 +158,45 @@
   "needUseConfirm": false,
   "nonUsableOnAnother": false,
   "possibleEffects": [
+    {
+      "baseEffectId": 328,
+      "className": "EffectInstanceDice",
+      "delay": 0,
+      "diceNum": 94,
+      "diceSide": 0,
+      "dispellable": 1,
+      "displayZero": false,
+      "duration": 0,
+      "effectElement": -1,
+      "effectId": 724,
+      "effectTriggerDuration": 0,
+      "effectUid": 0,
+      "forClientOnly": false,
+      "group": 0,
+      "m_flags": 15,
+      "modificator": 0,
+      "order": 0,
+      "random": 0,
+      "spellId": -1,
+      "targetId": 0,
+      "targetMask": "",
+      "trigger": false,
+      "triggers": "",
+      "value": 0,
+      "visibleInBuffUi": true,
+      "visibleInFightLog": true,
+      "visibleInTooltip": true,
+      "visibleOnTerrain": true,
+      "zoneDescr": {
+        "cellIds": [],
+        "damageDecreaseStepPercent": 10,
+        "isStopAtTarget": false,
+        "maxDamageDecreaseApplyCount": 4,
+        "param1": 1,
+        "param2": 0,
+        "shape": 67
+      }
+    },
     {
       "baseEffectId": 5,
       "className": "EffectInstanceDice",
@@ -586,45 +625,6 @@
         "param2": 0,
         "shape": 67
       }
-    },
-    {
-      "baseEffectId": 328,
-      "className": "EffectInstanceDice",
-      "delay": 0,
-      "diceNum": 94,
-      "diceSide": 0,
-      "dispellable": 1,
-      "displayZero": false,
-      "duration": 0,
-      "effectElement": -1,
-      "effectId": 724,
-      "effectTriggerDuration": 0,
-      "effectUid": 0,
-      "forClientOnly": false,
-      "group": 0,
-      "m_flags": 15,
-      "modificator": 0,
-      "order": 0,
-      "random": 0,
-      "spellId": -1,
-      "targetId": 0,
-      "targetMask": "",
-      "trigger": false,
-      "triggers": "",
-      "value": 0,
-      "visibleInBuffUi": true,
-      "visibleInFightLog": true,
-      "visibleInTooltip": true,
-      "visibleOnTerrain": true,
-      "zoneDescr": {
-        "cellIds": [],
-        "damageDecreaseStepPercent": 10,
-        "isStopAtTarget": false,
-        "maxDamageDecreaseApplyCount": 4,
-        "param1": 1,
-        "param2": 0,
-        "shape": 67
-      }
     }
   ],
   "price": 19900,
@@ -688,7 +688,7 @@
     "updatedAt": "2025-09-23T12:09:10.309Z"
   },
   "typeId": 16,
-  "updatedAt": "2025-09-23T12:09:25.447Z",
+  "updatedAt": "2025-10-07T12:42:14.593Z",
   "usable": false,
   "visibilityCriterion": ""
 }
