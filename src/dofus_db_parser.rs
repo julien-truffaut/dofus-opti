@@ -1,4 +1,4 @@
-use crate::dofus_db_models::{DofusDbObject, Effect};
+use crate::dofus_db_models::{DofusDbObject, DofusDbTypeId, Effect};
 use crate::models::*;
 
 
@@ -11,33 +11,11 @@ pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
     })
 }
 
-pub fn gear_type_to_type_id(gear_type: &GearType) -> i32 {
-    match gear_type {
-        GearType::Amulet => 1,
-        GearType::Axe    => 19,
-        GearType::Belt   => 30,
-        GearType::Boots  => 11,
-        GearType::Bow    => 2,
-        GearType::Cloak  => 17,
-        GearType::Dagger => 5,
-        GearType::Hammer => 7,
-        GearType::Hat    => 16,
-        GearType::Lance  => 271,
-        GearType::Ring   => 9,
-        GearType::Scythe => 22,
-        GearType::Shield => 82,
-        GearType::Shovel => 8,
-        GearType::Staff  => 4,
-        GearType::Sword  => 6,
-        GearType::Wand   => 3,
-    }
-}
-
-fn parse_gear_type(id: i32) -> Result<GearType, String> {
+fn parse_gear_type(id: DofusDbTypeId) -> Result<GearType, String> {
     ALL_GEAR_TYPES
-      .iter()
-      .find(|gear_type| gear_type_to_type_id(gear_type) == id)
-      .ok_or(format!("Unrecognized object type {}", id))
+      .into_iter()
+      .find(|gear_type| DofusDbTypeId::from(*gear_type) == id)
+      .ok_or(format!("Unrecognized object type {:?}", id))
       .map(|g| g.to_owned()) 
 }
 
