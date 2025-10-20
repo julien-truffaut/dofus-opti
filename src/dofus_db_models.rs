@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
 
-use crate::models::GearType; 
+use crate::models::{CharacteristicType, GearType}; 
 
 use serde::Deserialize;
 
@@ -32,7 +32,7 @@ pub struct TranslatedString {
 pub struct Effect {
   pub from: i32,
   pub to: i32,
-  pub characteristic: i32,
+  pub characteristic: DofusDbCharacteristicTypeId,
 }
 
 #[derive(Debug, PartialEq, Deserialize)]
@@ -60,5 +60,18 @@ impl From<&GearType> for DofusDbTypeId {
             GearType::Wand   => 3,
         };
         DofusDbTypeId{value: id}
+    }
+}
+
+#[derive(Debug, PartialEq, Deserialize)]
+pub struct DofusDbCharacteristicTypeId { pub value: i32 }
+
+impl From<&CharacteristicType> for DofusDbCharacteristicTypeId {
+    fn from(gear_type: &CharacteristicType) -> Self {
+        let id = match gear_type {
+            CharacteristicType::Vitality => 11,
+            CharacteristicType::Power    => 25,
+        };
+        DofusDbCharacteristicTypeId{value: id}
     }
 }

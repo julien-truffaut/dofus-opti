@@ -8,7 +8,7 @@ pub struct Gear {
   pub characteristics: Vec<CharacteristicRange>
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum GearType {
     Amulet,
     Axe,
@@ -74,15 +74,20 @@ impl fmt::Display for GearType {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct CharacteristicRange {
     pub kind: CharacteristicType,
     pub min: i32,
     pub max: i32
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum CharacteristicType {
     Vitality,
     Power,
 }
+
+pub static ALL_CHARACTERISTIC_TYPES: &[CharacteristicType] = &[
+    CharacteristicType::Vitality,
+    CharacteristicType::Power,
+];
