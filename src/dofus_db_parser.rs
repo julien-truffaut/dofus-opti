@@ -76,18 +76,36 @@ mod tests {
     }
 
     #[test]
-    fn parse_valid_characteristic_range() {
-        let effect = Effect {
+    fn parse_characteristics_discard_invalid() {
+        let vitality = Effect {
             from: 10,
             to: 80,
             characteristic: DofusDbCharacteristicTypeId{ value: 11 },
         };
-        let expected = CharacteristicRange {
+        let power = Effect {
+            from: -20,
+            to: -5,
+            characteristic: DofusDbCharacteristicTypeId{ value: 25 },
+        };
+        let unknown = Effect {
+            from: 0,
+            to: 100,
+            characteristic: DofusDbCharacteristicTypeId{ value: 99 },
+        };
+        let expected_vitality = CharacteristicRange {
             kind: CharacteristicType::Vitality,
             min: 10,
             max: 80,
         };
+        let expected_power = CharacteristicRange {
+            kind: CharacteristicType::Power,
+            min: -20,
+            max: -5,
+        };
 
-        assert_eq!(parse_characteristic_range(effect), Ok(expected));
+        assert_eq!(
+            parse_characteristics(vec!(vitality, unknown, power)), 
+            vec!(expected_vitality, expected_power)
+        );
     }
 }
