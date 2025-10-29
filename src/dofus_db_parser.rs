@@ -15,7 +15,7 @@ fn parse_gear_type(id: DofusDbTypeId) -> Result<GearType, String> {
     ALL_GEAR_TYPES
       .iter()
       .find(|gear_type| DofusDbTypeId::from(*gear_type) == id)
-      .ok_or(format!("Unrecognized object type id {}", id.value))
+      .ok_or(format!("Unrecognized object type id {}", id.0))
       .map(|g| g.to_owned()) 
 }
 
@@ -38,7 +38,7 @@ fn parse_characteristic_type(characteristic: DofusDbCharacteristicTypeId) -> Res
     ALL_CHARACTERISTIC_TYPES
       .iter()
       .find(|charac_type| DofusDbCharacteristicTypeId::from(*charac_type) == characteristic)
-      .ok_or(format!("Unrecognized characteristic type id {}", characteristic.value))
+      .ok_or(format!("Unrecognized characteristic type id {}", characteristic.0))
       .map(|g| g.to_owned())
 }
 
@@ -57,7 +57,7 @@ mod tests {
 
     #[test]
     fn parse_invalid_gear_types() {
-        let invalid_type_id = DofusDbTypeId{ value: -2 };
+        let invalid_type_id = DofusDbTypeId(-2);
         assert_eq!(parse_gear_type(invalid_type_id), Err(String::from("Unrecognized object type id -2")));
     }
 
@@ -71,7 +71,7 @@ mod tests {
 
     #[test]
     fn parse_invalid_characteristic_type() {
-        let invalid_type_id = DofusDbCharacteristicTypeId{ value: -2 };
+        let invalid_type_id = DofusDbCharacteristicTypeId(-2);
         assert_eq!(parse_characteristic_type(invalid_type_id), Err(String::from("Unrecognized characteristic type id -2")));
     }
 
@@ -80,17 +80,17 @@ mod tests {
         let vitality = Effect {
             from: 10,
             to: 80,
-            characteristic: DofusDbCharacteristicTypeId{ value: 11 },
+            characteristic: DofusDbCharacteristicTypeId(11),
         };
         let power = Effect {
             from: -20,
             to: -5,
-            characteristic: DofusDbCharacteristicTypeId{ value: 25 },
+            characteristic: DofusDbCharacteristicTypeId(25),
         };
         let unknown = Effect {
             from: 0,
             to: 100,
-            characteristic: DofusDbCharacteristicTypeId{ value: 99 },
+            characteristic: DofusDbCharacteristicTypeId(99),
         };
         let expected_vitality = CharacteristicRange {
             kind: CharacteristicType::Vitality,

@@ -36,7 +36,7 @@ pub struct Effect {
 }
 
 #[derive(Debug, PartialEq, Deserialize)]
-pub struct DofusDbTypeId { pub value: i32 }
+pub struct DofusDbTypeId(pub i32);
 
 impl From<&GearType> for DofusDbTypeId {
     fn from(gear_type: &GearType) -> Self {
@@ -59,12 +59,12 @@ impl From<&GearType> for DofusDbTypeId {
             GearType::Sword  => 6,
             GearType::Wand   => 3,
         };
-        DofusDbTypeId{value: id}
+        DofusDbTypeId(id)
     }
 }
 
 #[derive(Debug, PartialEq, Deserialize)]
-pub struct DofusDbCharacteristicTypeId { pub value: i32 }
+pub struct DofusDbCharacteristicTypeId(pub i32);
 
 impl From<&CharacteristicType> for DofusDbCharacteristicTypeId {
     fn from(gear_type: &CharacteristicType) -> Self {
@@ -72,6 +72,6 @@ impl From<&CharacteristicType> for DofusDbCharacteristicTypeId {
             CharacteristicType::Vitality => 11,
             CharacteristicType::Power    => 25,
         };
-        DofusDbCharacteristicTypeId{value: id}
+        DofusDbCharacteristicTypeId(id)
     }
 }
