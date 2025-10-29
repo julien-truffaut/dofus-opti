@@ -1,13 +1,7 @@
-use anyhow::{Context, Result};
+use anyhow::Result;
 
-use std::fs;
-use std::fs::File;
-use std::io::BufReader;
-use std::path::Path;
-
-use dofusopti::dofus_db_models::DofusDbObject;
 use dofusopti::dofus_db_client::fetch_all_gears;
-use dofusopti::dofus_db_parser::parse_gear;
+use dofusopti::dofus_db_file::save_gears;
 use dofusopti::models::*;
 
 use futures::{stream, StreamExt};
@@ -39,44 +33,5 @@ async fn main() -> Result<()> {
 async fn fetch_and_save_gears(gear_type: &GearType) -> Result<()> {
     let result = fetch_all_gears(gear_type).await?;
     println!("Imported {} {} from dofus db", result.len(), gear_type);
-    save_dofus_db_data(&result, gear_type)
-}
-
-fn save_dofus_db_data(objects: &Vec<serde_json::Value>, gear_type: &GearType) -> Result<()> {
-    let out_dir = Path::new(DOFUS_DB_EXPORT_PATH).join(gear_type.to_string());
-    fs::create_dir_all(&out_dir).context("Failed to create output dir")?;
-
-    for (i, object) in objects.iter().enumerate() {
-        let object_name = get_object_name(object, i);
-        let file_name = create_filename(&gear_type, &object_name);
-        let file_path = out_dir.join(file_name);
-
-        let json_str = serde_json::to_string_pretty(object)?;
-
-        fs::write(file_path, json_str).context("Failed to write json file")?;
-    }
-
-    Ok(())
-}
-
-fn create_filename(gear_type: &GearType, object_name: &str) -> String {
-    format!("{gear_type}_{object_name}.json")
-        .to_lowercase()
-        .replace(' ', "_")
-        .replace('-', "_")
-        .replace("'s", "")
-}
-
-fn get_object_name(object: &serde_json::Value, index: usize) -> String {
-    object["name"]["en"]
-        .as_str()
-        .map(String::from)
-        .unwrap_or(format!("unkown_{}", index))
-}
-
-fn read_object_from_file<P: AsRef<Path>>(path: P) -> Result<DofusDbObject> {
-    let file = File::open(path)?;
-    let reader = BufReader::new(file);
-    let object: DofusDbObject = serde_json::from_reader(reader)?;
-    Ok(object)
+    save_gears(DOFUS_DB_EXPORT_PATH, gear_type, &result)
 }
