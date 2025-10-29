@@ -108,4 +108,29 @@ mod tests {
             vec!(expected_vitality, expected_power)
         );
     }
+
+    #[test]
+    fn parse_golden_gear() -> anyhow::Result<()> {
+        use crate::dofus_db_file::read_json;
+        use std::path::Path;
+
+        let file_path = Path::new("golden").join("amulet_gargandyas_necklace.json");
+        let json = read_json(file_path)?;
+        let dofus_db_object: DofusDbObject = serde_json::from_value(json)?;
+
+        let gear = parse_gear(dofus_db_object);
+        let expected_gear = Gear {
+            name: String::from("Gargandyas's Necklace"),
+            gear_type: GearType::Amulet,
+            level: 200,
+            characteristics: vec!(
+                CharacteristicRange { kind: CharacteristicType::Vitality, min: 451, max: 500 }, 
+                CharacteristicRange { kind: CharacteristicType::Power, min: 41, max: 60 }
+            )
+        };
+
+        assert_eq!(gear, Ok(expected_gear));
+
+        Ok(())
+    }      
 }

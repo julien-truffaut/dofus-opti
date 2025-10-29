@@ -59,7 +59,7 @@ pub fn read_gears<P: AsRef<Path>>(base_path: P, gear_type: &GearType) -> Result<
     Ok(results)
 }
 
-fn read_json<P: AsRef<Path>>(path: P) -> Result<serde_json::Value> {
+pub fn read_json<P: AsRef<Path>>(path: P) -> Result<serde_json::Value> {
     let file = File::open(path)?;
     let reader = BufReader::new(file);
     let json: serde_json::Value = serde_json::from_reader(reader)?;
