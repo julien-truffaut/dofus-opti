@@ -7,7 +7,7 @@ use std::path::Path;
 
 use dofus_opti_core::model::GearType;
 
-pub fn save_gears<P: AsRef<Path>>(
+pub fn save_dofus_db_jsons<P: AsRef<Path>>(
     base_path: P,
     gear_type: &GearType,
     gears: &Vec<serde_json::Value>,
@@ -43,7 +43,7 @@ fn create_filename(object_name: &str) -> String {
         .replace("'s", "")
 }
 
-pub fn read_gears<P: AsRef<Path>>(base_path: P, gear_type: &GearType) -> Result<Vec<serde_json::Value>> {
+pub fn read_dofus_db_jsons<P: AsRef<Path>>(base_path: P, gear_type: &GearType) -> Result<Vec<serde_json::Value>> {
     let mut results = vec!();
     let dir = base_path.as_ref().join(gear_type.to_string());
 
@@ -122,8 +122,8 @@ mod tests {
 
       let base_dir = TempDir::new()?;
       let gear_type = GearType::Amulet;
-      save_gears(&base_dir, &gear_type, &json_values)?;
-      let read_json_values = read_gears(&base_dir, &gear_type)?;
+      save_dofus_db_jsons(&base_dir, &gear_type, &json_values)?;
+      let read_json_values = read_dofus_db_jsons(&base_dir, &gear_type)?;
 
       let input_set: HashSet<_> = json_values.iter().collect();
       let output_set: HashSet<_> = read_json_values.iter().collect();

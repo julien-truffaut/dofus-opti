@@ -8,7 +8,7 @@ pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
         name: object.name.en, 
         gear_type: parse_gear_type(object.typeId)?, 
         level: object.level, 
-        characteristics: parse_characteristics(object.effects)
+        characteristics: parse_characteristics(object.effects)?
     })
 }
 
@@ -20,10 +20,10 @@ fn parse_gear_type(id: DofusDbTypeId) -> Result<GearType, String> {
       .map(|g| g.to_owned()) 
 }
 
-fn parse_characteristics(effects: Vec<Effect>) -> Vec<CharacteristicRange> {
+fn parse_characteristics(effects: Vec<Effect>) -> Result<Vec<CharacteristicRange>, String> {
     effects
         .into_iter()
-        .filter_map(|e| parse_characteristic_range(e).ok())
+        .map(parse_characteristic_range)
         .collect()
 }
 
@@ -94,11 +94,6 @@ mod tests {
             to: -5,
             characteristic: DofusDbCharacteristicTypeId(25),
         };
-        let unknown = Effect {
-            from: 0,
-            to: 100,
-            characteristic: DofusDbCharacteristicTypeId(99),
-        };
         let expected_vitality = CharacteristicRange {
             kind: Vitality,
             min: 10,
@@ -111,8 +106,37 @@ mod tests {
         };
 
         assert_eq!(
-            parse_characteristics(vec!(vitality, unknown, power)), 
-            vec!(expected_vitality, expected_power)
+            parse_characteristics(vec!(vitality, power)), 
+            Ok(vec!(expected_vitality, expected_power))
+        );
+    }
+
+    #[test]
+    fn parse_characteristics_return_first_invalid() {
+        let vitality = Effect {
+            from: 10,
+            to: 80,
+            characteristic: DofusDbCharacteristicTypeId(11),
+        };
+        let power = Effect {
+            from: -20,
+            to: -5,
+            characteristic: DofusDbCharacteristicTypeId(25),
+        };
+        let unknown_1 = Effect {
+            from: 0,
+            to: 100,
+            characteristic: DofusDbCharacteristicTypeId(99),
+        };
+        let unknown_2 = Effect {
+            from: 0,
+            to: 100,
+            characteristic: DofusDbCharacteristicTypeId(8234),
+        };
+
+        assert_eq!(
+            parse_characteristics(vec!(vitality, unknown_1, power, unknown_2)), 
+            Err(String::from("Unrecognized characteristic type id 99"))
         );
     }
 

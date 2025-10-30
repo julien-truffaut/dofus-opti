@@ -1,7 +1,8 @@
-use anyhow::Result;
+use anyhow::{Ok, Result};
 
-use dofus_opti_dofus_db::client::fetch_all_gears;
-use dofus_opti_dofus_db::file::save_gears;
+use dofus_opti_dofus_db::{client::fetch_all_gears, model::DofusDbObject};
+use dofus_opti_dofus_db::file;
+use dofus_opti_dofus_db::parser::parse_gear;
 use dofus_opti_core::model::*;
 
 use clap::Parser;
@@ -31,10 +32,10 @@ async fn main() -> Result<()> {
         println!("📥 Importing data from DofusDB...");
         stream::iter(ALL_GEAR_TYPES)
         .for_each_concurrent(5, |gear_type| async move {
-            if let Err(e) = fetch_and_save_gears(gear_type).await {
-                eprintln!("❌ Failed to save {gear_type}: {e}");
+            if let Err(e) = import_gears(gear_type).await {
+                eprintln!("❌ Failed to import {gear_type}: {e}");
             } else {
-                println!("✅ Finished saving {gear_type}");
+                println!("✅ Finished importing {gear_type}");
             }
         })
         .await;
@@ -42,14 +43,46 @@ async fn main() -> Result<()> {
 
     if args.export {
         println!("📤 Exporting DofusDB data to model format...");
+        stream::iter(ALL_GEAR_TYPES)
+        .for_each_concurrent(5, |gear_type| async move {
+            if let Err(e) = export_gears(gear_type).await {
+                eprintln!("❌ Failed to export {gear_type}: {e}");
+            } else {
+                println!("✅ Finished exporting {gear_type}");
+            }
+        })
+        .await;
     }
 
     Ok(())
 
 }
 
-async fn fetch_and_save_gears(gear_type: &GearType) -> Result<()> {
+async fn import_gears(gear_type: &GearType) -> Result<()> {
     let result = fetch_all_gears(gear_type).await?;
     println!("Imported {} {} from dofus db", result.len(), gear_type);
-    save_gears(DOFUS_DB_EXPORT_PATH, gear_type, &result)
+    file::save_dofus_db_jsons(DOFUS_DB_EXPORT_PATH, gear_type, &result)
+}
+
+async fn export_gears(gear_type: &GearType) -> Result<()> {
+    let json_gears = file::read_dofus_db_jsons(DOFUS_DB_EXPORT_PATH, gear_type)?;
+    let number_of_json = json_gears.len();
+    let dofus_db_objects: Vec<DofusDbObject> = json_gears
+        .into_iter()
+        .map(|json| serde_json::from_value(json))
+        .collect::<Result<_, _>>()?;
+        
+    let mut gears = Vec::new();
+     
+    for object in dofus_db_objects {
+        let object_name = object.name.en.clone();
+        match parse_gear(object) {
+            std::result::Result::Ok(gear) => gears.push(gear),
+            Err(e) => eprintln!("❌ Failed to parse gear: {e} from {}", object_name),
+        }
+    }
+
+    println!("Successfuly parsed {}/{} {gear_type}", gears.len(), number_of_json);
+
+    Ok(())
 }
