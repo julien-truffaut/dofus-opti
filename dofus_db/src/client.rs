@@ -1,4 +1,6 @@
-use crate::{dofus_db_models::{DofusDbTypeId, GetObjectsResponse}, models::GearType};
+use dofus_opti_core::model::GearType;
+
+use crate::model::{DofusDbTypeId, GetObjectsResponse};
 
 pub async fn fetch_all_gears(gear_type: &GearType) -> reqwest::Result<Vec<serde_json::Value>> {
     let mut gears: Vec<serde_json::Value> = vec!();

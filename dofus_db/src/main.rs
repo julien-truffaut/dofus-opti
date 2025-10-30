@@ -1,8 +1,8 @@
 use anyhow::Result;
 
-use dofusopti::dofus_db_client::fetch_all_gears;
-use dofusopti::dofus_db_file::save_gears;
-use dofusopti::models::*;
+use dofus_opti_dofus_db::client::fetch_all_gears;
+use dofus_opti_dofus_db::file::save_gears;
+use dofus_opti_core::model::*;
 
 use futures::{stream, StreamExt};
 

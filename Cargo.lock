@@ -118,10 +118,19 @@ dependencies = [
 ]
 
 [[package]]
-name = "dofus-opti"
+name = "dofus-opti-core"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "dofus-opti-dofus-db"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "dofus-opti-core",
  "futures",
  "reqwest",
  "serde",

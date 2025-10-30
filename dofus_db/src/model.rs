@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
 
-use crate::models::{CharacteristicType, GearType}; 
+use dofus_opti_core::model::{CharacteristicType, GearType}; 
 
 use serde::Deserialize;
 

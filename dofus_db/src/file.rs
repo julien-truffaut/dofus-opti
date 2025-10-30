@@ -5,7 +5,7 @@ use std::fs::File;
 use std::io::BufReader;
 use std::path::Path;
 
-use crate::models::GearType;
+use dofus_opti_core::model::GearType;
 
 pub fn save_gears<P: AsRef<Path>>(
     base_path: P,

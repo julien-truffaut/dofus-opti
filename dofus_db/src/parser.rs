@@ -1,5 +1,6 @@
-use crate::dofus_db_models::{DofusDbCharacteristicTypeId, DofusDbObject, DofusDbTypeId, Effect};
-use crate::models::*;
+use dofus_opti_core::model::*;
+
+use crate::model::{DofusDbCharacteristicTypeId, DofusDbObject, DofusDbTypeId, Effect};
 
 
 pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
@@ -117,7 +118,7 @@ mod tests {
 
     #[test]
     fn parse_golden_gear() -> anyhow::Result<()> {
-        use crate::dofus_db_file::read_json;
+        use crate::file::read_json;
         use std::path::Path;
 
         let file_path = Path::new("golden").join("gargandyas_necklace.json");
