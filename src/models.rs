@@ -83,11 +83,35 @@ pub struct CharacteristicRange {
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum CharacteristicType {
-    Vitality,
+    AbilityPoint,
+    Critical,
+    Dodge,
+    MeleeResistance,
+    MovementPoint,
+    MovementPointParry,
     Power,
+    PushBackDamage,
+    PushBackResistance,
+    Range,
+    RangeResistance,
+    Summon,
+    Vitality,
+    Wisdom,
 }
 
 pub static ALL_CHARACTERISTIC_TYPES: &[CharacteristicType] = &[
-    CharacteristicType::Vitality,
+    CharacteristicType::AbilityPoint,
+    CharacteristicType::Critical,
+    CharacteristicType::Dodge,
+    CharacteristicType::MeleeResistance,
+    CharacteristicType::MovementPoint,
+    CharacteristicType::MovementPointParry,
     CharacteristicType::Power,
+    CharacteristicType::PushBackDamage,
+    CharacteristicType::PushBackResistance,
+    CharacteristicType::Range,
+    CharacteristicType::RangeResistance,
+    CharacteristicType::Summon,
+    CharacteristicType::Vitality,
+    CharacteristicType::Wisdom,
 ];

@@ -45,6 +45,7 @@ fn parse_characteristic_type(characteristic: DofusDbCharacteristicTypeId) -> Res
 #[cfg(test)]
 mod tests {
     use super::*;
+    use CharacteristicType::*;
 
     #[test]
     fn parse_valid_gear_types() {
@@ -93,12 +94,12 @@ mod tests {
             characteristic: DofusDbCharacteristicTypeId(99),
         };
         let expected_vitality = CharacteristicRange {
-            kind: CharacteristicType::Vitality,
+            kind: Vitality,
             min: 10,
             max: 80,
         };
         let expected_power = CharacteristicRange {
-            kind: CharacteristicType::Power,
+            kind: Power,
             min: -20,
             max: -5,
         };
@@ -124,8 +125,20 @@ mod tests {
             gear_type: GearType::Amulet,
             level: 200,
             characteristics: vec!(
-                CharacteristicRange { kind: CharacteristicType::Vitality, min: 451, max: 500 }, 
-                CharacteristicRange { kind: CharacteristicType::Power, min: 41, max: 60 }
+                CharacteristicRange { kind: Vitality, min: 451, max: 500 }, 
+                CharacteristicRange { kind: Wisdom, min: 41, max: 60 },
+                CharacteristicRange { kind: Power, min: 41, max: 60 }, 
+                CharacteristicRange { kind: Critical, min: 3, max: 4 }, 
+                CharacteristicRange { kind: AbilityPoint, min: 2, max: 0 }, 
+                CharacteristicRange { kind: MovementPoint, min: -1, max: 0 }, 
+                CharacteristicRange { kind: Range, min: 1, max: 0 }, 
+                CharacteristicRange { kind: Summon, min: 2, max: 0 }, 
+                CharacteristicRange { kind: Dodge, min: -20, max: 0 }, 
+                CharacteristicRange { kind: MovementPointParry, min: -20, max: 0 }, 
+                CharacteristicRange { kind: PushBackDamage, min: 16, max: 20 }, 
+                CharacteristicRange { kind: PushBackResistance, min: 31, max: 40 }, 
+                CharacteristicRange { kind: MeleeResistance, min: 3, max: 5 }, 
+                CharacteristicRange { kind: RangeResistance, min: 3, max: 5 }
             )
         };
 

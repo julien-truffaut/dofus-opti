@@ -67,10 +67,22 @@ impl From<&GearType> for DofusDbTypeId {
 pub struct DofusDbCharacteristicTypeId(pub i32);
 
 impl From<&CharacteristicType> for DofusDbCharacteristicTypeId {
-    fn from(gear_type: &CharacteristicType) -> Self {
-        let id = match gear_type {
-            CharacteristicType::Vitality => 11,
-            CharacteristicType::Power    => 25,
+    fn from(characteristique_type: &CharacteristicType) -> Self {
+        let id = match characteristique_type {
+            CharacteristicType::AbilityPoint       => 1,
+            CharacteristicType::Critical           => 18,
+            CharacteristicType::Dodge              => 78,
+            CharacteristicType::MeleeResistance    => 124,
+            CharacteristicType::MovementPoint      => 23,
+            CharacteristicType::MovementPointParry => 28,
+            CharacteristicType::Power              => 25,
+            CharacteristicType::PushBackDamage     => 84,
+            CharacteristicType::PushBackResistance => 85,
+            CharacteristicType::Range              => 19,
+            CharacteristicType::RangeResistance    => 121,
+            CharacteristicType::Summon             => 26,
+            CharacteristicType::Vitality           => 11,
+            CharacteristicType::Wisdom             => 12,
         };
         DofusDbCharacteristicTypeId(id)
     }
