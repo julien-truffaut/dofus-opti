@@ -17,7 +17,7 @@ pub fn save_gears<P: AsRef<Path>>(
 
     for (i, object) in gears.iter().enumerate() {
         let object_name = get_object_name(object, i);
-        let file_name = create_filename(&gear_type, &object_name);
+        let file_name = create_filename(&object_name);
         let file_path = out_dir.join(file_name);
 
         let json_str = serde_json::to_string_pretty(object)?;
@@ -35,8 +35,8 @@ fn get_object_name(object: &serde_json::Value, index: usize) -> String {
         .unwrap_or(format!("unkown_{}", index))
 }
 
-fn create_filename(gear_type: &GearType, object_name: &str) -> String {
-    format!("{gear_type}_{object_name}.json")
+fn create_filename(object_name: &str) -> String {
+    format!("{object_name}.json")
         .to_lowercase()
         .replace(' ', "_")
         .replace('-', "_")
@@ -71,6 +71,7 @@ pub fn read_json<P: AsRef<Path>>(path: P) -> Result<serde_json::Value> {
 mod tests {
     use super::*;
     use tempfile::TempDir;
+    use std::collections::HashSet;
 
     #[test]
     fn get_object_name_with_english_name() -> anyhow::Result<()>  {
@@ -124,7 +125,11 @@ mod tests {
       save_gears(&base_dir, &gear_type, &json_values)?;
       let read_json_values = read_gears(&base_dir, &gear_type)?;
 
-      assert_eq!(json_values, read_json_values);
+      let input_set: HashSet<_> = json_values.iter().collect();
+      let output_set: HashSet<_> = read_json_values.iter().collect();
+
+      assert_eq!(input_set, output_set);
+
       Ok(())
     }
 

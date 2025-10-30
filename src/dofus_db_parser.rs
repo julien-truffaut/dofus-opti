@@ -114,7 +114,7 @@ mod tests {
         use crate::dofus_db_file::read_json;
         use std::path::Path;
 
-        let file_path = Path::new("golden").join("amulet_gargandyas_necklace.json");
+        let file_path = Path::new("golden").join("gargandyas_necklace.json");
         let json = read_json(file_path)?;
         let dofus_db_object: DofusDbObject = serde_json::from_value(json)?;
 
