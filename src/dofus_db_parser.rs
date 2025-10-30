@@ -27,10 +27,15 @@ fn parse_characteristics(effects: Vec<Effect>) -> Vec<CharacteristicRange> {
 }
 
 fn parse_characteristic_range(effect: Effect) -> Result<CharacteristicRange, String> {
+    let max = if effect.to == 0 {
+        effect.from
+    } else {
+        effect.to
+    };
     Ok(CharacteristicRange {
         kind: parse_characteristic_type(effect.characteristic)?,
         min: effect.from,
-        max: effect.to
+        max: max
     })
 }
 
@@ -129,12 +134,12 @@ mod tests {
                 CharacteristicRange { kind: Wisdom, min: 41, max: 60 },
                 CharacteristicRange { kind: Power, min: 41, max: 60 }, 
                 CharacteristicRange { kind: Critical, min: 3, max: 4 }, 
-                CharacteristicRange { kind: AbilityPoint, min: 2, max: 0 }, 
-                CharacteristicRange { kind: MovementPoint, min: -1, max: 0 }, 
-                CharacteristicRange { kind: Range, min: 1, max: 0 }, 
-                CharacteristicRange { kind: Summon, min: 2, max: 0 }, 
-                CharacteristicRange { kind: Dodge, min: -20, max: 0 }, 
-                CharacteristicRange { kind: MovementPointParry, min: -20, max: 0 }, 
+                CharacteristicRange { kind: AbilityPoint, min: 2, max: 2 }, 
+                CharacteristicRange { kind: MovementPoint, min: -1, max: -1 }, 
+                CharacteristicRange { kind: Range, min: 1, max:  1}, 
+                CharacteristicRange { kind: Summon, min: 2, max: 2 }, 
+                CharacteristicRange { kind: Dodge, min: -20, max: -20 }, 
+                CharacteristicRange { kind: MovementPointParry, min: -20, max: -20 }, 
                 CharacteristicRange { kind: PushBackDamage, min: 16, max: 20 }, 
                 CharacteristicRange { kind: PushBackResistance, min: 31, max: 40 }, 
                 CharacteristicRange { kind: MeleeResistance, min: 3, max: 5 }, 
