@@ -86,7 +86,7 @@ impl From<&CharacteristicType> for DofusDbCharacteristicTypeId {
             CharacteristicType::EarthResistance          => 54,
             CharacteristicType::EarthResistancePercent   => 33,
             CharacteristicType::Heals                    => 49,
-            CharacteristicType::Iniative                 => 44,
+            CharacteristicType::Initiative               => 44,
             CharacteristicType::Intelligence             => 15,
             CharacteristicType::FireDamage               => 89,
             CharacteristicType::FireResistance           => 55,

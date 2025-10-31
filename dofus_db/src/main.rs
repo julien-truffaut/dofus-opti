@@ -1,4 +1,4 @@
-use anyhow::{Ok, Result};
+use anyhow::{Context, Ok, Result};
 
 use dofus_opti_dofus_db::{client::fetch_all_gears, model::DofusDbObject};
 use dofus_opti_dofus_db::file;
@@ -83,6 +83,8 @@ async fn export_gears(gear_type: &GearType) -> Result<()> {
     }
 
     println!("Successfuly parsed {}/{} {gear_type}", gears.len(), number_of_json);
+
+    dofus_opti_core::file::write_gears("core/data", gear_type, &gears)?;
 
     Ok(())
 }

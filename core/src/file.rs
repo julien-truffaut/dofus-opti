@@ -8,17 +8,12 @@ use serde::de::DeserializeOwned;
 
 use crate::model::{Gear, GearType};
 
-pub fn write_gears<P, F>(
+pub fn write_gears<P: AsRef<Path>>(
     base_path: P,
     gear_type: &GearType,
-    gears: &Vec<Gear>,
-    get_file_name: F
-) -> Result<()> 
-where
-    P: AsRef<Path>, 
-    F: Fn(&Gear) -> String,
-{
-    write_generic_gears(base_path, gear_type, gears, |gear, _| get_file_name(gear))
+    gears: &Vec<Gear>
+) -> Result<()> {
+    write_generic_gears(base_path, gear_type, gears, |gear, _| gear_file_name(&gear.name))
 }
 
 pub fn read_gears<P: AsRef<Path>>(base_path: P, gear_type: &GearType) -> Result<Vec<Gear>> {
@@ -72,6 +67,14 @@ where
     Ok(results)
 }
 
+pub fn gear_file_name(gear_name: &String) -> String {
+    format!("{gear_name}.json")
+        .to_lowercase()
+        .replace(' ', "_")
+        .replace('-', "_")
+        .replace("'s", "")
+}
+
 #[cfg(test)]
 mod tests {
     use crate::CharacteristicRange;
@@ -106,7 +109,7 @@ mod tests {
 
       let base_dir = TempDir::new()?;
       let gear_type = GearType::Amulet;
-      write_gears(&base_dir, &gear_type, &gears, |g| g.name.clone())?;
+      write_gears(&base_dir, &gear_type, &gears)?;
       let read_gears = read_gears(&base_dir, &gear_type)?;
 
       let input_set: HashSet<_> = gears.iter().collect();
