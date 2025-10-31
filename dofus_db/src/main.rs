@@ -69,7 +69,10 @@ async fn export_gears(gear_type: &GearType) -> Result<()> {
     let number_of_json = json_gears.len();
     let dofus_db_objects: Vec<DofusDbObject> = json_gears
         .into_iter()
-        .map(|json| serde_json::from_value(json))
+        .map(|json| {
+            let name = json["name"]["en"].clone();
+            serde_json::from_value(json).context(format!("Failed parsing {name}"))
+        })
         .collect::<Result<_, _>>()?;
         
     let mut gears = Vec::new();
