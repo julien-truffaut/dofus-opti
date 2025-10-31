@@ -149,11 +149,14 @@ mod tests {
 
     #[test]
     fn parse_golden_gear() -> anyhow::Result<()> {
-        use crate::file::read_json;
         use std::path::Path;
+        use std::fs::File;
+        use std::io::BufReader;
 
         let file_path = Path::new("golden").join("gargandyas_necklace.json");
-        let json = read_json(file_path)?;
+        let file = File::open(file_path)?;
+        let reader = BufReader::new(file);
+        let json: serde_json::Value = serde_json::from_reader(reader)?;
         let dofus_db_object: DofusDbObject = serde_json::from_value(json)?;
 
         let gear = parse_gear(dofus_db_object);

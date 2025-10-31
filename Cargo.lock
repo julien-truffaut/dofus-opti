@@ -217,8 +217,10 @@ dependencies = [
 name = "dofus-opti-core"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "serde",
  "serde_json",
+ "tempfile",
 ]
 
 [[package]]
@@ -232,7 +234,6 @@ dependencies = [
  "reqwest",
  "serde",
  "serde_json",
- "tempfile",
  "tokio",
 ]
 

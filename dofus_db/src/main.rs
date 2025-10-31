@@ -61,7 +61,7 @@ async fn main() -> Result<()> {
 async fn import_gears(gear_type: &GearType) -> Result<()> {
     let result = fetch_all_gears(gear_type).await?;
     println!("Imported {} {} from dofus db", result.len(), gear_type);
-    file::save_dofus_db_jsons(DOFUS_DB_EXPORT_PATH, gear_type, &result)
+    file::write_dofus_db_jsons(DOFUS_DB_EXPORT_PATH, gear_type, &result)
 }
 
 async fn export_gears(gear_type: &GearType) -> Result<()> {

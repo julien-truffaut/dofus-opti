@@ -1,6 +1,8 @@
 use std::fmt;
 
-#[derive(Debug, PartialEq)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub struct Gear {
   pub name: String,  
   pub gear_type: GearType,
@@ -8,7 +10,7 @@ pub struct Gear {
   pub characteristics: Vec<CharacteristicRange>
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub enum GearType {
     Amulet,
     Axe,
@@ -74,14 +76,14 @@ impl fmt::Display for GearType {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub struct CharacteristicRange {
     pub kind: CharacteristicType,
     pub min: i32,
     pub max: i32
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub enum CharacteristicType {
     AbilityPoint,
     AbilityPointParry,
