@@ -23,6 +23,13 @@ fn parse_gear_type(id: DofusDbTypeId) -> Result<GearType, String> {
 fn parse_characteristics(effects: Vec<Effect>) -> Result<Vec<CharacteristicRange>, String> {
     effects
         .into_iter()
+        .filter(|e| 
+            e.characteristic.0 != -1 && 
+            e.characteristic.0 != 15 &&
+            e.characteristic.0 != 38 &&
+            e.characteristic.0 != 0  && // hunting?
+            e.characteristic.0 != 140 // reduce size -40% (rikiki)
+        )
         .map(parse_characteristic_range)
         .collect()
 }
