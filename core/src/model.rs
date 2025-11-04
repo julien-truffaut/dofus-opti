@@ -195,3 +195,9 @@ pub static ALL_CHARACTERISTIC_TYPES: &[CharacteristicType] = &[
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub struct Id(pub String);
+
+impl From<&str> for Id {
+    fn from(str: &str) -> Self {
+        Id(String::from(str))
+    }
+}

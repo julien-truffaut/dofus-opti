@@ -3,7 +3,7 @@ use anyhow::Result;
 use std::path::Path;
 
 use dofus_opti_core::model::GearType;
-use dofus_opti_core::file::{write_generic_gears, read_generic_gears};
+use dofus_opti_core::file::write_generic_gears;
 
 pub fn write_dofus_db_jsons<P: AsRef<Path>>(
     base_path: P,
@@ -24,10 +24,6 @@ fn get_file_name(object: &serde_json::Value, index: usize) -> String {
         .replace(' ', "_")
         .replace('-', "_")
         .replace("'s", "")
-}
-
-pub fn read_dofus_db_jsons<P: AsRef<Path>>(base_path: P, gear_type: &GearType) -> Result<Vec<serde_json::Value>> {
-    read_generic_gears(base_path, gear_type)
 }
 
 #[cfg(test)]

@@ -16,10 +16,6 @@ pub fn write_gears<P: AsRef<Path>>(
     write_generic_gears(base_path, gear_type, gears, |gear, _| gear_file_name(&gear))
 }
 
-pub fn read_gears<P: AsRef<Path>>(base_path: P, gear_type: &GearType) -> Result<Vec<Gear>> {
-    read_generic_gears(base_path, gear_type)
-}
-
 pub fn write_generic_gears<P, A, F>(
     base_path: P,
     gear_type: &GearType,
@@ -46,7 +42,7 @@ where
     Ok(())
 }
 
-pub fn read_generic_gears<P, A>(base_path: P, gear_type: &GearType) -> Result<Vec<A>> 
+pub fn read_gears<P, A>(base_path: P, gear_type: &GearType) -> Result<Vec<A>> 
 where
     P: AsRef<Path>, 
     A: DeserializeOwned,
@@ -84,7 +80,7 @@ mod tests {
     #[test]
     fn write_read_gears() -> anyhow::Result<()> {
       let gear_1 = Gear {
-        id: Id(String::from("great_amulet")),
+        id: Id::from("great_amulet"),
         name: String::from("Great Amulet"),
         gear_type: GearType::Amulet,
         level: 200,
@@ -95,7 +91,7 @@ mod tests {
       };
 
       let gear_2 = Gear {
-        id: Id(String::from("deadly_amulet")),
+        id: Id::from("deadly_amulet"),
         name: String::from("Deadly Amulet"),
         gear_type: GearType::Amulet,
         level: 149,

@@ -1,9 +1,10 @@
-use anyhow::{Context, Ok, Result};
+use anyhow::{Ok, Result};
 
 use dofus_opti_dofus_db::{client::fetch_all_gears, model::DofusDbObject};
-use dofus_opti_dofus_db::file;
+use dofus_opti_dofus_db::file::write_dofus_db_jsons;
 use dofus_opti_dofus_db::parser::parse_gear;
 use dofus_opti_core::model::*;
+use dofus_opti_core::file::{read_gears, write_gears};
 
 use clap::Parser;
 
@@ -21,7 +22,9 @@ struct Args {
     export: bool,
 }
 
-const DOFUS_DB_EXPORT_PATH: &str = "dofus_db/data";
+const IMPORT_PATH: &str = "dofus_db/data";
+const EXPORT_PATH: &str = "core/data";
+
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -61,20 +64,12 @@ async fn main() -> Result<()> {
 async fn import_gears(gear_type: &GearType) -> Result<()> {
     let result = fetch_all_gears(gear_type).await?;
     println!("Imported {} {} from dofus db", result.len(), gear_type);
-    file::write_dofus_db_jsons(DOFUS_DB_EXPORT_PATH, gear_type, &result)
+    write_dofus_db_jsons(IMPORT_PATH, gear_type, &result)
 }
 
 async fn export_gears(gear_type: &GearType) -> Result<()> {
-    let json_gears = file::read_dofus_db_jsons(DOFUS_DB_EXPORT_PATH, gear_type)?;
-    let number_of_json = json_gears.len();
-    let dofus_db_objects: Vec<DofusDbObject> = json_gears
-        .into_iter()
-        .map(|json| {
-            let name = json["name"]["en"].clone();
-            serde_json::from_value(json).context(format!("Failed parsing {name}"))
-        })
-        .collect::<Result<_, _>>()?;
-        
+    let dofus_db_objects: Vec<DofusDbObject> = read_gears(IMPORT_PATH, gear_type)?;
+    let number_of_objects = dofus_db_objects.len();
     let mut gears = Vec::new();
      
     for object in dofus_db_objects {
@@ -85,9 +80,9 @@ async fn export_gears(gear_type: &GearType) -> Result<()> {
         }
     }
 
-    println!("Successfuly parsed {}/{} {gear_type}", gears.len(), number_of_json);
+    println!("Successfuly parsed {}/{} {gear_type}", gears.len(), number_of_objects);
 
-    dofus_opti_core::file::write_gears("core/data", gear_type, &gears)?;
+    write_gears(EXPORT_PATH, gear_type, &gears)?;
 
     Ok(())
 }

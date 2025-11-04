@@ -72,6 +72,11 @@ mod tests {
     use CharacteristicType::*;
 
     #[test]
+    fn make_id_foo() {
+        assert_eq!(make_id(&String::from(" Foo Bar's Amulet")), Id::from("foo_bar_amulet"));
+    }
+
+    #[test]
     fn parse_valid_gear_types() {
         for gear_type in ALL_GEAR_TYPES {
             let type_id = DofusDbTypeId::from(gear_type);
@@ -172,7 +177,7 @@ mod tests {
 
         let gear = parse_gear(dofus_db_object);
         let expected_gear = Gear {
-            id: Id(String::from("gargandyas_necklace")),
+            id: Id::from("gargandyas_necklace"),
             name: String::from("Gargandyas's Necklace"),
             gear_type: GearType::Amulet,
             level: 200,
