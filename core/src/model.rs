@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub struct Gear {
+  pub id: Id,  
   pub name: String,  
   pub gear_type: GearType,
   pub level: u32,
@@ -191,3 +192,6 @@ pub static ALL_CHARACTERISTIC_TYPES: &[CharacteristicType] = &[
     CharacteristicType::WeaponDamage,
     CharacteristicType::Wisdom,
 ];
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+pub struct Id(pub String);

@@ -20,6 +20,7 @@ fn get_file_name(object: &serde_json::Value, index: usize) -> String {
         .unwrap_or(format!("unkown_{}", index));
     format!("{object_name}.json")
         .to_lowercase()
+        .trim()
         .replace(' ', "_")
         .replace('-', "_")
         .replace("'s", "")

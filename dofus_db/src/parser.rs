@@ -5,6 +5,7 @@ use crate::model::{DofusDbCharacteristicTypeId, DofusDbObject, DofusDbTypeId, Ef
 
 pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
     Ok(Gear { 
+        id: make_id(&object.name.en),
         name: object.name.en, 
         gear_type: parse_gear_type(object.typeId)?, 
         level: object.level, 
@@ -53,6 +54,16 @@ fn parse_characteristic_type(characteristic: DofusDbCharacteristicTypeId) -> Res
       .find(|charac_type| DofusDbCharacteristicTypeId::from(*charac_type) == characteristic)
       .ok_or(format!("Unrecognized characteristic type id {}", characteristic.0))
       .map(|g| g.to_owned())
+}
+
+
+fn make_id(name: &String) -> Id {
+    Id(name
+        .to_lowercase()
+        .trim()
+        .replace(' ', "_")
+        .replace('-', "_")
+        .replace("'s", ""))
 }
 
 #[cfg(test)]
@@ -161,6 +172,7 @@ mod tests {
 
         let gear = parse_gear(dofus_db_object);
         let expected_gear = Gear {
+            id: Id(String::from("gargandyas_necklace")),
             name: String::from("Gargandyas's Necklace"),
             gear_type: GearType::Amulet,
             level: 200,

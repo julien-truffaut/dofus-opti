@@ -13,7 +13,7 @@ pub fn write_gears<P: AsRef<Path>>(
     gear_type: &GearType,
     gears: &Vec<Gear>
 ) -> Result<()> {
-    write_generic_gears(base_path, gear_type, gears, |gear, _| gear_file_name(&gear.name))
+    write_generic_gears(base_path, gear_type, gears, |gear, _| gear_file_name(&gear))
 }
 
 pub fn read_gears<P: AsRef<Path>>(base_path: P, gear_type: &GearType) -> Result<Vec<Gear>> {
@@ -67,18 +67,15 @@ where
     Ok(results)
 }
 
-pub fn gear_file_name(gear_name: &String) -> String {
-    format!("{gear_name}.json")
-        .to_lowercase()
-        .replace(' ', "_")
-        .replace('-', "_")
-        .replace("'s", "")
+pub fn gear_file_name(gear: &Gear) -> String {
+    format!("{}.json", gear.id.0)
 }
 
 #[cfg(test)]
 mod tests {
     use crate::CharacteristicRange;
     use crate::CharacteristicType::*;
+    use crate::model::Id;
 
     use super::*;
     use tempfile::TempDir;
@@ -87,6 +84,7 @@ mod tests {
     #[test]
     fn write_read_gears() -> anyhow::Result<()> {
       let gear_1 = Gear {
+        id: Id(String::from("great_amulet")),
         name: String::from("Great Amulet"),
         gear_type: GearType::Amulet,
         level: 200,
@@ -97,6 +95,7 @@ mod tests {
       };
 
       let gear_2 = Gear {
+        id: Id(String::from("deadly_amulet")),
         name: String::from("Deadly Amulet"),
         gear_type: GearType::Amulet,
         level: 149,
