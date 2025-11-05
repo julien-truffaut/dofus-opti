@@ -32,7 +32,7 @@ async fn main() -> Result<()> {
     let args = Args::parse();
 
     if args.import {
-        println!("📥 Importing data from DofusDB...");
+        println!("Importing data from DofusDB...");
         stream::iter(ALL_GEAR_TYPES)
         .for_each_concurrent(5, |gear_type| async move {
             if let Err(e) = import_gears(gear_type).await {
@@ -45,7 +45,7 @@ async fn main() -> Result<()> {
     }
 
     if args.export {
-        println!("📤 Exporting DofusDB data to model format...");
+        println!("Exporting DofusDB data to our own model...");
         stream::iter(ALL_GEAR_TYPES)
         .for_each_concurrent(5, |gear_type| async move {
             if let Err(e) = export_gears(gear_type).await {

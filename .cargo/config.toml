@@ -1,0 +1,2 @@
+[alias]
+dofus-db = "run -p dofus-opti-dofus-db --"
