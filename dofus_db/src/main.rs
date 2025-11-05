@@ -46,15 +46,15 @@ async fn main() -> Result<()> {
 
     if args.export {
         println!("Exporting DofusDB data to our own model...");
-        stream::iter(ALL_GEAR_TYPES)
-        .for_each_concurrent(5, |gear_type| async move {
-            if let Err(e) = export_gears(gear_type).await {
-                eprintln!("❌ Failed to export {gear_type}: {e}");
-            } else {
-                println!("✅ Finished exporting {gear_type}");
-            }
-        })
-        .await;
+        ALL_GEAR_TYPES
+            .into_iter()
+            .for_each(|gear_type| {
+                if let Err(e) = export_gears(gear_type) {
+                    eprintln!("❌ Failed to export {gear_type}: {e}");
+                } else {
+                    println!("✅ Finished exporting {gear_type}");
+                }
+            });
     }
 
     Ok(())
@@ -67,7 +67,7 @@ async fn import_gears(gear_type: &GearType) -> Result<()> {
     write_dofus_db_jsons(IMPORT_PATH, gear_type, &result)
 }
 
-async fn export_gears(gear_type: &GearType) -> Result<()> {
+fn export_gears(gear_type: &GearType) -> Result<()> {
     let dofus_db_objects: Vec<DofusDbObject> = read_gears(IMPORT_PATH, gear_type)?;
     let number_of_objects = dofus_db_objects.len();
     let mut gears = Vec::new();
