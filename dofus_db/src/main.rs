@@ -69,6 +69,14 @@ async fn import_gears(gear_type: &GearType) -> Result<()> {
 
 fn export_gears(gear_type: &GearType) -> Result<()> {
     let dofus_db_objects: Vec<DofusDbObject> = read_gears(IMPORT_PATH, gear_type)?;
+    let gears = parse_gears(gear_type, dofus_db_objects);
+    write_gears(EXPORT_PATH, gear_type, &gears)
+}
+
+fn parse_gears(
+    gear_type: &GearType, 
+    dofus_db_objects: Vec<DofusDbObject>
+) -> Vec<Gear> {
     let number_of_objects = dofus_db_objects.len();
     let mut gears = Vec::new();
      
@@ -82,7 +90,5 @@ fn export_gears(gear_type: &GearType) -> Result<()> {
 
     println!("Successfuly parsed {}/{} {gear_type}", gears.len(), number_of_objects);
 
-    write_gears(EXPORT_PATH, gear_type, &gears)?;
-
-    Ok(())
+    gears
 }
