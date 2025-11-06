@@ -18,8 +18,7 @@ pub struct DofusDbObject {
     pub typeId: DofusDbTypeId,
     pub level: u32,
     pub img: String,
-    pub effects: Vec<Effect>,
-    pub itemSet: ItemSetField
+    pub effects: Vec<Effect>
 }
 
 
@@ -124,17 +123,4 @@ impl From<&CharacteristicType> for DofusDbCharacteristicTypeId {
         };
         DofusDbCharacteristicTypeId(id)
     }
-}
-
-#[derive(Debug, Deserialize)]
-#[serde(untagged)]
-pub enum ItemSetField {
-    Set(ItemSet),
-    Bool(bool),
-}
-
-#[derive(Debug, Deserialize)]
-pub struct ItemSet {
-  pub name: TranslatedString,
-  pub effects: Vec<Vec<Effect>>,
 }
