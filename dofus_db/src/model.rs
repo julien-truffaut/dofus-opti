@@ -43,7 +43,7 @@ impl From<&GearType> for DofusDbTypeId {
         let id = match gear_type {
             GearType::Amulet => 1,
             GearType::Axe    => 19,
-            GearType::Belt   => 30,
+            GearType::Belt   => 10,
             GearType::Boots  => 11,
             GearType::Bow    => 2,
             GearType::Cloak  => 17,

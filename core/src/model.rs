@@ -201,3 +201,9 @@ impl From<&str> for Id {
         Id(String::from(str))
     }
 }
+
+impl fmt::Display for Id {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}

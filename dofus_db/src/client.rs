@@ -7,7 +7,7 @@ pub async fn fetch_all_gears(gear_type: &GearType) -> reqwest::Result<Vec<serde_
 
     loop {
         let mut response = fetch_gear(gear_type, gears.len()).await?;
-        println!("Received {} {gear_type}", response.data.len());
+        // println!("Received {} {gear_type}", response.data.len());
         if response.data.is_empty() {
             break;
         } else {
