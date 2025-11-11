@@ -1,7 +1,7 @@
 use dofus_opti_core::model::{GearType, Id}; 
 use crate::model::Effects;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Gear {
   pub id: Id,  
   pub name: String,  
