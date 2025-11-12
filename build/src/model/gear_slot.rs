@@ -29,12 +29,12 @@ impl fmt::Display for GearSlot {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             GearSlot::Amulet => write!(f, "Amulet"),
-            GearSlot::Belt   => write!(f, "Belt"),
-            GearSlot::Boots  => write!(f, "Boots"),
-            GearSlot::Cloak  => write!(f, "Cloak"),
-            GearSlot::Hat    => write!(f, "Hat"),
-            GearSlot::Ring1  => write!(f, "Ring 1"),
-            GearSlot::Ring2  => write!(f, "Ring 2"),
+            GearSlot::Belt => write!(f, "Belt"),
+            GearSlot::Boots => write!(f, "Boots"),
+            GearSlot::Cloak => write!(f, "Cloak"),
+            GearSlot::Hat => write!(f, "Hat"),
+            GearSlot::Ring1 => write!(f, "Ring 1"),
+            GearSlot::Ring2 => write!(f, "Ring 2"),
             GearSlot::Shield => write!(f, "Shield"),
             GearSlot::Weapon => write!(f, "Weapon"),
         }

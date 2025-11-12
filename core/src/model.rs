@@ -4,11 +4,11 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub struct Gear {
-  pub id: Id,  
-  pub name: String,  
-  pub gear_type: GearType,
-  pub level: u32,
-  pub characteristics: Vec<CharacteristicRange>
+    pub id: Id,
+    pub name: String,
+    pub gear_type: GearType,
+    pub level: u32,
+    pub characteristics: Vec<CharacteristicRange>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
@@ -29,7 +29,7 @@ pub enum GearType {
     Shovel,
     Staff,
     Sword,
-    Wand
+    Wand,
 }
 
 pub static ALL_GEAR_TYPES: &[GearType] = &[
@@ -52,27 +52,26 @@ pub static ALL_GEAR_TYPES: &[GearType] = &[
     GearType::Wand,
 ];
 
-
 impl fmt::Display for GearType {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             GearType::Amulet => write!(f, "Amulet"),
-            GearType::Axe    => write!(f, "Axe"),
-            GearType::Belt   => write!(f, "Belt"),
-            GearType::Boots  => write!(f, "Boots"),
-            GearType::Bow    => write!(f, "Bow"),
-            GearType::Cloak  => write!(f, "Cloak"),
+            GearType::Axe => write!(f, "Axe"),
+            GearType::Belt => write!(f, "Belt"),
+            GearType::Boots => write!(f, "Boots"),
+            GearType::Bow => write!(f, "Bow"),
+            GearType::Cloak => write!(f, "Cloak"),
             GearType::Dagger => write!(f, "Dagger"),
-            GearType::Hat    => write!(f, "Hat"),
+            GearType::Hat => write!(f, "Hat"),
             GearType::Hammer => write!(f, "Hammer"),
-            GearType::Lance  => write!(f, "Lance"),
-            GearType::Ring   => write!(f, "Ring"),
+            GearType::Lance => write!(f, "Lance"),
+            GearType::Ring => write!(f, "Ring"),
             GearType::Scythe => write!(f, "Scythe"),
             GearType::Shield => write!(f, "Shield"),
             GearType::Shovel => write!(f, "Shovel"),
-            GearType::Staff  => write!(f, "Staff"),
-            GearType::Sword  => write!(f, "Sword"),
-            GearType::Wand   => write!(f, "Wand"),
+            GearType::Staff => write!(f, "Staff"),
+            GearType::Sword => write!(f, "Sword"),
+            GearType::Wand => write!(f, "Wand"),
         }
     }
 }
@@ -81,7 +80,7 @@ impl fmt::Display for GearType {
 pub struct CharacteristicRange {
     pub kind: CharacteristicType,
     pub min: i32,
-    pub max: i32
+    pub max: i32,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]

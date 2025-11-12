@@ -1,7 +1,7 @@
 use thiserror::Error;
 
-use dofus_opti_core::model::Id;
 use crate::model::GearSlot;
+use dofus_opti_core::model::Id;
 
 #[derive(Debug, Error, PartialEq, Eq)]
 pub enum BuildError {

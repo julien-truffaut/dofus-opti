@@ -2,34 +2,35 @@ use dofus_opti_core::model::*;
 
 use crate::model::{DofusDbCharacteristicTypeId, DofusDbObject, DofusDbTypeId, Effect};
 
-
 pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
-    Ok(Gear { 
+    Ok(Gear {
         id: make_id(&object.name.en),
-        name: object.name.en, 
-        gear_type: parse_gear_type(object.typeId)?, 
-        level: object.level, 
-        characteristics: parse_characteristics(object.effects)?
+        name: object.name.en,
+        gear_type: parse_gear_type(object.typeId)?,
+        level: object.level,
+        characteristics: parse_characteristics(object.effects)?,
     })
 }
 
 fn parse_gear_type(id: DofusDbTypeId) -> Result<GearType, String> {
     ALL_GEAR_TYPES
-      .iter()
-      .find(|gear_type| DofusDbTypeId::from(*gear_type) == id)
-      .ok_or(format!("Unrecognized object type id {}", id.0))
-      .map(|g| g.to_owned()) 
+        .iter()
+        .find(|gear_type| DofusDbTypeId::from(*gear_type) == id)
+        .ok_or(format!("Unrecognized object type id {}", id.0))
+        .map(|g| g.to_owned())
 }
 
 fn parse_characteristics(effects: Vec<Effect>) -> Result<Vec<CharacteristicRange>, String> {
     effects
         .into_iter()
-        .filter(|e| 
-            e.characteristic.0 != -1 && 
-            e.characteristic.0 != 15 &&
-            e.characteristic.0 != 38 &&
-            e.characteristic.0 != 0  && // hunting?
-            e.characteristic.0 != 140 // reduce size -40% (rikiki)
+        .filter(
+            |e| {
+                e.characteristic.0 != -1 &&
+                e.characteristic.0 != 15 &&
+                e.characteristic.0 != 38 &&
+                e.characteristic.0 != 0  && // hunting?
+                e.characteristic.0 != 140
+            }, // reduce size -40% (rikiki)
         )
         .map(parse_characteristic_range)
         .collect()
@@ -44,26 +45,22 @@ fn parse_characteristic_range(effect: Effect) -> Result<CharacteristicRange, Str
     Ok(CharacteristicRange {
         kind: parse_characteristic_type(effect.characteristic)?,
         min: effect.from,
-        max: max
+        max: max,
     })
 }
 
-fn parse_characteristic_type(characteristic: DofusDbCharacteristicTypeId) -> Result<CharacteristicType, String> {
+fn parse_characteristic_type(
+    characteristic: DofusDbCharacteristicTypeId,
+) -> Result<CharacteristicType, String> {
     ALL_CHARACTERISTIC_TYPES
-      .iter()
-      .find(|charac_type| DofusDbCharacteristicTypeId::from(*charac_type) == characteristic)
-      .ok_or(format!("Unrecognized characteristic type id {}", characteristic.0))
-      .map(|g| g.to_owned())
+        .iter()
+        .find(|charac_type| DofusDbCharacteristicTypeId::from(*charac_type) == characteristic)
+        .ok_or(format!("Unrecognized characteristic type id {}", characteristic.0))
+        .map(|g| g.to_owned())
 }
 
-
 fn make_id(name: &String) -> Id {
-    Id(name
-        .to_lowercase()
-        .trim()
-        .replace(' ', "_")
-        .replace('-', "_")
-        .replace("'s", ""))
+    Id(name.to_lowercase().trim().replace(' ', "_").replace('-', "_").replace("'s", ""))
 }
 
 #[cfg(test)]
@@ -82,13 +79,15 @@ mod tests {
             let type_id = DofusDbTypeId::from(gear_type);
             assert_eq!(parse_gear_type(type_id), Ok(gear_type.clone()));
         }
-    
     }
 
     #[test]
     fn parse_invalid_gear_types() {
         let invalid_type_id = DofusDbTypeId(-2);
-        assert_eq!(parse_gear_type(invalid_type_id), Err(String::from("Unrecognized object type id -2")));
+        assert_eq!(
+            parse_gear_type(invalid_type_id),
+            Err(String::from("Unrecognized object type id -2"))
+        );
     }
 
     #[test]
@@ -102,7 +101,10 @@ mod tests {
     #[test]
     fn parse_invalid_characteristic_type() {
         let invalid_type_id = DofusDbCharacteristicTypeId(-2);
-        assert_eq!(parse_characteristic_type(invalid_type_id), Err(String::from("Unrecognized characteristic type id -2")));
+        assert_eq!(
+            parse_characteristic_type(invalid_type_id),
+            Err(String::from("Unrecognized characteristic type id -2"))
+        );
     }
 
     #[test]
@@ -129,7 +131,7 @@ mod tests {
         };
 
         assert_eq!(
-            parse_characteristics(vec!(vitality, power)), 
+            parse_characteristics(vec!(vitality, power)),
             Ok(vec!(expected_vitality, expected_power))
         );
     }
@@ -158,16 +160,16 @@ mod tests {
         };
 
         assert_eq!(
-            parse_characteristics(vec!(vitality, unknown_1, power, unknown_2)), 
+            parse_characteristics(vec!(vitality, unknown_1, power, unknown_2)),
             Err(String::from("Unrecognized characteristic type id 99"))
         );
     }
 
     #[test]
     fn parse_golden_gear() -> anyhow::Result<()> {
-        use std::path::Path;
         use std::fs::File;
         use std::io::BufReader;
+        use std::path::Path;
 
         let file_path = Path::new("golden").join("gargandyas_necklace.json");
         let file = File::open(file_path)?;
@@ -181,26 +183,82 @@ mod tests {
             name: String::from("Gargandyas's Necklace"),
             gear_type: GearType::Amulet,
             level: 200,
-            characteristics: vec!(
-                CharacteristicRange { kind: Vitality, min: 451, max: 500 }, 
-                CharacteristicRange { kind: Wisdom, min: 41, max: 60 },
-                CharacteristicRange { kind: Power, min: 41, max: 60 }, 
-                CharacteristicRange { kind: Critical, min: 3, max: 4 }, 
-                CharacteristicRange { kind: AbilityPoint, min: 2, max: 2 }, 
-                CharacteristicRange { kind: MovementPoint, min: -1, max: -1 }, 
-                CharacteristicRange { kind: Range, min: 1, max:  1}, 
-                CharacteristicRange { kind: Summon, min: 2, max: 2 }, 
-                CharacteristicRange { kind: Dodge, min: -20, max: -20 }, 
-                CharacteristicRange { kind: MovementPointParry, min: -20, max: -20 }, 
-                CharacteristicRange { kind: PushBackDamage, min: 16, max: 20 }, 
-                CharacteristicRange { kind: PushBackResistance, min: 31, max: 40 }, 
-                CharacteristicRange { kind: MeleeResistance, min: 3, max: 5 }, 
-                CharacteristicRange { kind: RangeResistance, min: 3, max: 5 }
-            )
+            characteristics: vec![
+                CharacteristicRange {
+                    kind: Vitality,
+                    min: 451,
+                    max: 500,
+                },
+                CharacteristicRange {
+                    kind: Wisdom,
+                    min: 41,
+                    max: 60,
+                },
+                CharacteristicRange {
+                    kind: Power,
+                    min: 41,
+                    max: 60,
+                },
+                CharacteristicRange {
+                    kind: Critical,
+                    min: 3,
+                    max: 4,
+                },
+                CharacteristicRange {
+                    kind: AbilityPoint,
+                    min: 2,
+                    max: 2,
+                },
+                CharacteristicRange {
+                    kind: MovementPoint,
+                    min: -1,
+                    max: -1,
+                },
+                CharacteristicRange {
+                    kind: Range,
+                    min: 1,
+                    max: 1,
+                },
+                CharacteristicRange {
+                    kind: Summon,
+                    min: 2,
+                    max: 2,
+                },
+                CharacteristicRange {
+                    kind: Dodge,
+                    min: -20,
+                    max: -20,
+                },
+                CharacteristicRange {
+                    kind: MovementPointParry,
+                    min: -20,
+                    max: -20,
+                },
+                CharacteristicRange {
+                    kind: PushBackDamage,
+                    min: 16,
+                    max: 20,
+                },
+                CharacteristicRange {
+                    kind: PushBackResistance,
+                    min: 31,
+                    max: 40,
+                },
+                CharacteristicRange {
+                    kind: MeleeResistance,
+                    min: 3,
+                    max: 5,
+                },
+                CharacteristicRange {
+                    kind: RangeResistance,
+                    min: 3,
+                    max: 5,
+                },
+            ],
         };
 
         assert_eq!(gear, Ok(expected_gear));
 
         Ok(())
-    }      
+    }
 }
