@@ -1,5 +1,7 @@
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
+use dofus_opti_core::CharacteristicType;
+
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Effects {
@@ -110,6 +112,62 @@ impl Effects {
             water_resistance_percent: None, 
             weapon_damage: None, 
             wisdom: None,
+        }
+    }
+
+    pub fn set_effect(&mut self, kind: CharacteristicType, value: i32) {
+        match kind {
+            CharacteristicType::AbilityPoint=> self.ability_point = Some(value),
+            CharacteristicType::AbilityPointParry=> self.ability_point_parry = Some(value),
+            CharacteristicType::AbilityPointReduction=> self.ability_point_reduction = Some(value),
+            CharacteristicType::Agility=> self.agility = Some(value),
+            CharacteristicType::AirDamage=> self.air_damage = Some(value),
+            CharacteristicType::AirResistance=> self.air_resistance = Some(value),
+            CharacteristicType::AirResistancePercent=> self.air_resistance_percent = Some(value),
+            CharacteristicType::Chance=> self.chance = Some(value),
+            CharacteristicType::Critical=> self.critical = Some(value),
+            CharacteristicType::CriticalDamage=> self.critical_damage = Some(value),
+            CharacteristicType::CriticalResistance=> self.critical_resistance = Some(value),
+            CharacteristicType::Damage=> self.damage = Some(value),
+            CharacteristicType::Dodge=> self.dodge = Some(value),
+            CharacteristicType::EarthDamage => self.earth_damage = Some(value),
+            CharacteristicType::EarthResistance=> self.earth_resistance = Some(value),
+            CharacteristicType::EarthResistancePercent=> self.earth_resistance_percent = Some(value),
+            CharacteristicType::FireDamage=> self.fire_damage = Some(value),
+            CharacteristicType::FireResistance=> self.fire_resistance = Some(value),
+            CharacteristicType::FireResistancePercent=> self.fire_resistance_percent = Some(value),
+            CharacteristicType::Heals=> self.heals = Some(value),
+            CharacteristicType::Initiative=> self.initiative = Some(value),
+            CharacteristicType::Intelligence=> self.intelligence = Some(value),
+            CharacteristicType::Lock=> self.lock = Some(value),
+            CharacteristicType::MeleeDamage=> self.melee_damage = Some(value),
+            CharacteristicType::MeleeResistance=> self.melee_resistance = Some(value),
+            CharacteristicType::MovementPoint=> self.movement_point = Some(value),
+            CharacteristicType::MovementPointParry=> self.movement_point_parry = Some(value),
+            CharacteristicType::MovementPointReduction=> self.movement_point_reduction = Some(value),
+            CharacteristicType::NeutralDamage=> self.neutral_damage = Some(value),
+            CharacteristicType::NeutralResistance=> self.neutral_resistance = Some(value),
+            CharacteristicType::NeutralResistancePercent=> self.neutral_resistance_percent = Some(value),
+            CharacteristicType::Pods=> self.pods = Some(value),
+            CharacteristicType::Power=> self.power = Some(value),
+            CharacteristicType::Prospecting=> self.prospecting = Some(value),
+            CharacteristicType::PushBackDamage=> self.push_back_damage = Some(value),
+            CharacteristicType::PushBackResistance=> self.push_back_resistance = Some(value),
+            CharacteristicType::Range=> self.range = Some(value),
+            CharacteristicType::RangeDamage=> self.range_damage = Some(value),
+            CharacteristicType::RangeResistance=> self.range_resistance = Some(value),
+            CharacteristicType::ReflectedDamage=> self.reflected_damage = Some(value),
+            CharacteristicType::SpellDamage=> self.spell_damage = Some(value),
+            CharacteristicType::Strength=> self.strength = Some(value),
+            CharacteristicType::Summon=> self.summon = Some(value),
+            CharacteristicType::TrapDamage=> self.trap_damage = Some(value),
+            CharacteristicType::TrapPower=> self.trap_power = Some(value),
+            CharacteristicType::Vitality=> self.vitality = Some(value),
+            CharacteristicType::WaterDamage=> self.water_damage = Some(value),
+            CharacteristicType::WaterResistance=> self.water_resistance = Some(value),
+            CharacteristicType::WaterResistancePercent=> self.water_resistance_percent = Some(value),
+            CharacteristicType::WeaponDamage=> self.weapon_damage = Some(value),
+            CharacteristicType::Wisdom=> self.wisdom = Some(value),
         }
     }
 }
@@ -242,14 +300,14 @@ impl_effects_ops!(
 );
 
 
-impl AddAssign for Effects {
-    fn add_assign(&mut self, other: Self) {
+impl AddAssign<&Effects> for Effects {
+    fn add_assign(&mut self, other: &Self) {
         *self = &*self + &other;
     }
 }
 
-impl SubAssign for Effects {
-    fn sub_assign(&mut self, other: Self) {
+impl SubAssign<&Effects> for Effects {
+    fn sub_assign(&mut self, other: &Self) {
         *self = &*self - &other;
     }
 }

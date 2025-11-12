@@ -1,99 +1,47 @@
 use crate::model::{BuildError, Effects, Gear, GearSlot, GearSlotType};
+use std::collections::HashMap;
+use std::collections::hash_map::Entry::{Vacant, Occupied};
 
 #[derive(Debug, PartialEq)]
 pub struct Build<'a> {
-  amulet: Option<&'a Gear>,
-  belt: Option<&'a Gear>,
-  boots: Option<&'a Gear>,
-  cloak: Option<&'a Gear>,
-  hat: Option<&'a Gear>,
-  ring_1: Option<&'a Gear>,
-  ring_2: Option<&'a Gear>,
-  shield: Option<&'a Gear>,
-  weapon: Option<&'a Gear>,
+  gears: HashMap<GearSlot, &'a Gear>,
   effects: Effects,
 }
 
 impl<'a> Build<'a> {
     pub fn empty() -> Self {
         Build { 
-            amulet: None, 
-            belt: None, 
-            boots: None, 
-            cloak: None, 
-            hat: None, 
-            ring_1: None, 
-            ring_2: None, 
-            shield: None, 
-            weapon: None, 
+            gears  : HashMap::new(),
             effects: Effects::empty(),
         }
     }
 
     pub fn get_gear(& self, gear_slot: &GearSlot) -> Option<&'a Gear> {
-        match gear_slot {
-            GearSlot::Amulet => self.amulet,
-            GearSlot::Belt   => self.belt,
-            GearSlot::Boots  => self.boots,
-            GearSlot::Cloak  => self.cloak,
-            GearSlot::Hat    => self.hat,
-            GearSlot::Ring1  => self.ring_1,
-            GearSlot::Ring2  => self.ring_2,
-            GearSlot::Shield => self.shield,
-            GearSlot::Weapon => self.weapon,
-        }
+        self.gears.get(gear_slot).map(|g| *g)
     }
+
+    pub fn delete_gear(&mut self, gear_slot: &GearSlot) {
+      if let Some(old_gear) = self.gears.remove(gear_slot) {
+        self.effects -= &old_gear.effects;
+    }
+  }
 
     pub fn set_gear(&mut self, gear: &'a Gear, gear_slot: &GearSlot) -> Result<(), BuildError> {
         check_gear_slot(gear, gear_slot)?;
         let gear_effects = gear.effects.clone();
-        match gear_slot {
-            GearSlot::Amulet => {
-              self.amulet.iter().for_each(|current_gear| self.effects -= current_gear.effects.clone());
-              self.effects += gear_effects;
-              self.amulet = Some(gear);
-            },
-            GearSlot::Belt => {
-              self.belt.iter().for_each(|current_gear| self.effects -= current_gear.effects.clone());
-              self.effects += gear_effects;
-              self.belt = Some(gear);
-            },
-            GearSlot::Boots => {
-              self.boots.iter().for_each(|current_gear| self.effects -= current_gear.effects.clone());
-              self.effects += gear_effects;
-              self.boots = Some(gear);
-            },
-            GearSlot::Cloak => {
-              self.cloak.iter().for_each(|current_gear| self.effects -= current_gear.effects.clone());
-              self.effects += gear_effects;
-              self.cloak = Some(gear);
-            },
-            GearSlot::Hat => {
-              self.hat.iter().for_each(|current_gear| self.effects -= current_gear.effects.clone());
-              self.effects += gear_effects;
-              self.hat = Some(gear);
-            },
-            GearSlot::Ring1 => {
-              self.ring_1.iter().for_each(|current_gear| self.effects -= current_gear.effects.clone());
-              self.effects += gear_effects;
-              self.ring_1 = Some(gear);
-            },
-            GearSlot::Ring2 => {
-              self.ring_2.iter().for_each(|current_gear| self.effects -= current_gear.effects.clone());
-              self.effects += gear_effects;
-              self.ring_2 = Some(gear);
-            },
-            GearSlot::Shield => {
-              self.shield.iter().for_each(|current_gear| self.effects -= current_gear.effects.clone());
-              self.effects += gear_effects;
-              self.shield = Some(gear);
-            },
-            GearSlot::Weapon => {
-              self.weapon.iter().for_each(|current_gear| self.effects -= current_gear.effects.clone());
-              self.effects += gear_effects;
-              self.weapon = Some(gear);
-            },
+        match self.gears.entry(*gear_slot) {
+          Vacant(entry) => {
+            self.effects += &gear_effects;
+            entry.insert(gear);
+          },  
+          Occupied(mut entry) => {
+            let old_gear = entry.get();
+            self.effects -= &old_gear.effects;
+            self.effects += &gear_effects;
+            entry.insert(gear);
+          }
         }
+        
         Ok(())
     }
 
@@ -111,20 +59,64 @@ fn check_gear_slot(gear: &Gear, gear_slot: &GearSlot) -> Result<(), BuildError> 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::model::ALL_GEAR_SLOTS;
-    use dofus_opti_core::{Id, GearType};
-    use std::collections::HashMap;
+    use crate::model::{ALL_GEAR_SLOTS};
+    use dofus_opti_core::{Id, GearType, CharacteristicType};
+
+    #[test]
+    fn set_delete_round_trip() -> Result<(), BuildError> {
+      let mut build = Build::empty();
+      let amulet = Gear {
+        id: Id::from("gear_id"),
+        name: String::from("gear name"),
+        gear_type: GearType::Amulet,
+        level: 200,
+        effects: Effects::empty(),
+      };
+      build.set_gear(&amulet, &GearSlot::Amulet)?;
+      build.delete_gear(&GearSlot::Amulet);
+      assert_eq!(build, Build::empty());
+      Ok(())
+    }
+
+    #[test]
+    fn set_erase_existing_gear() -> Result<(), BuildError> {
+      let mut build_1 = Build::empty();
+      let mut build_2 = Build::empty();
+      let mut effects_1 = Effects::empty();
+      let mut effects_2 = Effects::empty();
+      effects_1.set_effect(CharacteristicType::Agility, 24);
+      effects_2.set_effect(CharacteristicType::Agility, 32);
+      let amulet_1 = Gear {
+        id: Id::from("gear_id"),
+        name: String::from("gear name"),
+        gear_type: GearType::Amulet,
+        level: 200,
+        effects: effects_1,
+      };
+      let amulet_2 = Gear {
+        effects: effects_2,
+        ..amulet_1.clone()
+      };
+      build_1.set_gear(&amulet_1, &GearSlot::Amulet)?;
+      build_1.set_gear(&amulet_2, &GearSlot::Amulet)?;
+      build_2.set_gear(&amulet_2, &GearSlot::Amulet)?;
+    
+      assert_eq!(build_1, build_2);
+      Ok(())
+    }
 
     #[test]
     fn set_get_gear_round_trip() -> Result<(), BuildError> {
         let mut build = Build::empty();
         let mut gears_map: HashMap<GearSlot, Gear> = HashMap::new();
+        let mut effects = Effects::empty();
+        effects.set_effect(CharacteristicType::Strength, 1);
         let default_gear = Gear {
           id: Id::from("gear_id"),
           name: String::from("gear name"),
           gear_type: GearType::Amulet,
           level: 200,
-          effects: Effects::empty(),
+          effects: effects,
         };
         for gear_slot in ALL_GEAR_SLOTS {
             let mut gear= default_gear.clone();
@@ -151,8 +143,26 @@ mod tests {
           found_gears.push(build.get_gear(gear_slot).cloned());
         }
 
+        let mut expected_effects = Effects::empty();
+        expected_effects.set_effect(CharacteristicType::Strength, 9);
+
         assert_eq!(gears, found_gears);
+        assert_eq!(build.effects, expected_effects);
         Ok(())
+    }
+
+    #[test]
+    fn set_gear_using_wrong_slot() {
+      let mut build = Build::empty();
+      let amulet = Gear {
+        id: Id::from("gear_id"),
+        name: String::from("gear name"),
+        gear_type: GearType::Amulet,
+        level: 200,
+        effects: Effects::empty(),
+      };
+      let result = build.set_gear(&amulet, &GearSlot::Belt);
+      assert_eq!(result, Err(BuildError::InvalidGearSlot(Id::from("gear_id"), GearSlot::Belt)));
     }
 
 }
