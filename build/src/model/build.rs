@@ -60,7 +60,7 @@ fn check_gear_slot(gear: &Gear, gear_slot: &GearSlot) -> Result<(), BuildError> 
 mod tests {
     use super::*;
     use crate::model::{ALL_GEAR_SLOTS};
-    use dofus_opti_core::{Id, GearType, CharacteristicType};
+    use dofus_opti_core::{Id, GearType};
 
     #[test]
     fn set_delete_round_trip() -> Result<(), BuildError> {
@@ -84,8 +84,8 @@ mod tests {
       let mut build_2 = Build::empty();
       let mut effects_1 = Effects::empty();
       let mut effects_2 = Effects::empty();
-      effects_1.set_effect(CharacteristicType::Agility, 24);
-      effects_2.set_effect(CharacteristicType::Agility, 32);
+      effects_1.agility = Some(24);
+      effects_2.agility = Some(32);
       let amulet_1 = Gear {
         id: Id::from("gear_id"),
         name: String::from("gear name"),
@@ -110,7 +110,7 @@ mod tests {
         let mut build = Build::empty();
         let mut gears_map: HashMap<GearSlot, Gear> = HashMap::new();
         let mut effects = Effects::empty();
-        effects.set_effect(CharacteristicType::Strength, 1);
+        effects.strength = Some(1);
         let default_gear = Gear {
           id: Id::from("gear_id"),
           name: String::from("gear name"),
@@ -144,7 +144,7 @@ mod tests {
         }
 
         let mut expected_effects = Effects::empty();
-        expected_effects.set_effect(CharacteristicType::Strength, 9);
+        expected_effects.strength = Some(9);
 
         assert_eq!(gears, found_gears);
         assert_eq!(build.effects, expected_effects);
