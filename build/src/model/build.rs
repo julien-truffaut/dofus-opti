@@ -1,4 +1,7 @@
-use crate::model::{BuildError, Effects, Gear, GearSlot, GearSlotType};
+use crate::model::{
+    BuildError, BuildRequirements, Effects, Gear, GearSlot, GearSlotType, Requirement,
+    RequirementId,
+};
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 
@@ -43,6 +46,60 @@ impl<'a> Build<'a> {
         }
 
         Ok(())
+    }
+
+    pub fn satisfy_requirements(&self, build_requirements: &BuildRequirements) -> bool {
+        build_requirements
+            .requirements
+            .iter()
+            .all(|requirement| self.satisfy_requirement(requirement))
+    }
+
+    pub fn satisfy_requirement(&self, requirement: &Requirement) -> bool {
+        match requirement.id {
+            RequirementId::Strength => {
+                (self.effects.power.unwrap_or(0) + self.effects.strength.unwrap_or(0))
+                    >= requirement.desired_value
+            }
+            RequirementId::Vitality => {
+                self.effects.vitality.unwrap_or(0) >= requirement.desired_value
+            }
+        }
+    }
+
+    pub fn print_short_build(&self) {
+        let text = format!(
+            "Builf(
+    amulet: {}
+    belt  : {}
+    boots : {}
+    cloack: {}
+    ring 1: {}
+    ring 2: {}
+    shield: {}
+    weapon: {},
+    effects: 
+        power   : {},
+        strength: {},
+        vitality: {},
+)",
+            self.get_gear_name(&GearSlot::Amulet),
+            self.get_gear_name(&GearSlot::Belt),
+            self.get_gear_name(&GearSlot::Boots),
+            self.get_gear_name(&GearSlot::Cloak),
+            self.get_gear_name(&GearSlot::Ring1),
+            self.get_gear_name(&GearSlot::Ring2),
+            self.get_gear_name(&GearSlot::Shield),
+            self.get_gear_name(&GearSlot::Weapon),
+            self.effects.power.unwrap_or(0),
+            self.effects.strength.unwrap_or(0),
+            self.effects.vitality.unwrap_or(0),
+        );
+        println!("{text}");
+    }
+
+    pub fn get_gear_name(&self, gear_slot: &GearSlot) -> String {
+        self.get_gear(gear_slot).map(|g| g.name.clone()).unwrap_or(String::from("-"))
     }
 }
 
