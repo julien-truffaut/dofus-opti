@@ -3,7 +3,7 @@ use std::fmt;
 use crate::model::GearSlot;
 use dofus_opti_core::model::GearType;
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum GearSlotType {
     Amulet,
     Belt,

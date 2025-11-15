@@ -7,8 +7,6 @@ use dofus_opti_core::model::Gear as CoreGear;
 use dofus_opti_dofus_build::model::*;
 use dofus_opti_dofus_build::parser::parse_gear;
 
-use std::collections::HashMap;
-
 #[tokio::main]
 async fn main() -> Result<()> {
     println!("Dofus Build CLI");
@@ -17,7 +15,7 @@ async fn main() -> Result<()> {
         requirements: vec![
             Requirement {
                 id: RequirementId::Strength,
-                desired_value: 550,
+                desired_value: 900,
             },
             Requirement {
                 id: RequirementId::Vitality,
@@ -26,25 +24,15 @@ async fn main() -> Result<()> {
         ],
     };
 
-    let all_gears = import_all_gears()?;
-    let filtered_gears = all_gears.into_iter().filter(|g| g.level > 198).collect();
-    let all_gears_by_slot_type = group_gears_by_slot_type(filtered_gears);
+    let gears: Vec<Gear> = import_all_gears()?;
+    let catalog = GearCatalog::new(gears, &build_requirements);
 
     let mut build = Build::empty();
-
-    let amulets = get_gears_for_slot(&all_gears_by_slot_type, GearSlotType::Amulet);
-    let belts = get_gears_for_slot(&all_gears_by_slot_type, GearSlotType::Belt);
-    let boots = get_gears_for_slot(&all_gears_by_slot_type, GearSlotType::Boots);
-    let cloacks = get_gears_for_slot(&all_gears_by_slot_type, GearSlotType::Cloak);
-    let hats = get_gears_for_slot(&all_gears_by_slot_type, GearSlotType::Hat);
-    let rings = get_gears_for_slot(&all_gears_by_slot_type, GearSlotType::Ring);
-    let shields = get_gears_for_slot(&all_gears_by_slot_type, GearSlotType::Shield);
-    let weapons = get_gears_for_slot(&all_gears_by_slot_type, GearSlotType::Weapon);
 
     let mut build_possible: u128 = 1;
 
     for gear_slot_type in ALL_GEAR_SLOT_TYPES {
-        let size = all_gears_by_slot_type.get(gear_slot_type).map(|gears| gears.len()).unwrap_or(0);
+        let size = catalog.get_gears(*gear_slot_type).len();
         println!("Number of {gear_slot_type} considered: {size}");
         build_possible = build_possible * size as u128;
     }
@@ -53,47 +41,47 @@ async fn main() -> Result<()> {
 
     let mut full_builder_counter: i64 = 0;
 
-    for amulet in amulets {
+    for amulet in catalog.get_gears(GearSlotType::Amulet) {
         if let Err(e) = build.set_gear(amulet, &GearSlot::Amulet) {
             eprintln!("❌ Skipping amulet {}: {}", amulet.name, e);
             continue;
         }
-        for belt in belts {
+        for belt in catalog.get_gears(GearSlotType::Belt) {
             if let Err(e) = build.set_gear(belt, &GearSlot::Belt) {
                 eprintln!("❌ Skipping belt {}: {}", belt.name, e);
                 continue;
             }
-            for boot in boots {
+            for boot in catalog.get_gears(GearSlotType::Boots) {
                 if let Err(e) = build.set_gear(boot, &GearSlot::Boots) {
                     eprintln!("❌ Skipping boots {}: {}", boot.name, e);
                     continue;
                 }
-                for cloack in cloacks {
+                for cloack in catalog.get_gears(GearSlotType::Cloak) {
                     if let Err(e) = build.set_gear(cloack, &GearSlot::Cloak) {
                         eprintln!("❌ Skipping cloack {}: {}", cloack.name, e);
                         continue;
                     }
-                    for hat in hats {
+                    for hat in catalog.get_gears(GearSlotType::Hat) {
                         if let Err(e) = build.set_gear(hat, &GearSlot::Hat) {
                             eprintln!("❌ Skipping hat {}: {}", hat.name, e);
                             continue;
                         }
-                        for ring_1 in rings {
+                        for ring_1 in catalog.get_gears(GearSlotType::Ring) {
                             if let Err(e) = build.set_gear(ring_1, &GearSlot::Ring1) {
                                 eprintln!("❌ Skipping ring 1 {}: {}", ring_1.name, e);
                                 continue;
                             }
-                            for ring_2 in rings {
+                            for ring_2 in catalog.get_gears(GearSlotType::Ring) {
                                 if let Err(e) = build.set_gear(ring_2, &GearSlot::Ring2) {
                                     eprintln!("❌ Skipping ring 2 {}: {}", ring_2.name, e);
                                     continue;
                                 }
-                                for shield in shields {
+                                for shield in catalog.get_gears(GearSlotType::Shield) {
                                     if let Err(e) = build.set_gear(shield, &GearSlot::Shield) {
                                         eprintln!("❌ Skipping shield {}: {}", shield.name, e);
                                         continue;
                                     }
-                                    for weapon in weapons {
+                                    for weapon in catalog.get_gears(GearSlotType::Weapon) {
                                         if let Err(e) = build.set_gear(weapon, &GearSlot::Weapon) {
                                             eprintln!("❌ Skipping weapon {}: {}", weapon.name, e);
                                             continue;
@@ -120,24 +108,6 @@ async fn main() -> Result<()> {
     }
 
     Ok(())
-}
-
-fn get_gears_for_slot<'a>(
-    map: &'a HashMap<GearSlotType, Vec<Gear>>,
-    slot: GearSlotType,
-) -> &'a [Gear] {
-    map.get(&slot).map(|v| v.as_slice()).unwrap_or(&[])
-}
-
-fn group_gears_by_slot_type(gears: Vec<Gear>) -> HashMap<GearSlotType, Vec<Gear>> {
-    let mut map: HashMap<GearSlotType, Vec<Gear>> = HashMap::new();
-
-    for gear in gears {
-        let slot_type = GearSlotType::from(&gear.gear_type);
-        map.entry(slot_type).or_insert_with(Vec::new).push(gear);
-    }
-
-    map
 }
 
 fn import_all_gears() -> Result<Vec<Gear>> {

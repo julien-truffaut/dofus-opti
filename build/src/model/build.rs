@@ -8,7 +8,7 @@ use std::collections::hash_map::Entry::{Occupied, Vacant};
 #[derive(Debug, PartialEq)]
 pub struct Build<'a> {
     gears: HashMap<GearSlot, &'a Gear>,
-    effects: Effects,
+    pub effects: Effects,
 }
 
 impl<'a> Build<'a> {
@@ -57,10 +57,7 @@ impl<'a> Build<'a> {
 
     pub fn satisfy_requirement(&self, requirement: &Requirement) -> bool {
         match requirement.id {
-            RequirementId::Strength => {
-                (self.effects.power.unwrap_or(0) + self.effects.strength.unwrap_or(0))
-                    >= requirement.desired_value
-            }
+            RequirementId::Strength => self.effects.derived_strength() >= requirement.desired_value,
             RequirementId::Vitality => {
                 self.effects.vitality.unwrap_or(0) >= requirement.desired_value
             }

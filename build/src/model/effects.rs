@@ -1,5 +1,7 @@
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
+use crate::model::{BuildRequirements, RequirementId};
+
 #[derive(Clone, Debug, PartialEq)]
 pub struct Effects {
     pub ability_point: Option<i32>,
@@ -110,6 +112,21 @@ impl Effects {
             weapon_damage: None,
             wisdom: None,
         }
+    }
+
+    pub fn score(&self, build_requirements: &BuildRequirements) -> i32 {
+        build_requirements
+            .requirements
+            .iter()
+            .map(|req| match req.id {
+                RequirementId::Strength => self.derived_strength(),
+                RequirementId::Vitality => self.vitality.unwrap_or(0) / 5,
+            })
+            .sum()
+    }
+
+    pub fn derived_strength(&self) -> i32 {
+        self.strength.unwrap_or(0) + self.power.unwrap_or(0)
     }
 }
 
