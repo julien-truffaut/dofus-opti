@@ -1,13 +1,15 @@
 use anyhow::{Ok, Result};
 
 use dofus_opti_core::file::read_gears;
-use dofus_opti_core::model::ALL_GEAR_TYPES;
 use dofus_opti_core::model::Gear as CoreGear;
+use dofus_opti_core::model::{ALL_GEAR_TYPES, Id};
 
-use dofus_opti_dofus_build::gear_selector::select_top;
+use dofus_opti_dofus_build::gear_selector;
 use dofus_opti_dofus_build::model::*;
 use dofus_opti_dofus_build::parser::parse_gear;
 use dofus_opti_dofus_build::scorer::default_score;
+
+use std::collections::HashSet;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -17,7 +19,7 @@ async fn main() -> Result<()> {
         requirements: vec![
             Requirement {
                 id: RequirementId::Strength,
-                desired_value: 900,
+                desired_value: 800,
             },
             Requirement {
                 id: RequirementId::Vitality,
@@ -25,12 +27,17 @@ async fn main() -> Result<()> {
             },
         ],
     };
+
+    let gear_ids_to_ignore = HashSet::from([Id::from("gore_master_ring_(gms_only)")]);
+
     let effect_scorer = |effects: &Effects| default_score(&build_requirements, effects);
     let gear_scorer = |gear: &Gear| effect_scorer(&gear.effects);
-    let gear_selector = |gears: &mut Vec<Gear>| select_top(10, gear_scorer, gears);
 
     let gears: Vec<Gear> = import_all_gears()?;
-    let catalog = GearCatalog::new(gears, gear_selector);
+
+    let mut catalog = GearCatalog::new(gears);
+    catalog.filter(gear_selector::ignore_ids(gear_ids_to_ignore));
+    catalog.filter(gear_selector::select_top(10, gear_scorer));
 
     let mut build = Build::empty();
 

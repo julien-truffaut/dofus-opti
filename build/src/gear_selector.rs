@@ -1,9 +1,21 @@
-use std::cmp::Reverse;
+use dofus_opti_core::model::Id;
 
-pub fn select_top<A, F>(size: usize, scorer: F, items: &mut Vec<A>)
+use crate::model::Gear;
+use std::cmp::Reverse;
+use std::collections::HashSet;
+
+pub fn select_top<F>(size: usize, scorer: F) -> impl FnMut(&mut Vec<Gear>)
 where
-    F: Fn(&A) -> i32,
+    F: Fn(&Gear) -> i32,
 {
-    items.sort_by_key(|item| Reverse(scorer(item)));
-    items.truncate(size);
+    move |items| {
+        items.sort_by_key(|item| Reverse(scorer(item)));
+        items.truncate(size);
+    }
+}
+
+pub fn ignore_ids(ids_ignore: HashSet<Id>) -> impl FnMut(&mut Vec<Gear>) {
+    move |gears| {
+        gears.retain(|gear| !ids_ignore.contains(&gear.id));
+    }
 }

@@ -7,10 +7,7 @@ pub struct GearCatalog {
 }
 
 impl GearCatalog {
-    pub fn new<'a, F>(gears: Vec<Gear>, mut gear_selector: F) -> Self
-    where
-        F: FnMut(&mut Vec<Gear>),
-    {
+    pub fn new(gears: Vec<Gear>) -> Self {
         let mut map: HashMap<GearSlotType, Vec<Gear>> = HashMap::new();
 
         for gear in gears {
@@ -18,12 +15,17 @@ impl GearCatalog {
             map.entry(slot_type).or_default().push(gear);
         }
 
-        for gears in map.values_mut() {
-            gear_selector(gears);
-        }
-
         Self {
             gears_by_slot: map,
+        }
+    }
+
+    pub fn filter<F>(&mut self, mut gear_selector: F)
+    where
+        F: FnMut(&mut Vec<Gear>),
+    {
+        for gears in self.gears_by_slot.values_mut() {
+            gear_selector(gears);
         }
     }
 
