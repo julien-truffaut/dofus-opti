@@ -6,6 +6,7 @@ use dofus_opti_core::model::Gear as CoreGear;
 
 use dofus_opti_dofus_build::model::*;
 use dofus_opti_dofus_build::parser::parse_gear;
+use dofus_opti_dofus_build::scorer::default_score;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -23,9 +24,10 @@ async fn main() -> Result<()> {
             },
         ],
     };
+    let scorer = |effects: &Effects| default_score(&build_requirements, effects);
 
     let gears: Vec<Gear> = import_all_gears()?;
-    let catalog = GearCatalog::new(gears, &build_requirements);
+    let catalog = GearCatalog::new(gears, scorer);
 
     let mut build = Build::empty();
 

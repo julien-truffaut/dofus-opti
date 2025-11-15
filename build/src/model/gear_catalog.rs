@@ -1,4 +1,4 @@
-use crate::model::{BuildRequirements, Gear, GearSlotType};
+use crate::model::{Effects, Gear, GearSlotType};
 
 use std::cmp::Reverse;
 use std::collections::HashMap;
@@ -8,7 +8,10 @@ pub struct GearCatalog {
 }
 
 impl GearCatalog {
-    pub fn new<'a>(gears: Vec<Gear>, build_requirements: &'a BuildRequirements) -> Self {
+    pub fn new<'a, F>(gears: Vec<Gear>, scorer: F) -> Self
+    where
+        F: Fn(&Effects) -> i32,
+    {
         let mut map: HashMap<GearSlotType, Vec<Gear>> = HashMap::new();
 
         for gear in gears {
@@ -17,7 +20,7 @@ impl GearCatalog {
         }
 
         for gears in map.values_mut() {
-            gears.sort_by_key(|g| Reverse(g.effects.score(build_requirements)));
+            gears.sort_by_key(|g| Reverse(scorer(&g.effects)));
         }
 
         Self {
