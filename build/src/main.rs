@@ -4,6 +4,7 @@ use dofus_opti_core::file::read_gears;
 use dofus_opti_core::model::ALL_GEAR_TYPES;
 use dofus_opti_core::model::Gear as CoreGear;
 
+use dofus_opti_dofus_build::gear_selector::select_top;
 use dofus_opti_dofus_build::model::*;
 use dofus_opti_dofus_build::parser::parse_gear;
 use dofus_opti_dofus_build::scorer::default_score;
@@ -24,10 +25,12 @@ async fn main() -> Result<()> {
             },
         ],
     };
-    let scorer = |effects: &Effects| default_score(&build_requirements, effects);
+    let effect_scorer = |effects: &Effects| default_score(&build_requirements, effects);
+    let gear_scorer = |gear: &Gear| effect_scorer(&gear.effects);
+    let gear_selector = |gears: &mut Vec<Gear>| select_top(10, gear_scorer, gears);
 
     let gears: Vec<Gear> = import_all_gears()?;
-    let catalog = GearCatalog::new(gears, scorer);
+    let catalog = GearCatalog::new(gears, gear_selector);
 
     let mut build = Build::empty();
 
