@@ -5,7 +5,10 @@ use crate::model::{DofusDbCharacteristicTypeId, DofusDbObject, DofusDbTypeId, Ef
 pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
     Ok(Gear {
         id: make_id(&object.name.en),
-        name: object.name.en,
+        name: dofus_opti_core::TranslatedName {
+            en: object.name.en,
+            fr: object.name.fr,
+        },
         gear_type: parse_gear_type(object.typeId)?,
         level: object.level,
         characteristics: parse_characteristics(object.effects)?,
@@ -180,7 +183,10 @@ mod tests {
         let gear = parse_gear(dofus_db_object);
         let expected_gear = Gear {
             id: Id::from("gargandyas_necklace"),
-            name: String::from("Gargandyas's Necklace"),
+            name: TranslatedName {
+                en: String::from("Gargandyas's Necklace"),
+                fr: String::from("Collier de Gargandyas"),
+            },
             gear_type: GearType::Amulet,
             level: 200,
             characteristics: vec![

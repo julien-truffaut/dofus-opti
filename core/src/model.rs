@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub struct Gear {
     pub id: Id,
-    pub name: String,
+    pub name: TranslatedName,
     pub gear_type: GearType,
     pub level: u32,
     pub characteristics: Vec<CharacteristicRange>,
@@ -205,4 +205,10 @@ impl fmt::Display for Id {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)
     }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+pub struct TranslatedName {
+    pub en: String,
+    pub fr: String,
 }

@@ -1,11 +1,14 @@
-use crate::model::{Effects, Gear};
+use crate::model::{Effects, Gear, TranslatedName};
 use dofus_opti_core::model::Gear as CoreGear;
 use dofus_opti_core::model::{CharacteristicRange, CharacteristicType};
 
 pub fn parse_gear(gear: CoreGear) -> Gear {
     Gear {
         id: gear.id,
-        name: gear.name,
+        name: TranslatedName {
+            en: gear.name.en,
+            fr: gear.name.fr,
+        },
         gear_type: gear.gear_type,
         level: gear.level,
         effects: parse_effects(gear.characteristics),

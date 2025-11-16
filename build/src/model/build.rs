@@ -1,5 +1,5 @@
 use crate::model::{
-    BuildError, BuildRequirements, Effects, Gear, GearSlot, GearSlotType, Requirement,
+    BuildError, BuildRequirements, Effects, Gear, GearSlot, GearSlotType, Language, Requirement,
     RequirementId,
 };
 use std::collections::HashMap;
@@ -64,30 +64,38 @@ impl<'a> Build<'a> {
         }
     }
 
-    pub fn print_short_build(&self) {
+    pub fn print_short_build(&self, language: Language) {
         let text = format!(
             "Build(
-    amulet: {}
-    belt  : {}
-    boots : {}
-    cloack: {}
-    ring 1: {}
-    ring 2: {}
-    shield: {}
-    weapon: {},
+    {}: {},
+    {}: {},
+    {}: {},
+    {}: {},
+    {}: {},
+    {}: {},
+    {}: {},
+    {}: {},
     effects: 
         power   : {},
         strength: {},
         vitality: {},
 )",
-            self.get_gear_name(&GearSlot::Amulet),
-            self.get_gear_name(&GearSlot::Belt),
-            self.get_gear_name(&GearSlot::Boots),
-            self.get_gear_name(&GearSlot::Cloak),
-            self.get_gear_name(&GearSlot::Ring1),
-            self.get_gear_name(&GearSlot::Ring2),
-            self.get_gear_name(&GearSlot::Shield),
-            self.get_gear_name(&GearSlot::Weapon),
+            GearSlot::Amulet.localized(language),
+            self.get_gear_name(&GearSlot::Amulet, language),
+            GearSlot::Belt.localized(language),
+            self.get_gear_name(&GearSlot::Belt, language),
+            GearSlot::Boots.localized(language),
+            self.get_gear_name(&GearSlot::Boots, language),
+            GearSlot::Cloak.localized(language),
+            self.get_gear_name(&GearSlot::Cloak, language),
+            GearSlot::Ring1.localized(language),
+            self.get_gear_name(&GearSlot::Ring1, language),
+            GearSlot::Ring2.localized(language),
+            self.get_gear_name(&GearSlot::Ring2, language),
+            GearSlot::Shield.localized(language),
+            self.get_gear_name(&GearSlot::Shield, language),
+            GearSlot::Weapon.localized(language),
+            self.get_gear_name(&GearSlot::Weapon, language),
             self.effects.power.unwrap_or(0),
             self.effects.strength.unwrap_or(0),
             self.effects.vitality.unwrap_or(0),
@@ -95,8 +103,8 @@ impl<'a> Build<'a> {
         println!("{text}");
     }
 
-    pub fn get_gear_name(&self, gear_slot: &GearSlot) -> String {
-        self.get_gear(gear_slot).map(|g| g.name.clone()).unwrap_or(String::from("-"))
+    pub fn get_gear_name(&self, gear_slot: &GearSlot, language: Language) -> &str {
+        self.get_gear(gear_slot).map(|g| g.name.localized(language)).unwrap_or("-")
     }
 }
 
@@ -111,7 +119,7 @@ fn check_gear_slot(gear: &Gear, gear_slot: &GearSlot) -> Result<(), BuildError> 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::model::ALL_GEAR_SLOTS;
+    use crate::model::{ALL_GEAR_SLOTS, TranslatedName};
     use dofus_opti_core::{GearType, Id};
 
     #[test]
@@ -119,7 +127,10 @@ mod tests {
         let mut build = Build::empty();
         let amulet = Gear {
             id: Id::from("gear_id"),
-            name: String::from("gear name"),
+            name: TranslatedName {
+                en: String::from("gear name"),
+                fr: String::from("nom d'objet"),
+            },
             gear_type: GearType::Amulet,
             level: 200,
             effects: Effects::empty(),
@@ -140,7 +151,10 @@ mod tests {
         effects_2.agility = Some(32);
         let amulet_1 = Gear {
             id: Id::from("gear_id"),
-            name: String::from("gear name"),
+            name: TranslatedName {
+                en: String::from("gear name"),
+                fr: String::from("nom d'objet"),
+            },
             gear_type: GearType::Amulet,
             level: 200,
             effects: effects_1,
@@ -165,7 +179,10 @@ mod tests {
         effects.strength = Some(1);
         let default_gear = Gear {
             id: Id::from("gear_id"),
-            name: String::from("gear name"),
+            name: TranslatedName {
+                en: String::from("gear name"),
+                fr: String::from("nom d'objet"),
+            },
             gear_type: GearType::Amulet,
             level: 200,
             effects: effects,
@@ -208,7 +225,10 @@ mod tests {
         let mut build = Build::empty();
         let amulet = Gear {
             id: Id::from("gear_id"),
-            name: String::from("gear name"),
+            name: TranslatedName {
+                en: String::from("gear name"),
+                fr: String::from("nom d'objet"),
+            },
             gear_type: GearType::Amulet,
             level: 200,
             effects: Effects::empty(),

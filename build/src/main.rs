@@ -19,6 +19,10 @@ use std::time::Instant;
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
+    /// Select the language of the output
+    #[arg(long = "language", default_value = "English")]
+    language: Language,
+
     /// Define one or more build requirements (e.g. "Vitality >= 3000")
     #[arg(short, long = "requirement", num_args(1..), action = clap::ArgAction::Append)]
     requirements: Vec<Requirement>,
@@ -75,47 +79,71 @@ async fn main() -> Result<()> {
 
     for amulet in catalog.get_gears(GearSlotType::Amulet) {
         if let Err(e) = build.set_gear(amulet, &GearSlot::Amulet) {
-            eprintln!("❌ Skipping amulet {}: {}", amulet.name, e);
+            eprintln!("❌ Skipping amulet {}: {}", amulet.name.localized(args.language), e);
             continue;
         }
         for belt in catalog.get_gears(GearSlotType::Belt) {
             if let Err(e) = build.set_gear(belt, &GearSlot::Belt) {
-                eprintln!("❌ Skipping belt {}: {}", belt.name, e);
+                eprintln!("❌ Skipping belt {}: {}", belt.name.localized(args.language), e);
                 continue;
             }
             for boot in catalog.get_gears(GearSlotType::Boots) {
                 if let Err(e) = build.set_gear(boot, &GearSlot::Boots) {
-                    eprintln!("❌ Skipping boots {}: {}", boot.name, e);
+                    eprintln!("❌ Skipping boots {}: {}", boot.name.localized(args.language), e);
                     continue;
                 }
                 for cloack in catalog.get_gears(GearSlotType::Cloak) {
                     if let Err(e) = build.set_gear(cloack, &GearSlot::Cloak) {
-                        eprintln!("❌ Skipping cloack {}: {}", cloack.name, e);
+                        eprintln!(
+                            "❌ Skipping cloack {}: {}",
+                            cloack.name.localized(args.language),
+                            e
+                        );
                         continue;
                     }
                     for hat in catalog.get_gears(GearSlotType::Hat) {
                         if let Err(e) = build.set_gear(hat, &GearSlot::Hat) {
-                            eprintln!("❌ Skipping hat {}: {}", hat.name, e);
+                            eprintln!(
+                                "❌ Skipping hat {}: {}",
+                                hat.name.localized(args.language),
+                                e
+                            );
                             continue;
                         }
                         for ring_1 in catalog.get_gears(GearSlotType::Ring) {
                             if let Err(e) = build.set_gear(ring_1, &GearSlot::Ring1) {
-                                eprintln!("❌ Skipping ring 1 {}: {}", ring_1.name, e);
+                                eprintln!(
+                                    "❌ Skipping ring 1 {}: {}",
+                                    ring_1.name.localized(args.language),
+                                    e
+                                );
                                 continue;
                             }
                             for ring_2 in catalog.get_gears(GearSlotType::Ring) {
                                 if let Err(e) = build.set_gear(ring_2, &GearSlot::Ring2) {
-                                    eprintln!("❌ Skipping ring 2 {}: {}", ring_2.name, e);
+                                    eprintln!(
+                                        "❌ Skipping ring 2 {}: {}",
+                                        ring_2.name.localized(args.language),
+                                        e
+                                    );
                                     continue;
                                 }
                                 for shield in catalog.get_gears(GearSlotType::Shield) {
                                     if let Err(e) = build.set_gear(shield, &GearSlot::Shield) {
-                                        eprintln!("❌ Skipping shield {}: {}", shield.name, e);
+                                        eprintln!(
+                                            "❌ Skipping shield {}: {}",
+                                            shield.name.localized(args.language),
+                                            e
+                                        );
                                         continue;
                                     }
                                     for weapon in catalog.get_gears(GearSlotType::Weapon) {
                                         if let Err(e) = build.set_gear(weapon, &GearSlot::Weapon) {
-                                            eprintln!("❌ Skipping weapon {}: {}", weapon.name, e);
+                                            eprintln!(
+                                                "❌ Skipping weapon {}: {}",
+                                                weapon.name.localized(args.language),
+                                                e
+                                            );
                                             continue;
                                         } else {
                                             build_created += 1;
@@ -135,7 +163,7 @@ async fn main() -> Result<()> {
                                                 last_report = now;
                                             }
                                             if build.satisfy_requirements(&build_requirements) {
-                                                build.print_short_build();
+                                                build.print_short_build(args.language);
                                             }
                                         }
                                     }

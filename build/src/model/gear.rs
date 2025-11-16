@@ -1,10 +1,10 @@
-use crate::model::Effects;
+use crate::model::{Effects, TranslatedName};
 use dofus_opti_core::model::{GearType, Id};
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Gear {
     pub id: Id,
-    pub name: String,
+    pub name: TranslatedName,
     pub gear_type: GearType,
     pub level: u32,
     pub effects: Effects,

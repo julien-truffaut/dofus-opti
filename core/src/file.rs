@@ -71,6 +71,7 @@ pub fn gear_file_name(gear: &Gear) -> String {
 mod tests {
     use crate::CharacteristicRange;
     use crate::CharacteristicType::*;
+    use crate::TranslatedName;
     use crate::model::Id;
 
     use super::*;
@@ -81,7 +82,10 @@ mod tests {
     fn write_read_gears() -> anyhow::Result<()> {
         let gear_1 = Gear {
             id: Id::from("great_amulet"),
-            name: String::from("Great Amulet"),
+            name: TranslatedName {
+                en: String::from("Great Amulet"),
+                fr: String::from("Grande Amulette"),
+            },
             gear_type: GearType::Amulet,
             level: 200,
             characteristics: vec![
@@ -100,7 +104,10 @@ mod tests {
 
         let gear_2 = Gear {
             id: Id::from("deadly_amulet"),
-            name: String::from("Deadly Amulet"),
+            name: TranslatedName {
+                en: String::from("Deadly Amulet"),
+                fr: String::from("Amulette de la mort"),
+            },
             gear_type: GearType::Amulet,
             level: 149,
             characteristics: vec![
