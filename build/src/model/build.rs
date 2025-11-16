@@ -45,6 +45,13 @@ impl<'a> Build<'a> {
             }
         }
 
+        if (gear_slot == &GearSlot::Ring1) || (gear_slot == &GearSlot::Ring2) {
+            check_not_duplicate_set_ring(
+                self.get_gear(&GearSlot::Ring1),
+                self.get_gear(&GearSlot::Ring2),
+            )?;
+        }
+
         Ok(())
     }
 
@@ -116,6 +123,22 @@ fn check_gear_slot(gear: &Gear, gear_slot: &GearSlot) -> Result<(), BuildError> 
     }
 }
 
+pub fn check_not_duplicate_set_ring(
+    ring1: Option<&Gear>,
+    ring2: Option<&Gear>,
+) -> Result<(), BuildError> {
+    match (ring1, ring2) {
+        (Some(ring1), Some(ring2)) => {
+            if ring1.id == ring2.id && ring1.has_set {
+                Err(BuildError::DuplicateRingsInASet(ring1.id.clone()))
+            } else {
+                Ok(())
+            }
+        }
+        _ => Ok(()),
+    }
+}
+
 fn pad_from_line2(text: String, prefix: &str) -> String {
     text.lines()
         .enumerate()
@@ -146,6 +169,7 @@ mod tests {
                 fr: String::from("nom d'objet"),
             },
             gear_type: GearType::Amulet,
+            has_set: true,
             level: 200,
             effects: Effects::empty(),
         };
@@ -170,6 +194,7 @@ mod tests {
                 fr: String::from("nom d'objet"),
             },
             gear_type: GearType::Amulet,
+            has_set: true,
             level: 200,
             effects: effects_1,
         };
@@ -198,6 +223,7 @@ mod tests {
                 fr: String::from("nom d'objet"),
             },
             gear_type: GearType::Amulet,
+            has_set: true,
             level: 200,
             effects: effects,
         };
@@ -210,7 +236,10 @@ mod tests {
                 GearSlot::Cloak => gear.gear_type = GearType::Cloak,
                 GearSlot::Hat => gear.gear_type = GearType::Hat,
                 GearSlot::Ring1 => gear.gear_type = GearType::Ring,
-                GearSlot::Ring2 => gear.gear_type = GearType::Ring,
+                GearSlot::Ring2 => {
+                    gear.id = Id::from("another_gear_id");
+                    gear.gear_type = GearType::Ring;
+                }
                 GearSlot::Shield => gear.gear_type = GearType::Shield,
                 GearSlot::Weapon => gear.gear_type = GearType::Sword,
             }
@@ -244,6 +273,7 @@ mod tests {
                 fr: String::from("nom d'objet"),
             },
             gear_type: GearType::Amulet,
+            has_set: true,
             level: 200,
             effects: Effects::empty(),
         };

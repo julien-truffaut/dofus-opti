@@ -7,6 +7,7 @@ pub struct Gear {
     pub id: Id,
     pub name: TranslatedName,
     pub gear_type: GearType,
+    pub has_set: bool,
     pub level: u32,
     pub characteristics: Vec<CharacteristicRange>,
 }

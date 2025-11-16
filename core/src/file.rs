@@ -87,6 +87,7 @@ mod tests {
                 fr: String::from("Grande Amulette"),
             },
             gear_type: GearType::Amulet,
+            has_set: true,
             level: 200,
             characteristics: vec![
                 CharacteristicRange {
@@ -110,6 +111,7 @@ mod tests {
             },
             gear_type: GearType::Amulet,
             level: 149,
+            has_set: false,
             characteristics: vec![
                 CharacteristicRange {
                     kind: EarthDamage,

@@ -1,6 +1,8 @@
 use dofus_opti_core::model::*;
 
-use crate::model::{DofusDbCharacteristicTypeId, DofusDbObject, DofusDbTypeId, Effect};
+use crate::model::{
+    DofusDbCharacteristicTypeId, DofusDbObject, DofusDbTypeId, Effect, ItemSetField,
+};
 
 pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
     Ok(Gear {
@@ -10,6 +12,10 @@ pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
             fr: object.name.fr,
         },
         gear_type: parse_gear_type(object.typeId)?,
+        has_set: match object.itemSet {
+            ItemSetField::Set(_) => true,
+            ItemSetField::Bool(_) => false,
+        },
         level: object.level,
         characteristics: parse_characteristics(object.effects)?,
     })
@@ -188,6 +194,7 @@ mod tests {
                 fr: String::from("Collier de Gargandyas"),
             },
             gear_type: GearType::Amulet,
+            has_set: true,
             level: 200,
             characteristics: vec![
                 CharacteristicRange {
