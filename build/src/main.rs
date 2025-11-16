@@ -9,7 +9,10 @@ use dofus_opti_dofus_build::model::*;
 use dofus_opti_dofus_build::parser::parse_gear;
 use dofus_opti_dofus_build::scorer::default_score;
 
+use num_format::{Locale, ToFormattedString};
+
 use std::collections::HashSet;
+use std::time::Instant;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -47,6 +50,9 @@ async fn main() -> Result<()> {
     let mut build = Build::empty();
 
     let mut build_created: i64 = 0;
+    let report_every = 1_000_000;
+    let start = Instant::now();
+    let mut last_report = start;
 
     for amulet in catalog.get_gears(GearSlotType::Amulet) {
         if let Err(e) = build.set_gear(amulet, &GearSlot::Amulet) {
@@ -94,8 +100,20 @@ async fn main() -> Result<()> {
                                             continue;
                                         } else {
                                             build_created += 1;
-                                            if build_created % 10_000_000 == 0 {
-                                                println!("Iterated over {} builds", build_created);
+                                            if build_created % report_every == 0 {
+                                                let now = Instant::now();
+                                                let delta_sec =
+                                                    now.duration_since(last_report).as_secs_f64();
+                                                let build_rate_sec =
+                                                    report_every as f64 / delta_sec;
+                                                println!(
+                                                    "Iterated over {} builds with a build rate of {} build/sec",
+                                                    build_created.to_formatted_string(&Locale::en),
+                                                    (build_rate_sec as u64)
+                                                        .to_formatted_string(&Locale::en)
+                                                );
+
+                                                last_report = now;
                                             }
                                             if build.satisfy_requirements(&build_requirements) {
                                                 build.print_short_build();
