@@ -36,10 +36,13 @@ async fn main() -> Result<()> {
     let gears: Vec<Gear> = import_all_gears()?;
 
     let mut catalog = GearCatalog::new(gears);
-    catalog.filter(gear_selector::ignore_ids(gear_ids_to_ignore));
-    catalog.filter(gear_selector::select_top(10, gear_scorer));
+    println!("Initial {}", catalog.summarize());
 
-    println!("{}", catalog.summarize());
+    catalog.filter(gear_selector::ignore_ids(gear_ids_to_ignore));
+    catalog.filter(gear_selector::select_top(gear_scorer, 30));
+    catalog.filter(gear_selector::select_by_stdev(gear_scorer, 0.5));
+
+    println!("After filtering {}", catalog.summarize());
 
     let mut build = Build::empty();
 
@@ -92,10 +95,7 @@ async fn main() -> Result<()> {
                                         } else {
                                             build_created += 1;
                                             if build_created % 10_000_000 == 0 {
-                                                println!(
-                                                    "Iterated over {} builds",
-                                                    build_created
-                                                );
+                                                println!("Iterated over {} builds", build_created);
                                             }
                                             if build.satisfy_requirements(&build_requirements) {
                                                 build.print_short_build();

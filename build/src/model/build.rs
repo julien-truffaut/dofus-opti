@@ -66,7 +66,7 @@ impl<'a> Build<'a> {
 
     pub fn print_short_build(&self) {
         let text = format!(
-            "Builf(
+            "Build(
     amulet: {}
     belt  : {}
     boots : {}
