@@ -1,5 +1,7 @@
 use anyhow::{Ok, Result};
 
+use clap::Parser;
+
 use dofus_opti_core::file::read_gears;
 use dofus_opti_core::model::Gear as CoreGear;
 use dofus_opti_core::model::{ALL_GEAR_TYPES, Id};
@@ -14,22 +16,29 @@ use num_format::{Locale, ToFormattedString};
 use std::collections::HashSet;
 use std::time::Instant;
 
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+struct Args {
+    /// Define one or more build requirements (e.g. "Vitality >= 3000")
+    #[arg(short, long = "requirement", num_args(1..), action = clap::ArgAction::Append)]
+    requirements: Vec<Requirement>,
+
+    /// prepare the gear catalog but don't run the search
+    #[arg(long = "dry-run")]
+    dry_run: bool,
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
     println!("Dofus Build CLI");
 
+    let args = Args::parse();
+
     let build_requirements = BuildRequirements {
-        requirements: vec![
-            Requirement {
-                id: RequirementId::Strength,
-                desired_value: 800,
-            },
-            Requirement {
-                id: RequirementId::Vitality,
-                desired_value: 3000,
-            },
-        ],
+        requirements: args.requirements,
     };
+
+    println!("Build requirements: {:?}", build_requirements);
 
     let gear_ids_to_ignore = HashSet::from([Id::from("gore_master_ring_(gms_only)")]);
 
@@ -46,6 +55,10 @@ async fn main() -> Result<()> {
     catalog.filter(gear_selector::select_by_stdev(gear_scorer, 0.5));
 
     println!("After filtering {}", catalog.summarize());
+
+    if args.dry_run {
+        return Ok(());
+    }
 
     let mut build = Build::empty();
 
