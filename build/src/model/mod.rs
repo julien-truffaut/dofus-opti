@@ -1,6 +1,7 @@
 pub mod build;
 pub mod build_error;
 pub mod build_requirements;
+pub mod characteristic_type;
 pub mod effects;
 pub mod gear;
 pub mod gear_catalog;
@@ -12,6 +13,7 @@ pub mod translated_name;
 pub use build::*;
 pub use build_error::*;
 pub use build_requirements::*;
+pub use characteristic_type::*;
 pub use effects::*;
 pub use gear::*;
 pub use gear_catalog::*;

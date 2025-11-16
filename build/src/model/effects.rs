@@ -1,3 +1,5 @@
+use crate::model::{CharacteristicType, Language, TranslatedName};
+
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 #[derive(Clone, Debug, PartialEq)]
@@ -114,6 +116,27 @@ impl Effects {
 
     pub fn derived_strength(&self) -> i32 {
         self.strength.unwrap_or(0) + self.power.unwrap_or(0)
+    }
+
+    pub fn summary(&self, language: Language) -> String {
+        format!(
+            "{} {{
+    {}: {},
+    {}: {},
+    {}: {},
+}}",
+            TranslatedName {
+                en: "Effects".to_string(),
+                fr: "Effets".to_string(),
+            }
+            .localized(language),
+            CharacteristicType::Power.localized(language),
+            self.power.unwrap_or(0),
+            CharacteristicType::Strength.localized(language),
+            self.strength.unwrap_or(0),
+            CharacteristicType::Vitality.localized(language),
+            self.vitality.unwrap_or(0),
+        )
     }
 }
 

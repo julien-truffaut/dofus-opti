@@ -1,6 +1,6 @@
 use crate::model::{
     BuildError, BuildRequirements, Effects, Gear, GearSlot, GearSlotType, Language, Requirement,
-    RequirementId,
+    RequirementId, TranslatedName,
 };
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
@@ -64,9 +64,9 @@ impl<'a> Build<'a> {
         }
     }
 
-    pub fn print_short_build(&self, language: Language) {
+    pub fn summary(&self, language: Language) -> String {
         let text = format!(
-            "Build(
+            "Build {{
     {}: {},
     {}: {},
     {}: {},
@@ -75,11 +75,8 @@ impl<'a> Build<'a> {
     {}: {},
     {}: {},
     {}: {},
-    effects: 
-        power   : {},
-        strength: {},
-        vitality: {},
-)",
+    {}: {}
+}}",
             GearSlot::Amulet.localized(language),
             self.get_gear_name(&GearSlot::Amulet, language),
             GearSlot::Belt.localized(language),
@@ -96,11 +93,14 @@ impl<'a> Build<'a> {
             self.get_gear_name(&GearSlot::Shield, language),
             GearSlot::Weapon.localized(language),
             self.get_gear_name(&GearSlot::Weapon, language),
-            self.effects.power.unwrap_or(0),
-            self.effects.strength.unwrap_or(0),
-            self.effects.vitality.unwrap_or(0),
+            TranslatedName {
+                en: "effects".to_string(),
+                fr: "effets".to_string(),
+            }
+            .localized(language),
+            pad_from_line2(self.effects.summary(language), "    "),
         );
-        println!("{text}");
+        format!("{text}")
     }
 
     pub fn get_gear_name(&self, gear_slot: &GearSlot, language: Language) -> &str {
@@ -114,6 +114,20 @@ fn check_gear_slot(gear: &Gear, gear_slot: &GearSlot) -> Result<(), BuildError> 
     } else {
         Err(BuildError::InvalidGearSlot(gear.id.clone(), gear_slot.to_owned()))
     }
+}
+
+fn pad_from_line2(text: String, prefix: &str) -> String {
+    text.lines()
+        .enumerate()
+        .map(|(i, line)| {
+            if i == 0 {
+                format!("{line}")
+            } else {
+                format!("{prefix}{line}")
+            }
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
 }
 
 #[cfg(test)]

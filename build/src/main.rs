@@ -163,7 +163,7 @@ async fn main() -> Result<()> {
                                                 last_report = now;
                                             }
                                             if build.satisfy_requirements(&build_requirements) {
-                                                build.print_short_build(args.language);
+                                                println!("{}", build.summary(args.language));
                                             }
                                         }
                                     }
