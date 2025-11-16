@@ -3,8 +3,8 @@ use anyhow::{Ok, Result};
 use clap::Parser;
 
 use dofus_opti_core::file::read_gears;
+use dofus_opti_core::model::ALL_GEAR_TYPES;
 use dofus_opti_core::model::Gear as CoreGear;
-use dofus_opti_core::model::{ALL_GEAR_TYPES, Id};
 
 use dofus_opti_dofus_build::gear_selector;
 use dofus_opti_dofus_build::model::*;
@@ -28,7 +28,7 @@ struct Args {
     requirements: Vec<Requirement>,
 
     #[arg(short, long = "ignore-gear", num_args(1..), action = clap::ArgAction::Append)]
-    ignore_gears: Vec<Id>,
+    ignore_gears: Vec<String>,
 
     /// prepare the gear catalog but don't run the search
     #[arg(long = "dry-run")]
@@ -47,7 +47,7 @@ async fn main() -> Result<()> {
 
     println!("{:?}", build_requirements);
 
-    let gear_ids_to_ignore: HashSet<Id> = args.ignore_gears.into_iter().collect();
+    let gear_ids_to_ignore: HashSet<String> = args.ignore_gears.into_iter().collect();
 
     let effect_scorer = |effects: &Effects| default_score(&build_requirements, effects);
     let gear_scorer = |gear: &Gear| effect_scorer(&gear.effects);
@@ -58,7 +58,7 @@ async fn main() -> Result<()> {
     println!("Initial {}", catalog.summarize());
 
     if !gear_ids_to_ignore.is_empty() {
-        catalog.filter(gear_selector::ignore_ids(gear_ids_to_ignore));
+        catalog.filter(gear_selector::ignore_ids(gear_ids_to_ignore, args.language));
     }
 
     catalog.filter(gear_selector::select_top(gear_scorer, 30));

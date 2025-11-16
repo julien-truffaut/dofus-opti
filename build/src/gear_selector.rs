@@ -1,12 +1,16 @@
-use dofus_opti_core::model::Id;
-
-use crate::model::Gear;
+use crate::model::{Gear, Language};
 use std::cmp::Reverse;
 use std::collections::HashSet;
 
-pub fn ignore_ids(ids_ignore: HashSet<Id>) -> impl FnMut(&mut Vec<Gear>) {
+pub fn ignore_ids(
+    gears_to_ignore: HashSet<String>,
+    language: Language,
+) -> impl FnMut(&mut Vec<Gear>) {
     move |gears| {
-        gears.retain(|gear| !ids_ignore.contains(&gear.id));
+        gears.retain(|gear| {
+            !(gears_to_ignore.contains(&gear.id.0)
+                || gears_to_ignore.contains(gear.name.localized(language)))
+        });
     }
 }
 
