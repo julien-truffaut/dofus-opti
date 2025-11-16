@@ -23,6 +23,9 @@ struct Args {
     #[arg(short, long = "requirement", num_args(1..), action = clap::ArgAction::Append)]
     requirements: Vec<Requirement>,
 
+    #[arg(short, long = "ignore-gear", num_args(1..), action = clap::ArgAction::Append)]
+    ignore_gears: Vec<Id>,
+
     /// prepare the gear catalog but don't run the search
     #[arg(long = "dry-run")]
     dry_run: bool,
@@ -38,9 +41,9 @@ async fn main() -> Result<()> {
         requirements: args.requirements,
     };
 
-    println!("Build requirements: {:?}", build_requirements);
+    println!("{:?}", build_requirements);
 
-    let gear_ids_to_ignore = HashSet::from([Id::from("gore_master_ring_(gms_only)")]);
+    let gear_ids_to_ignore: HashSet<Id> = args.ignore_gears.into_iter().collect();
 
     let effect_scorer = |effects: &Effects| default_score(&build_requirements, effects);
     let gear_scorer = |gear: &Gear| effect_scorer(&gear.effects);
@@ -50,7 +53,10 @@ async fn main() -> Result<()> {
     let mut catalog = GearCatalog::new(gears);
     println!("Initial {}", catalog.summarize());
 
-    catalog.filter(gear_selector::ignore_ids(gear_ids_to_ignore));
+    if !gear_ids_to_ignore.is_empty() {
+        catalog.filter(gear_selector::ignore_ids(gear_ids_to_ignore));
+    }
+
     catalog.filter(gear_selector::select_top(gear_scorer, 30));
     catalog.filter(gear_selector::select_by_stdev(gear_scorer, 0.5));
 
