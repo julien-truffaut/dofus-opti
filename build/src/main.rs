@@ -39,19 +39,11 @@ async fn main() -> Result<()> {
     catalog.filter(gear_selector::ignore_ids(gear_ids_to_ignore));
     catalog.filter(gear_selector::select_top(10, gear_scorer));
 
+    println!("{}", catalog.summarize());
+
     let mut build = Build::empty();
 
-    let mut build_possible: u128 = 1;
-
-    for gear_slot_type in ALL_GEAR_SLOT_TYPES {
-        let size = catalog.get_gears(*gear_slot_type).len();
-        println!("Number of {gear_slot_type} considered: {size}");
-        build_possible = build_possible * size as u128;
-    }
-
-    println!("Number of possible build {build_possible}");
-
-    let mut full_builder_counter: i64 = 0;
+    let mut build_created: i64 = 0;
 
     for amulet in catalog.get_gears(GearSlotType::Amulet) {
         if let Err(e) = build.set_gear(amulet, &GearSlot::Amulet) {
@@ -98,11 +90,11 @@ async fn main() -> Result<()> {
                                             eprintln!("❌ Skipping weapon {}: {}", weapon.name, e);
                                             continue;
                                         } else {
-                                            full_builder_counter += 1;
-                                            if full_builder_counter % 10_000_000 == 0 {
+                                            build_created += 1;
+                                            if build_created % 10_000_000 == 0 {
                                                 println!(
                                                     "Iterated over {} builds",
-                                                    full_builder_counter
+                                                    build_created
                                                 );
                                             }
                                             if build.satisfy_requirements(&build_requirements) {
