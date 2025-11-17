@@ -2,7 +2,7 @@ use anyhow::Result;
 
 use std::path::Path;
 
-use dofus_opti_core::file::write_generic_gears;
+use dofus_opti_core::file::write_objects;
 use dofus_opti_core::model::GearType;
 
 pub fn write_dofus_db_jsons<P: AsRef<Path>>(
@@ -10,7 +10,7 @@ pub fn write_dofus_db_jsons<P: AsRef<Path>>(
     gear_type: &GearType,
     gears: &Vec<serde_json::Value>,
 ) -> Result<()> {
-    write_generic_gears(base_path, gear_type, gears, |g, i| get_file_name(g, i))
+    write_objects(base_path, gear_type.to_string(), gears, |g, i| get_file_name(g, i))
 }
 
 fn get_file_name(object: &serde_json::Value, index: usize) -> String {

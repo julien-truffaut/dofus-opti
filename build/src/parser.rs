@@ -10,7 +10,7 @@ pub fn parse_gear(gear: CoreGear) -> Gear {
             fr: gear.name.fr,
         },
         gear_type: gear.gear_type,
-        has_set: gear.has_set,
+        has_set: gear.set.is_some(),
         level: gear.level,
         effects: parse_effects(gear.characteristics),
     }

@@ -13,12 +13,12 @@ pub fn write_gears<P: AsRef<Path>>(
     gear_type: &GearType,
     gears: &Vec<Gear>,
 ) -> Result<()> {
-    write_generic_gears(base_path, gear_type, gears, |gear, _| gear_file_name(&gear))
+    write_objects(base_path, gear_type.to_string(), gears, |gear, _| gear_file_name(&gear))
 }
 
-pub fn write_generic_gears<P, A, F>(
+pub fn write_objects<P, A, F>(
     base_path: P,
-    gear_type: &GearType,
+    folder_name: String,
     gears: &Vec<A>,
     get_file_name: F,
 ) -> Result<()>
@@ -27,7 +27,7 @@ where
     A: Serialize,
     F: Fn(&A, usize) -> String,
 {
-    let out_dir = base_path.as_ref().join(gear_type.to_string());
+    let out_dir = base_path.as_ref().join(folder_name);
     fs::create_dir_all(&out_dir).context("Failed to create output dir")?;
 
     for (i, object) in gears.iter().enumerate() {
@@ -47,8 +47,16 @@ where
     P: AsRef<Path>,
     A: DeserializeOwned,
 {
+    read_objects(base_path, gear_type.to_string())
+}
+
+pub fn read_objects<P, A>(base_path: P, folder_name: String) -> Result<Vec<A>>
+where
+    P: AsRef<Path>,
+    A: DeserializeOwned,
+{
     let mut results = vec![];
-    let dir = base_path.as_ref().join(gear_type.to_string());
+    let dir = base_path.as_ref().join(folder_name);
 
     for entry in fs::read_dir(dir)? {
         let entry = entry?;
@@ -87,7 +95,7 @@ mod tests {
                 fr: String::from("Grande Amulette"),
             },
             gear_type: GearType::Amulet,
-            has_set: true,
+            set: Some(Id::from("custom_set")),
             level: 200,
             characteristics: vec![
                 CharacteristicRange {
@@ -111,7 +119,7 @@ mod tests {
             },
             gear_type: GearType::Amulet,
             level: 149,
-            has_set: false,
+            set: None,
             characteristics: vec![
                 CharacteristicRange {
                     kind: EarthDamage,

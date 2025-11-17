@@ -7,7 +7,7 @@ pub struct Gear {
     pub id: Id,
     pub name: TranslatedName,
     pub gear_type: GearType,
-    pub has_set: bool,
+    pub set: Option<Id>,
     pub level: u32,
     pub characteristics: Vec<CharacteristicRange>,
 }
@@ -212,4 +212,17 @@ impl fmt::Display for Id {
 pub struct TranslatedName {
     pub en: String,
     pub fr: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+pub struct ItemSet {
+    pub id: Id,
+    pub name: TranslatedName,
+    pub effects: Vec<Vec<Effect>>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+pub struct Effect {
+    pub kind: CharacteristicType,
+    pub value: i32,
 }

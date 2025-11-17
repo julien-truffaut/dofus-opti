@@ -1,9 +1,9 @@
 use anyhow::{Ok, Result};
 
-use dofus_opti_core::file::{read_gears, write_gears};
+use dofus_opti_core::file::{read_gears, write_gears, write_objects};
 use dofus_opti_core::model::*;
 use dofus_opti_dofus_db::file::write_dofus_db_jsons;
-use dofus_opti_dofus_db::parser::parse_gear;
+use dofus_opti_dofus_db::parser::{parse_all_sets, parse_gear};
 use dofus_opti_dofus_db::{client::fetch_all_gears, model::DofusDbObject};
 
 use clap::Parser;
@@ -44,13 +44,8 @@ async fn main() -> Result<()> {
 
     if args.export {
         println!("Exporting DofusDB data to our own model...");
-        ALL_GEAR_TYPES.into_iter().for_each(|gear_type| {
-            if let Err(e) = export_gears(gear_type) {
-                eprintln!("❌ Failed to export {gear_type}: {e}");
-            } else {
-                println!("✅ Finished exporting {gear_type}");
-            }
-        });
+        export_all_gears();
+        export_all_sets().unwrap();
     }
 
     Ok(())
@@ -60,6 +55,26 @@ async fn import_gears(gear_type: &GearType) -> Result<()> {
     let result = fetch_all_gears(gear_type).await?;
     println!("Imported {} {} from dofus db", result.len(), gear_type);
     write_dofus_db_jsons(IMPORT_PATH, gear_type, &result)
+}
+
+fn export_all_gears() {
+    ALL_GEAR_TYPES.into_iter().for_each(|gear_type| {
+        if let Err(e) = export_gears(gear_type) {
+            eprintln!("❌ Failed to export {gear_type}: {e}");
+        } else {
+            println!("✅ Finished exporting {gear_type}");
+        }
+    });
+}
+
+fn export_all_sets() -> Result<()> {
+    let mut all_dofus_objects: Vec<DofusDbObject> = vec![];
+    for gear_type in ALL_GEAR_TYPES {
+        let mut objects: Vec<DofusDbObject> = read_gears(IMPORT_PATH, gear_type)?;
+        all_dofus_objects.append(&mut objects);
+    }
+    let sets = parse_all_sets(all_dofus_objects).unwrap_or(vec![]);
+    write_objects(EXPORT_PATH, "Set".to_string(), &sets, |s, _| format!("{}.json", s.id.0))
 }
 
 fn export_gears(gear_type: &GearType) -> Result<()> {

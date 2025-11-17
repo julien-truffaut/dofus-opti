@@ -1,20 +1,21 @@
 use dofus_opti_core::model::*;
+use dofus_opti_core::model::{Effect as CoreEffect, ItemSet as CoreItemSet};
+
+use std::collections::HashSet;
 
 use crate::model::{
-    DofusDbCharacteristicTypeId, DofusDbObject, DofusDbTypeId, Effect, ItemSetField,
+    DofusDbCharacteristicTypeId, DofusDbObject, DofusDbTypeId, Effect as DofusDbEffect,
+    ItemSet as DofusDbItemSet, ItemSetField, TranslatedString,
 };
 
 pub fn parse_gear(object: DofusDbObject) -> Result<Gear, String> {
     Ok(Gear {
         id: make_id(&object.name.en),
-        name: dofus_opti_core::TranslatedName {
-            en: object.name.en,
-            fr: object.name.fr,
-        },
+        name: parse_translated_name(object.name),
         gear_type: parse_gear_type(object.typeId)?,
-        has_set: match object.itemSet {
-            ItemSetField::Set(_) => true,
-            ItemSetField::Bool(_) => false,
+        set: match object.itemSet {
+            ItemSetField::Set(item_set) => Some(make_id(&item_set.name.en)),
+            ItemSetField::Bool(_) => None,
         },
         level: object.level,
         characteristics: parse_characteristics(object.effects)?,
@@ -29,7 +30,7 @@ fn parse_gear_type(id: DofusDbTypeId) -> Result<GearType, String> {
         .map(|g| g.to_owned())
 }
 
-fn parse_characteristics(effects: Vec<Effect>) -> Result<Vec<CharacteristicRange>, String> {
+fn parse_characteristics(effects: Vec<DofusDbEffect>) -> Result<Vec<CharacteristicRange>, String> {
     effects
         .into_iter()
         .filter(
@@ -45,7 +46,7 @@ fn parse_characteristics(effects: Vec<Effect>) -> Result<Vec<CharacteristicRange
         .collect()
 }
 
-fn parse_characteristic_range(effect: Effect) -> Result<CharacteristicRange, String> {
+fn parse_characteristic_range(effect: DofusDbEffect) -> Result<CharacteristicRange, String> {
     let max = if effect.to == 0 {
         effect.from
     } else {
@@ -70,6 +71,57 @@ fn parse_characteristic_type(
 
 fn make_id(name: &String) -> Id {
     Id(name.to_lowercase().trim().replace(' ', "_").replace('-', "_").replace("'s", ""))
+}
+
+pub fn parse_all_sets(objects: Vec<DofusDbObject>) -> Result<Vec<CoreItemSet>, String> {
+    let opt_sets: Vec<Option<CoreItemSet>> =
+        objects.into_iter().map(|o| parse_set(o.itemSet)).collect::<Result<Vec<_>, _>>()?;
+    let mut seen = HashSet::new();
+    let sets: Vec<CoreItemSet> =
+        opt_sets.into_iter().flatten().filter(|set| seen.insert(set.id.clone())).collect();
+
+    Ok(sets)
+}
+
+fn parse_set(item_set: ItemSetField) -> Result<Option<CoreItemSet>, String> {
+    match item_set {
+        ItemSetField::Bool(_) => Ok(None),
+        ItemSetField::Set(item_set) => Ok(Some(parse_item_set(item_set)?)),
+    }
+}
+
+fn parse_item_set(item_set: DofusDbItemSet) -> Result<CoreItemSet, String> {
+    Ok(CoreItemSet {
+        id: make_id(&item_set.name.en),
+        name: parse_translated_name(item_set.name),
+        effects: parse_set_bonuses(item_set.effects)?,
+    })
+}
+
+fn parse_set_bonuses(bonuses: Vec<Vec<DofusDbEffect>>) -> Result<Vec<Vec<CoreEffect>>, String> {
+    let set_bonuses: Vec<Vec<CoreEffect>> =
+        bonuses.into_iter().map(parse_effects).collect::<Result<Vec<_>, _>>()?;
+    let filtered = set_bonuses.into_iter().filter(|vec| !vec.is_empty()).collect();
+    Ok(filtered)
+}
+
+fn parse_effects(effects: Vec<DofusDbEffect>) -> Result<Vec<CoreEffect>, String> {
+    let core_effects: Vec<CharacteristicRange> = parse_characteristics(effects)?;
+    let result = core_effects
+        .into_iter()
+        .map(|c| CoreEffect {
+            kind: c.kind,
+            value: c.max,
+        })
+        .collect();
+    Ok(result)
+}
+
+fn parse_translated_name(translated_string: TranslatedString) -> TranslatedName {
+    TranslatedName {
+        en: translated_string.en,
+        fr: translated_string.fr,
+    }
 }
 
 #[cfg(test)]
@@ -118,12 +170,12 @@ mod tests {
 
     #[test]
     fn parse_characteristics_discard_invalid() {
-        let vitality = Effect {
+        let vitality = DofusDbEffect {
             from: 10,
             to: 80,
             characteristic: DofusDbCharacteristicTypeId(11),
         };
-        let power = Effect {
+        let power = DofusDbEffect {
             from: -20,
             to: -5,
             characteristic: DofusDbCharacteristicTypeId(25),
@@ -147,22 +199,22 @@ mod tests {
 
     #[test]
     fn parse_characteristics_return_first_invalid() {
-        let vitality = Effect {
+        let vitality = DofusDbEffect {
             from: 10,
             to: 80,
             characteristic: DofusDbCharacteristicTypeId(11),
         };
-        let power = Effect {
+        let power = DofusDbEffect {
             from: -20,
             to: -5,
             characteristic: DofusDbCharacteristicTypeId(25),
         };
-        let unknown_1 = Effect {
+        let unknown_1 = DofusDbEffect {
             from: 0,
             to: 100,
             characteristic: DofusDbCharacteristicTypeId(99),
         };
-        let unknown_2 = Effect {
+        let unknown_2 = DofusDbEffect {
             from: 0,
             to: 100,
             characteristic: DofusDbCharacteristicTypeId(8234),
@@ -194,7 +246,7 @@ mod tests {
                 fr: String::from("Collier de Gargandyas"),
             },
             gear_type: GearType::Amulet,
-            has_set: true,
+            set: Some(Id::from("gargandyas_set")),
             level: 200,
             characteristics: vec![
                 CharacteristicRange {
@@ -273,5 +325,73 @@ mod tests {
         assert_eq!(gear, Ok(expected_gear));
 
         Ok(())
+    }
+
+    #[test]
+    fn parse_valid_item_set() {
+        let item_set = crate::model::ItemSet {
+            name: TranslatedString {
+                en: "Super Set".to_string(),
+                fr: "Set Super".to_string(),
+            },
+            effects: vec![
+                vec![
+                    DofusDbEffect {
+                        from: 40,
+                        to: 0,
+                        characteristic: DofusDbCharacteristicTypeId(11),
+                    },
+                    DofusDbEffect {
+                        from: 10,
+                        to: 0,
+                        characteristic: DofusDbCharacteristicTypeId(25),
+                    },
+                ],
+                vec![
+                    DofusDbEffect {
+                        from: 60,
+                        to: 0,
+                        characteristic: DofusDbCharacteristicTypeId(11),
+                    },
+                    DofusDbEffect {
+                        from: 10,
+                        to: 0,
+                        characteristic: DofusDbCharacteristicTypeId(25),
+                    },
+                ],
+            ],
+        };
+
+        let expected_item_set = CoreItemSet {
+            id: Id("super_set".to_string()),
+            name: TranslatedName {
+                en: "Super Set".to_string(),
+                fr: "Set Super".to_string(),
+            },
+            effects: vec![
+                vec![
+                    CoreEffect {
+                        kind: Vitality,
+                        value: 40,
+                    },
+                    CoreEffect {
+                        kind: Power,
+                        value: 10,
+                    },
+                ],
+                vec![
+                    CoreEffect {
+                        kind: Vitality,
+                        value: 60,
+                    },
+                    CoreEffect {
+                        kind: Power,
+                        value: 10,
+                    },
+                ],
+            ],
+        };
+
+        assert_eq!(parse_set(ItemSetField::Set(item_set)), Ok(Some(expected_item_set)));
     }
 }
