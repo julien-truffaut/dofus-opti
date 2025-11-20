@@ -7,24 +7,24 @@ use std::collections::hash_map::Entry::{Occupied, Vacant};
 
 #[derive(Debug, PartialEq)]
 pub struct Build<'a> {
-    gears: HashMap<GearSlot, &'a Gear>,
+    gear_slots: HashMap<GearSlot, &'a Gear>,
     pub effects: Effects,
 }
 
 impl<'a> Build<'a> {
     pub fn empty() -> Self {
         Build {
-            gears: HashMap::new(),
+            gear_slots: HashMap::new(),
             effects: Effects::empty(),
         }
     }
 
     pub fn get_gear(&self, gear_slot: &GearSlot) -> Option<&'a Gear> {
-        self.gears.get(gear_slot).map(|g| *g)
+        self.gear_slots.get(gear_slot).map(|g| *g)
     }
 
     pub fn delete_gear(&mut self, gear_slot: &GearSlot) {
-        if let Some(old_gear) = self.gears.remove(gear_slot) {
+        if let Some(old_gear) = self.gear_slots.remove(gear_slot) {
             self.effects -= &old_gear.effects;
         }
     }
@@ -32,7 +32,7 @@ impl<'a> Build<'a> {
     pub fn set_gear(&mut self, gear: &'a Gear, gear_slot: &GearSlot) -> Result<(), BuildError> {
         check_gear_slot(gear, gear_slot)?;
         let gear_effects = gear.effects.clone();
-        match self.gears.entry(*gear_slot) {
+        match self.gear_slots.entry(*gear_slot) {
             Vacant(entry) => {
                 self.effects += &gear_effects;
                 entry.insert(gear);
