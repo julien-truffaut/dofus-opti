@@ -29,10 +29,10 @@ impl<'a> Build<'a> {
         }
     }
 
-    pub fn set_gear(&mut self, gear: &'a Gear, gear_slot: &GearSlot) -> Result<(), BuildError> {
-        check_gear_slot(gear, gear_slot)?;
+    pub fn set_gear(&mut self, gear_slot: GearSlot, gear: &'a Gear) -> Result<(), BuildError> {
+        check_gear_slot(gear, &gear_slot)?;
         let gear_effects = gear.effects.clone();
-        match self.gear_slots.entry(*gear_slot) {
+        match self.gear_slots.entry(gear_slot) {
             Vacant(entry) => {
                 self.effects += &gear_effects;
                 entry.insert(gear);
@@ -45,7 +45,7 @@ impl<'a> Build<'a> {
             }
         }
 
-        if (gear_slot == &GearSlot::Ring1) || (gear_slot == &GearSlot::Ring2) {
+        if (gear_slot == GearSlot::Ring1) || (gear_slot == GearSlot::Ring2) {
             check_not_duplicate_set_ring(
                 self.get_gear(&GearSlot::Ring1),
                 self.get_gear(&GearSlot::Ring2),
@@ -173,7 +173,7 @@ mod tests {
             level: 200,
             effects: Effects::empty(),
         };
-        build.set_gear(&amulet, &GearSlot::Amulet)?;
+        build.set_gear(GearSlot::Amulet, &amulet)?;
         build.delete_gear(&GearSlot::Amulet);
         assert_eq!(build, Build::empty());
         Ok(())
@@ -202,9 +202,9 @@ mod tests {
             effects: effects_2,
             ..amulet_1.clone()
         };
-        build_1.set_gear(&amulet_1, &GearSlot::Amulet)?;
-        build_1.set_gear(&amulet_2, &GearSlot::Amulet)?;
-        build_2.set_gear(&amulet_2, &GearSlot::Amulet)?;
+        build_1.set_gear(GearSlot::Amulet, &amulet_1)?;
+        build_1.set_gear(GearSlot::Amulet, &amulet_2)?;
+        build_2.set_gear(GearSlot::Amulet, &amulet_2)?;
 
         assert_eq!(build_1, build_2);
         Ok(())
@@ -246,7 +246,7 @@ mod tests {
             gears_map.entry(gear_slot.clone()).insert_entry(gear);
         }
 
-        gears_map.iter().for_each(|(gear_slot, gear)| build.set_gear(&gear, gear_slot).unwrap());
+        gears_map.iter().for_each(|(gear_slot, gear)| build.set_gear(*gear_slot, &gear).unwrap());
 
         let mut gears: Vec<Option<Gear>> = vec![];
         let mut found_gears: Vec<Option<Gear>> = vec![];
@@ -277,7 +277,7 @@ mod tests {
             level: 200,
             effects: Effects::empty(),
         };
-        let result = build.set_gear(&amulet, &GearSlot::Belt);
+        let result = build.set_gear(GearSlot::Belt, &amulet);
         assert_eq!(result, Err(BuildError::InvalidGearSlot(Id::from("gear_id"), GearSlot::Belt)));
     }
 }
