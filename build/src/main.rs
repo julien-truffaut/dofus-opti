@@ -1,5 +1,3 @@
-use anyhow::{Ok, Result};
-
 use clap::Parser;
 
 use dofus_opti_core::file::read_gears;
@@ -19,6 +17,9 @@ use std::time::Instant;
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
+    #[arg(long = "level")]
+    level_range: Option<LevelRange>,
+
     /// Select the language of the output
     #[arg(long = "language", default_value = "English")]
     language: Language,
@@ -36,7 +37,7 @@ struct Args {
 }
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> anyhow::Result<()> {
     println!("Dofus Build CLI");
 
     let args = Args::parse();
@@ -61,6 +62,10 @@ async fn main() -> Result<()> {
         catalog.filter(gear_selector::ignore_ids(gear_ids_to_ignore, args.language));
     }
 
+    if let Some(level_range) = args.level_range {
+        catalog.retain(|g| level_range.is_valid(g.level));
+    }
+    
     catalog.filter(gear_selector::select_top(gear_scorer, 30));
     catalog.filter(gear_selector::select_by_stdev(gear_scorer, 0.5));
 
@@ -176,10 +181,10 @@ async fn main() -> Result<()> {
         }
     }
 
-    Ok(())
+    anyhow::Ok(())
 }
 
-fn import_all_gears() -> Result<Vec<Gear>> {
+fn import_all_gears() -> anyhow::Result<Vec<Gear>> {
     let mut all_core_gears: Vec<CoreGear> = Vec::new();
 
     for gear_type in ALL_GEAR_TYPES {

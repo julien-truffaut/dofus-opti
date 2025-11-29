@@ -21,6 +21,15 @@ impl GearCatalog {
         }
     }
 
+    pub fn retain<F>(&mut self, predicate: F)
+    where
+        F: Fn(&Gear) -> bool + Copy,
+    {
+        for gears in self.gears_by_slot.values_mut() {
+            gears.retain(predicate);
+        }
+    }   
+
     pub fn filter<F>(&mut self, mut gear_selector: F)
     where
         F: FnMut(&mut Vec<Gear>),

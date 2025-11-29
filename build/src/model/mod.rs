@@ -8,6 +8,7 @@ pub mod gear_catalog;
 pub mod gear_slot;
 pub mod gear_slot_type;
 pub mod language;
+pub mod level_range;
 pub mod translated_name;
 
 pub use build::*;
@@ -20,4 +21,5 @@ pub use gear_catalog::*;
 pub use gear_slot::*;
 pub use gear_slot_type::*;
 pub use language::*;
+pub use level_range::*;
 pub use translated_name::*;
