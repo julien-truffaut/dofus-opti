@@ -1,4 +1,4 @@
-use crate::model::{ALL_GEAR_SLOT_TYPES, Gear, GearSlotType};
+use crate::model::{ALL_GEAR_SLOT_TYPES, ALL_GEAR_SLOTS, Gear, GearSlotType};
 
 use std::collections::HashMap;
 use std::fmt::Write;
@@ -50,8 +50,11 @@ impl GearCatalog {
         result.push_str("GearCatalog {\n");
         for gear_slot_type in ALL_GEAR_SLOT_TYPES {
             let number_of_gears = self.get_gears(*gear_slot_type).len();
-            build_possible = build_possible * number_of_gears as u128;
             write!(&mut result, "  #{}: {},\n", gear_slot_type, number_of_gears).unwrap();
+        }
+        for gear_slot in ALL_GEAR_SLOTS {
+            let number_of_gears = self.get_gears(GearSlotType::from(gear_slot)).len();
+            build_possible = build_possible * number_of_gears as u128;
         }
         write!(&mut result, "  #Build: {}\n", build_possible).unwrap();
         result.push_str("}");

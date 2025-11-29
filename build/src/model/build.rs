@@ -1,5 +1,5 @@
 use crate::model::{
-    BuildError, BuildRequirements, Effects, Gear, GearSlot, GearSlotType, Language, Requirement,
+    BuildError, Effects, Gear, GearSlot, GearSlotType, Language, EffectRequirement,
     RequirementId, TranslatedName,
 };
 use std::collections::HashMap;
@@ -55,14 +55,13 @@ impl<'a> Build<'a> {
         Ok(())
     }
 
-    pub fn satisfy_requirements(&self, build_requirements: &BuildRequirements) -> bool {
-        build_requirements
-            .requirements
+    pub fn satisfy_requirements(&self, requirements: &Vec<EffectRequirement>) -> bool {
+        requirements
             .iter()
             .all(|requirement| self.satisfy_requirement(requirement))
     }
 
-    pub fn satisfy_requirement(&self, requirement: &Requirement) -> bool {
+    pub fn satisfy_requirement(&self, requirement: &EffectRequirement) -> bool {
         match requirement.id {
             RequirementId::Strength => self.effects.derived_strength() >= requirement.desired_value,
             RequirementId::Vitality => {

@@ -1,8 +1,7 @@
-use crate::model::{BuildRequirements, Effects, RequirementId};
+use crate::model::{EffectRequirement, Effects, RequirementId};
 
-pub fn default_score(build_requirements: &BuildRequirements, effects: &Effects) -> i32 {
-    build_requirements
-        .requirements
+pub fn default_score(requirements: &Vec<EffectRequirement>, effects: &Effects) -> i32 {
+    requirements
         .iter()
         .map(|req| match req.id {
             RequirementId::Strength => effects.derived_strength(),

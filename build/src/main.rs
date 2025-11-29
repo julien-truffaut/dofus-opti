@@ -26,7 +26,7 @@ struct Args {
 
     /// Define one or more build requirements (e.g. "Vitality >= 3000")
     #[arg(short, long = "requirement", num_args(1..), action = clap::ArgAction::Append)]
-    requirements: Vec<Requirement>,
+    requirements: Vec<EffectRequirement>,
 
     #[arg(short, long = "ignore-gear", num_args(1..), action = clap::ArgAction::Append)]
     ignore_gears: Vec<String>,
@@ -42,15 +42,11 @@ async fn main() -> anyhow::Result<()> {
 
     let args = Args::parse();
 
-    let build_requirements = BuildRequirements {
-        requirements: args.requirements,
-    };
-
-    println!("{:?}", build_requirements);
+    println!("Effect requirements: {:?}", args.requirements);
 
     let gear_ids_to_ignore: HashSet<String> = args.ignore_gears.into_iter().collect();
 
-    let effect_scorer = |effects: &Effects| default_score(&build_requirements, effects);
+    let effect_scorer = |effects: &Effects| default_score(&args.requirements, effects);
     let gear_scorer = |gear: &Gear| effect_scorer(&gear.effects);
 
     let gears: Vec<Gear> = import_all_gears()?;
@@ -167,7 +163,7 @@ async fn main() -> anyhow::Result<()> {
 
                                                 last_report = now;
                                             }
-                                            if build.satisfy_requirements(&build_requirements) {
+                                            if build.satisfy_requirements(&args.requirements) {
                                                 println!("{}", build.summary(args.language));
                                             }
                                         }

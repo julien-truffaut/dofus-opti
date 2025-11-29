@@ -1,12 +1,8 @@
 use std::str::FromStr;
 
-#[derive(Debug, PartialEq, Clone)]
-pub struct BuildRequirements {
-    pub requirements: Vec<Requirement>,
-}
 
 #[derive(Debug, PartialEq, Clone)]
-pub struct Requirement {
+pub struct EffectRequirement {
     pub id: RequirementId,
     pub desired_value: i32,
 }
@@ -17,7 +13,7 @@ pub enum RequirementId {
     Vitality,
 }
 
-impl FromStr for Requirement {
+impl FromStr for EffectRequirement {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -30,7 +26,7 @@ impl FromStr for Requirement {
             return Err(format!("Operator not supported: {}", parts[1]));
         }
         let desired_value: i32 = parts[2].parse().map_err(|_| "Invalid number".to_string())?;
-        Ok(Requirement {
+        Ok(EffectRequirement {
             id: id,
             desired_value: desired_value,
         })
