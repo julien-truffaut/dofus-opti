@@ -70,7 +70,7 @@ async fn main() -> Result<()> {
         return Ok(());
     }
 
-    let mut build = Build::empty();
+    let mut build = Build::new();
 
     let mut build_created: i64 = 0;
     let report_every = 1_000_000;

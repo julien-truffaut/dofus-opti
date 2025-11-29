@@ -12,8 +12,8 @@ pub struct Build<'a> {
 }
 
 impl<'a> Build<'a> {
-    pub fn empty() -> Self {
-        Build {
+    pub fn new() -> Self {
+        Self {
             gear_slots: HashMap::new(),
             effects: Effects::empty(),
         }
@@ -161,7 +161,7 @@ mod tests {
 
     #[test]
     fn set_delete_round_trip() -> Result<(), BuildError> {
-        let mut build = Build::empty();
+        let mut build = Build::new();
         let amulet = Gear {
             id: Id::from("gear_id"),
             name: TranslatedName {
@@ -175,14 +175,14 @@ mod tests {
         };
         build.set_gear(GearSlot::Amulet, &amulet)?;
         build.delete_gear(&GearSlot::Amulet);
-        assert_eq!(build, Build::empty());
+        assert_eq!(build, Build::new());
         Ok(())
     }
 
     #[test]
     fn set_erase_existing_gear() -> Result<(), BuildError> {
-        let mut build_1 = Build::empty();
-        let mut build_2 = Build::empty();
+        let mut build_1 = Build::new();
+        let mut build_2 = Build::new();
         let mut effects_1 = Effects::empty();
         let mut effects_2 = Effects::empty();
         effects_1.agility = Some(24);
@@ -212,7 +212,7 @@ mod tests {
 
     #[test]
     fn set_get_gear_round_trip() -> Result<(), BuildError> {
-        let mut build = Build::empty();
+        let mut build = Build::new();
         let mut gears_map: HashMap<GearSlot, Gear> = HashMap::new();
         let mut effects = Effects::empty();
         effects.strength = Some(1);
@@ -265,7 +265,7 @@ mod tests {
 
     #[test]
     fn set_gear_using_wrong_slot() {
-        let mut build = Build::empty();
+        let mut build = Build::new();
         let amulet = Gear {
             id: Id::from("gear_id"),
             name: TranslatedName {
