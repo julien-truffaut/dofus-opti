@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 
 #[derive(Debug, PartialEq, Clone)]
-pub struct EffectRequirement {
+pub struct MinRequirement {
     pub id: RequirementId,
     pub desired_value: i32,
 }
@@ -13,7 +13,7 @@ pub enum RequirementId {
     Vitality,
 }
 
-impl FromStr for EffectRequirement {
+impl FromStr for MinRequirement {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -26,7 +26,7 @@ impl FromStr for EffectRequirement {
             return Err(format!("Operator not supported: {}", parts[1]));
         }
         let desired_value: i32 = parts[2].parse().map_err(|_| "Invalid number".to_string())?;
-        Ok(EffectRequirement {
+        Ok(MinRequirement {
             id: id,
             desired_value: desired_value,
         })

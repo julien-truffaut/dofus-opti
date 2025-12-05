@@ -1,6 +1,6 @@
-use crate::model::{EffectRequirement, Effects, RequirementId};
+use crate::model::{MinRequirement, Effects, RequirementId};
 
-pub fn default_score(requirements: &Vec<EffectRequirement>, effects: &Effects) -> i32 {
+pub fn default_score(requirements: &Vec<MinRequirement>, effects: &Effects) -> i32 {
     requirements
         .iter()
         .map(|req| match req.id {

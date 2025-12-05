@@ -25,8 +25,8 @@ struct Args {
     language: Language,
 
     /// Define one or more build requirements (e.g. "Vitality >= 3000")
-    #[arg(short, long = "requirement", num_args(1..), action = clap::ArgAction::Append)]
-    requirements: Vec<EffectRequirement>,
+    #[arg(short, long = "require", num_args(1..), action = clap::ArgAction::Append)]
+    requirements: Vec<MinRequirement>,
 
     #[arg(short, long = "ignore-gear", num_args(1..), action = clap::ArgAction::Append)]
     ignore_gears: Vec<String>,
@@ -42,7 +42,7 @@ async fn main() -> anyhow::Result<()> {
 
     let args = Args::parse();
 
-    println!("Effect requirements: {:?}", args.requirements);
+    println!("Min build requirements: {:?}", args.requirements);
 
     let gear_ids_to_ignore: HashSet<String> = args.ignore_gears.into_iter().collect();
 
