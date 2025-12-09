@@ -46,7 +46,7 @@ async fn main() -> anyhow::Result<()> {
 
     let gear_ids_to_ignore: HashSet<String> = args.ignore_gears.into_iter().collect();
 
-    let effect_scorer = |effects: &Effects| default_score(&args.requirements, effects);
+    let effect_scorer = |effects: &EffectsStructOpt| default_score(&args.requirements, effects);
     let gear_scorer = |gear: &Gear| effect_scorer(&gear.effects);
 
     let gears: Vec<Gear> = import_all_gears()?;

@@ -1,4 +1,4 @@
-use crate::model::{Effects, TranslatedName};
+use crate::model::{EffectsStructOpt, TranslatedName};
 use dofus_opti_core::model::{GearType, Id};
 
 #[derive(Debug, PartialEq, Clone)]
@@ -8,5 +8,5 @@ pub struct Gear {
     pub gear_type: GearType,
     pub has_set: bool,
     pub level: u32,
-    pub effects: Effects,
+    pub effects: EffectsStructOpt,
 }

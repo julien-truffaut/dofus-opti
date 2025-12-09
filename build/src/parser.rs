@@ -1,4 +1,4 @@
-use crate::model::{Effects, Gear, TranslatedName};
+use crate::model::{EffectsStructOpt, Gear, TranslatedName};
 use dofus_opti_core::model::Gear as CoreGear;
 use dofus_opti_core::model::{CharacteristicRange, CharacteristicType};
 
@@ -16,8 +16,8 @@ pub fn parse_gear(gear: CoreGear) -> Gear {
     }
 }
 
-pub fn parse_effects(characteristics: Vec<CharacteristicRange>) -> Effects {
-    let mut effects = Effects::empty();
+pub fn parse_effects(characteristics: Vec<CharacteristicRange>) -> EffectsStructOpt {
+    let mut effects = EffectsStructOpt::empty();
 
     characteristics.iter().for_each(|characteristic_range| match characteristic_range.kind {
         CharacteristicType::AbilityPoint => effects.ability_point = Some(characteristic_range.max),

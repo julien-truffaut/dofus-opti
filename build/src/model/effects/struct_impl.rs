@@ -5,118 +5,118 @@ use std::ops::{Add, AddAssign, Sub, SubAssign};
 use rand::{thread_rng, Rng};
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct Effects {
-    pub ability_point: Option<i32>,
-    pub ability_point_parry: Option<i32>,
-    pub ability_point_reduction: Option<i32>,
-    pub agility: Option<i32>,
-    pub air_damage: Option<i32>,
-    pub air_resistance: Option<i32>,
-    pub air_resistance_percent: Option<i32>,
-    pub chance: Option<i32>,
-    pub critical: Option<i32>,
-    pub critical_damage: Option<i32>,
-    pub critical_resistance: Option<i32>,
-    pub damage: Option<i32>,
-    pub dodge: Option<i32>,
-    pub earth_damage: Option<i32>,
-    pub earth_resistance: Option<i32>,
-    pub earth_resistance_percent: Option<i32>,
-    pub fire_damage: Option<i32>,
-    pub fire_resistance: Option<i32>,
-    pub fire_resistance_percent: Option<i32>,
-    pub heals: Option<i32>,
-    pub initiative: Option<i32>,
-    pub intelligence: Option<i32>,
-    pub lock: Option<i32>,
-    pub melee_damage: Option<i32>,
-    pub melee_resistance: Option<i32>,
-    pub movement_point: Option<i32>,
-    pub movement_point_parry: Option<i32>,
-    pub movement_point_reduction: Option<i32>,
-    pub neutral_damage: Option<i32>,
-    pub neutral_resistance: Option<i32>,
-    pub neutral_resistance_percent: Option<i32>,
-    pub pods: Option<i32>,
-    pub power: Option<i32>,
-    pub prospecting: Option<i32>,
-    pub push_back_damage: Option<i32>,
-    pub push_back_resistance: Option<i32>,
-    pub range: Option<i32>,
-    pub range_damage: Option<i32>,
-    pub range_resistance: Option<i32>,
-    pub reflected_damage: Option<i32>,
-    pub spell_damage: Option<i32>,
-    pub strength: Option<i32>,
-    pub summon: Option<i32>,
-    pub trap_damage: Option<i32>,
-    pub trap_power: Option<i32>,
-    pub vitality: Option<i32>,
-    pub water_damage: Option<i32>,
-    pub water_resistance: Option<i32>,
-    pub water_resistance_percent: Option<i32>,
-    pub weapon_damage: Option<i32>,
-    pub wisdom: Option<i32>,
+pub struct EffectsStruct {
+    pub ability_point: i32,
+    pub ability_point_parry: i32,
+    pub ability_point_reduction: i32,
+    pub agility: i32,
+    pub air_damage: i32,
+    pub air_resistance: i32,
+    pub air_resistance_percent: i32,
+    pub chance: i32,
+    pub critical: i32,
+    pub critical_damage: i32,
+    pub critical_resistance: i32,
+    pub damage: i32,
+    pub dodge: i32,
+    pub earth_damage: i32,
+    pub earth_resistance: i32,
+    pub earth_resistance_percent: i32,
+    pub fire_damage: i32,
+    pub fire_resistance: i32,
+    pub fire_resistance_percent: i32,
+    pub heals: i32,
+    pub initiative: i32,
+    pub intelligence: i32,
+    pub lock: i32,
+    pub melee_damage: i32,
+    pub melee_resistance: i32,
+    pub movement_point: i32,
+    pub movement_point_parry: i32,
+    pub movement_point_reduction: i32,
+    pub neutral_damage: i32,
+    pub neutral_resistance: i32,
+    pub neutral_resistance_percent: i32,
+    pub pods: i32,
+    pub power: i32,
+    pub prospecting: i32,
+    pub push_back_damage: i32,
+    pub push_back_resistance: i32,
+    pub range: i32,
+    pub range_damage: i32,
+    pub range_resistance: i32,
+    pub reflected_damage: i32,
+    pub spell_damage: i32,
+    pub strength: i32,
+    pub summon: i32,
+    pub trap_damage: i32,
+    pub trap_power: i32,
+    pub vitality: i32,
+    pub water_damage: i32,
+    pub water_resistance: i32,
+    pub water_resistance_percent: i32,
+    pub weapon_damage: i32,
+    pub wisdom: i32,
 }
 
-impl Effects {
-    pub fn empty() -> Effects {
-        Effects {
-            ability_point: None,
-            ability_point_parry: None,
-            ability_point_reduction: None,
-            agility: None,
-            air_damage: None,
-            air_resistance: None,
-            air_resistance_percent: None,
-            chance: None,
-            critical: None,
-            critical_damage: None,
-            critical_resistance: None,
-            damage: None,
-            dodge: None,
-            earth_damage: None,
-            earth_resistance: None,
-            earth_resistance_percent: None,
-            fire_damage: None,
-            fire_resistance: None,
-            fire_resistance_percent: None,
-            heals: None,
-            initiative: None,
-            intelligence: None,
-            lock: None,
-            melee_damage: None,
-            melee_resistance: None,
-            movement_point: None,
-            movement_point_parry: None,
-            movement_point_reduction: None,
-            neutral_damage: None,
-            neutral_resistance: None,
-            neutral_resistance_percent: None,
-            pods: None,
-            power: None,
-            prospecting: None,
-            push_back_damage: None,
-            push_back_resistance: None,
-            range: None,
-            range_damage: None,
-            range_resistance: None,
-            reflected_damage: None,
-            spell_damage: None,
-            strength: None,
-            summon: None,
-            trap_damage: None,
-            trap_power: None,
-            vitality: None,
-            water_damage: None,
-            water_resistance: None,
-            water_resistance_percent: None,
-            weapon_damage: None,
-            wisdom: None,
+impl EffectsStruct {
+    pub fn empty() -> EffectsStruct {
+        EffectsStruct {
+            ability_point: 0,
+            ability_point_parry: 0,
+            ability_point_reduction: 0,
+            agility: 0,
+            air_damage: 0,
+            air_resistance: 0,
+            air_resistance_percent: 0,
+            chance: 0,
+            critical: 0,
+            critical_damage: 0,
+            critical_resistance: 0,
+            damage: 0,
+            dodge: 0,
+            earth_damage: 0,
+            earth_resistance: 0,
+            earth_resistance_percent: 0,
+            fire_damage: 0,
+            fire_resistance: 0,
+            fire_resistance_percent: 0,
+            heals: 0,
+            initiative: 0,
+            intelligence: 0,
+            lock: 0,
+            melee_damage: 0,
+            melee_resistance: 0,
+            movement_point: 0,
+            movement_point_parry: 0,
+            movement_point_reduction: 0,
+            neutral_damage: 0,
+            neutral_resistance: 0,
+            neutral_resistance_percent: 0,
+            pods: 0,
+            power: 0,
+            prospecting: 0,
+            push_back_damage: 0,
+            push_back_resistance: 0,
+            range: 0,
+            range_damage: 0,
+            range_resistance: 0,
+            reflected_damage: 0,
+            spell_damage: 0,
+            strength: 0,
+            summon: 0,
+            trap_damage: 0,
+            trap_power: 0,
+            vitality: 0,
+            water_damage: 0,
+            water_resistance: 0,
+            water_resistance_percent: 0,
+            weapon_damage: 0,
+            wisdom: 0,
         }
     }
 
-    pub fn add(&mut self, other: &Effects) {
+    pub fn add(&mut self, other: &EffectsStruct) {
         *self += other;
     }
 
@@ -136,118 +136,118 @@ impl Effects {
 
     pub fn get(&self, characteristic_type: &CharacteristicType) -> i32 {
         match characteristic_type {
-            CharacteristicType::AbilityPoint => self.ability_point.unwrap_or(0),
-            CharacteristicType::AbilityPointParry => self.ability_point_parry.unwrap_or(0),
-            CharacteristicType::AbilityPointReduction => self.ability_point_reduction.unwrap_or(0),
-            CharacteristicType::Agility => self.agility.unwrap_or(0),
-            CharacteristicType::AirDamage => self.air_damage.unwrap_or(0),
-            CharacteristicType::AirResistance => self.air_resistance.unwrap_or(0),
-            CharacteristicType::AirResistancePercent => self.air_resistance_percent.unwrap_or(0),
-            CharacteristicType::Chance => self.chance.unwrap_or(0),
-            CharacteristicType::Critical => self.critical.unwrap_or(0),
-            CharacteristicType::CriticalDamage => self.critical_damage.unwrap_or(0),
-            CharacteristicType::CriticalResistance => self.critical_resistance.unwrap_or(0),
-            CharacteristicType::Damage => self.damage.unwrap_or(0),
-            CharacteristicType::Dodge => self.dodge.unwrap_or(0),
-            CharacteristicType::EarthDamage => self.earth_damage.unwrap_or(0),
-            CharacteristicType::EarthResistance => self.earth_resistance.unwrap_or(0),
-            CharacteristicType::EarthResistancePercent => self.earth_resistance_percent.unwrap_or(0),
-            CharacteristicType::FireDamage => self.fire_damage.unwrap_or(0),
-            CharacteristicType::FireResistance => self.fire_resistance.unwrap_or(0),
-            CharacteristicType::FireResistancePercent => self.fire_resistance_percent.unwrap_or(0),
-            CharacteristicType::Heals => self.heals.unwrap_or(0),
-            CharacteristicType::Initiative => self.initiative.unwrap_or(0),
-            CharacteristicType::Intelligence => self.intelligence.unwrap_or(0),
-            CharacteristicType::Lock => self.lock.unwrap_or(0),
-            CharacteristicType::MeleeDamage => self.melee_damage.unwrap_or(0),
-            CharacteristicType::MeleeResistance => self.melee_resistance.unwrap_or(0),
-            CharacteristicType::MovementPoint => self.movement_point.unwrap_or(0),
-            CharacteristicType::MovementPointParry => self.movement_point_parry.unwrap_or(0),
-            CharacteristicType::MovementPointReduction => self.movement_point_reduction.unwrap_or(0),
-            CharacteristicType::NeutralDamage => self.neutral_damage.unwrap_or(0),
-            CharacteristicType::NeutralResistance => self.neutral_resistance.unwrap_or(0),
-            CharacteristicType::NeutralResistancePercent => self.neutral_resistance_percent.unwrap_or(0),
-            CharacteristicType::Pods => self.pods.unwrap_or(0),
-            CharacteristicType::Power => self.power.unwrap_or(0),
-            CharacteristicType::Prospecting => self.prospecting.unwrap_or(0),
-            CharacteristicType::PushBackDamage => self.push_back_damage.unwrap_or(0),
-            CharacteristicType::PushBackResistance => self.push_back_resistance.unwrap_or(0),
-            CharacteristicType::Range => self.range.unwrap_or(0),
-            CharacteristicType::RangeDamage => self.range_damage.unwrap_or(0),
-            CharacteristicType::RangeResistance => self.range_resistance.unwrap_or(0),
-            CharacteristicType::ReflectedDamage => self.reflected_damage.unwrap_or(0),
-            CharacteristicType::SpellDamage => self.spell_damage.unwrap_or(0),
-            CharacteristicType::Strength => self.strength.unwrap_or(0),
-            CharacteristicType::Summon => self.summon.unwrap_or(0),
-            CharacteristicType::TrapDamage => self.trap_damage.unwrap_or(0),
-            CharacteristicType::TrapPower => self.trap_power.unwrap_or(0),
-            CharacteristicType::Vitality => self.vitality.unwrap_or(0),
-            CharacteristicType::WaterDamage => self.water_damage.unwrap_or(0),
-            CharacteristicType::WaterResistance => self.water_resistance.unwrap_or(0),
-            CharacteristicType::WaterResistancePercent => self.water_resistance_percent.unwrap_or(0),
-            CharacteristicType::WeaponDamage => self.weapon_damage.unwrap_or(0),
-            CharacteristicType::Wisdom => self.wisdom.unwrap_or(0),
+            CharacteristicType::AbilityPoint => self.ability_point,
+            CharacteristicType::AbilityPointParry => self.ability_point_parry,
+            CharacteristicType::AbilityPointReduction => self.ability_point_reduction,
+            CharacteristicType::Agility => self.agility,
+            CharacteristicType::AirDamage => self.air_damage,
+            CharacteristicType::AirResistance => self.air_resistance,
+            CharacteristicType::AirResistancePercent => self.air_resistance_percent,
+            CharacteristicType::Chance => self.chance,
+            CharacteristicType::Critical => self.critical,
+            CharacteristicType::CriticalDamage => self.critical_damage,
+            CharacteristicType::CriticalResistance => self.critical_resistance,
+            CharacteristicType::Damage => self.damage,
+            CharacteristicType::Dodge => self.dodge,
+            CharacteristicType::EarthDamage => self.earth_damage,
+            CharacteristicType::EarthResistance => self.earth_resistance,
+            CharacteristicType::EarthResistancePercent => self.earth_resistance_percent,
+            CharacteristicType::FireDamage => self.fire_damage,
+            CharacteristicType::FireResistance => self.fire_resistance,
+            CharacteristicType::FireResistancePercent => self.fire_resistance_percent,
+            CharacteristicType::Heals => self.heals,
+            CharacteristicType::Initiative => self.initiative,
+            CharacteristicType::Intelligence => self.intelligence,
+            CharacteristicType::Lock => self.lock,
+            CharacteristicType::MeleeDamage => self.melee_damage,
+            CharacteristicType::MeleeResistance => self.melee_resistance,
+            CharacteristicType::MovementPoint => self.movement_point,
+            CharacteristicType::MovementPointParry => self.movement_point_parry,
+            CharacteristicType::MovementPointReduction => self.movement_point_reduction,
+            CharacteristicType::NeutralDamage => self.neutral_damage,
+            CharacteristicType::NeutralResistance => self.neutral_resistance,
+            CharacteristicType::NeutralResistancePercent => self.neutral_resistance_percent,
+            CharacteristicType::Pods => self.pods,
+            CharacteristicType::Power => self.power,
+            CharacteristicType::Prospecting => self.prospecting,
+            CharacteristicType::PushBackDamage => self.push_back_damage,
+            CharacteristicType::PushBackResistance => self.push_back_resistance,
+            CharacteristicType::Range => self.range,
+            CharacteristicType::RangeDamage => self.range_damage,
+            CharacteristicType::RangeResistance => self.range_resistance,
+            CharacteristicType::ReflectedDamage => self.reflected_damage,
+            CharacteristicType::SpellDamage => self.spell_damage,
+            CharacteristicType::Strength => self.strength,
+            CharacteristicType::Summon => self.summon,
+            CharacteristicType::TrapDamage => self.trap_damage,
+            CharacteristicType::TrapPower => self.trap_power,
+            CharacteristicType::Vitality => self.vitality,
+            CharacteristicType::WaterDamage => self.water_damage,
+            CharacteristicType::WaterResistance => self.water_resistance,
+            CharacteristicType::WaterResistancePercent => self.water_resistance_percent,
+            CharacteristicType::WeaponDamage => self.weapon_damage,
+            CharacteristicType::Wisdom => self.wisdom,
         }
     }
 
     pub fn set(&mut self, characteristic_type: &CharacteristicType, new_value: i32) {
         match characteristic_type {
-            CharacteristicType::AbilityPoint => self.ability_point = Some(new_value),
-            CharacteristicType::AbilityPointParry => self.ability_point_parry = Some(new_value),
-            CharacteristicType::AbilityPointReduction => self.ability_point_reduction = Some(new_value),
-            CharacteristicType::Agility => self.agility = Some(new_value),
-            CharacteristicType::AirDamage => self.air_damage = Some(new_value),
-            CharacteristicType::AirResistance => self.air_resistance = Some(new_value),
-            CharacteristicType::AirResistancePercent => self.air_resistance_percent = Some(new_value),
-            CharacteristicType::Chance => self.chance = Some(new_value),
-            CharacteristicType::Critical => self.critical = Some(new_value),
-            CharacteristicType::CriticalDamage => self.critical_damage = Some(new_value),
-            CharacteristicType::CriticalResistance => self.critical_resistance = Some(new_value),
-            CharacteristicType::Damage => self.damage = Some(new_value),
-            CharacteristicType::Dodge => self.dodge = Some(new_value),
-            CharacteristicType::EarthDamage => self.earth_damage = Some(new_value),
-            CharacteristicType::EarthResistance => self.earth_resistance = Some(new_value),
-            CharacteristicType::EarthResistancePercent => self.earth_resistance_percent = Some(new_value),
-            CharacteristicType::FireDamage => self.fire_damage = Some(new_value),
-            CharacteristicType::FireResistance => self.fire_resistance = Some(new_value),
-            CharacteristicType::FireResistancePercent => self.fire_resistance_percent = Some(new_value),
-            CharacteristicType::Heals => self.heals = Some(new_value),
-            CharacteristicType::Initiative => self.initiative = Some(new_value),
-            CharacteristicType::Intelligence => self.intelligence = Some(new_value),
-            CharacteristicType::Lock => self.lock = Some(new_value),
-            CharacteristicType::MeleeDamage => self.melee_damage = Some(new_value),
-            CharacteristicType::MeleeResistance => self.melee_resistance = Some(new_value),
-            CharacteristicType::MovementPoint => self.movement_point = Some(new_value),
-            CharacteristicType::MovementPointParry => self.movement_point_parry = Some(new_value),
-            CharacteristicType::MovementPointReduction => self.movement_point_reduction = Some(new_value),
-            CharacteristicType::NeutralDamage => self.neutral_damage = Some(new_value),
-            CharacteristicType::NeutralResistance => self.neutral_resistance = Some(new_value),
-            CharacteristicType::NeutralResistancePercent => self.neutral_resistance_percent = Some(new_value),
-            CharacteristicType::Pods => self.pods = Some(new_value),
-            CharacteristicType::Power => self.power = Some(new_value),
-            CharacteristicType::Prospecting => self.prospecting = Some(new_value),
-            CharacteristicType::PushBackDamage => self.push_back_damage = Some(new_value),
-            CharacteristicType::PushBackResistance => self.push_back_resistance = Some(new_value),
-            CharacteristicType::Range => self.range = Some(new_value),
-            CharacteristicType::RangeDamage => self.range_damage = Some(new_value),
-            CharacteristicType::RangeResistance => self.range_resistance = Some(new_value),
-            CharacteristicType::ReflectedDamage => self.reflected_damage = Some(new_value),
-            CharacteristicType::SpellDamage => self.spell_damage = Some(new_value),
-            CharacteristicType::Strength => self.strength = Some(new_value),
-            CharacteristicType::Summon => self.summon = Some(new_value),
-            CharacteristicType::TrapDamage => self.trap_damage = Some(new_value),
-            CharacteristicType::TrapPower => self.trap_power = Some(new_value),
-            CharacteristicType::Vitality => self.vitality = Some(new_value),
-            CharacteristicType::WaterDamage => self.water_damage = Some(new_value),
-            CharacteristicType::WaterResistance => self.water_resistance = Some(new_value),
-            CharacteristicType::WaterResistancePercent => self.water_resistance_percent = Some(new_value),
-            CharacteristicType::WeaponDamage => self.weapon_damage = Some(new_value),
-            CharacteristicType::Wisdom => self.wisdom = Some(new_value),
+            CharacteristicType::AbilityPoint => self.ability_point = new_value,
+            CharacteristicType::AbilityPointParry => self.ability_point_parry = new_value,
+            CharacteristicType::AbilityPointReduction => self.ability_point_reduction = new_value,
+            CharacteristicType::Agility => self.agility = new_value,
+            CharacteristicType::AirDamage => self.air_damage = new_value,
+            CharacteristicType::AirResistance => self.air_resistance = new_value,
+            CharacteristicType::AirResistancePercent => self.air_resistance_percent = new_value,
+            CharacteristicType::Chance => self.chance = new_value,
+            CharacteristicType::Critical => self.critical = new_value,
+            CharacteristicType::CriticalDamage => self.critical_damage = new_value,
+            CharacteristicType::CriticalResistance => self.critical_resistance = new_value,
+            CharacteristicType::Damage => self.damage = new_value,
+            CharacteristicType::Dodge => self.dodge = new_value,
+            CharacteristicType::EarthDamage => self.earth_damage = new_value,
+            CharacteristicType::EarthResistance => self.earth_resistance = new_value,
+            CharacteristicType::EarthResistancePercent => self.earth_resistance_percent = new_value,
+            CharacteristicType::FireDamage => self.fire_damage = new_value,
+            CharacteristicType::FireResistance => self.fire_resistance = new_value,
+            CharacteristicType::FireResistancePercent => self.fire_resistance_percent = new_value,
+            CharacteristicType::Heals => self.heals = new_value,
+            CharacteristicType::Initiative => self.initiative = new_value,
+            CharacteristicType::Intelligence => self.intelligence = new_value,
+            CharacteristicType::Lock => self.lock = new_value,
+            CharacteristicType::MeleeDamage => self.melee_damage = new_value,
+            CharacteristicType::MeleeResistance => self.melee_resistance = new_value,
+            CharacteristicType::MovementPoint => self.movement_point = new_value,
+            CharacteristicType::MovementPointParry => self.movement_point_parry = new_value,
+            CharacteristicType::MovementPointReduction => self.movement_point_reduction = new_value,
+            CharacteristicType::NeutralDamage => self.neutral_damage = new_value,
+            CharacteristicType::NeutralResistance => self.neutral_resistance = new_value,
+            CharacteristicType::NeutralResistancePercent => self.neutral_resistance_percent = new_value,
+            CharacteristicType::Pods => self.pods = new_value,
+            CharacteristicType::Power => self.power = new_value,
+            CharacteristicType::Prospecting => self.prospecting = new_value,
+            CharacteristicType::PushBackDamage => self.push_back_damage = new_value,
+            CharacteristicType::PushBackResistance => self.push_back_resistance = new_value,
+            CharacteristicType::Range => self.range = new_value,
+            CharacteristicType::RangeDamage => self.range_damage = new_value,
+            CharacteristicType::RangeResistance => self.range_resistance = new_value,
+            CharacteristicType::ReflectedDamage => self.reflected_damage = new_value,
+            CharacteristicType::SpellDamage => self.spell_damage = new_value,
+            CharacteristicType::Strength => self.strength = new_value,
+            CharacteristicType::Summon => self.summon = new_value,
+            CharacteristicType::TrapDamage => self.trap_damage = new_value,
+            CharacteristicType::TrapPower => self.trap_power = new_value,
+            CharacteristicType::Vitality => self.vitality = new_value,
+            CharacteristicType::WaterDamage => self.water_damage = new_value,
+            CharacteristicType::WaterResistance => self.water_resistance = new_value,
+            CharacteristicType::WaterResistancePercent => self.water_resistance_percent = new_value,
+            CharacteristicType::WeaponDamage => self.weapon_damage = new_value,
+            CharacteristicType::Wisdom => self.wisdom = new_value,
         }
     }
 
     pub fn derived_strength(&self) -> i32 {
-        self.strength.unwrap_or(0) + self.power.unwrap_or(0)
+        self.strength + self.power
     }
 
     pub fn summary(&self, language: Language) -> String {
@@ -263,80 +263,60 @@ impl Effects {
             }
             .localized(language),
             CharacteristicType::Power.localized(language),
-            self.power.unwrap_or(0),
+            self.power,
             CharacteristicType::Strength.localized(language),
-            self.strength.unwrap_or(0),
+            self.strength,
             CharacteristicType::Vitality.localized(language),
-            self.vitality.unwrap_or(0),
+            self.vitality,
         )
     }
 }
 
-macro_rules! impl_effects_ops {
+macro_rules! impl_EffectsStruct_ops {
     ($($field:ident),+) => {
-        impl Add for Effects {
-            type Output = Effects;
+        impl Add for EffectsStruct {
+            type Output = EffectsStruct;
 
-            fn add(self, other: Effects) -> Effects {
-                Effects {
+            fn add(self, other: EffectsStruct) -> EffectsStruct {
+                EffectsStruct {
                     $(
-                        $field: match (self.$field, other.$field) {
-                            (Some(a), Some(b)) => Some(a + b),
-                            (Some(a), None) => Some(a),
-                            (None, Some(b)) => Some(b),
-                            (None, None) => None,
-                        },
+                        $field: self.$field + other.$field,
                     )+
                 }
             }
         }
 
-        impl Sub for Effects {
-            type Output = Effects;
+        impl Sub for EffectsStruct {
+            type Output = EffectsStruct;
 
-            fn sub(self, other: Effects) -> Effects {
-                Effects {
+            fn sub(self, other: EffectsStruct) -> EffectsStruct {
+                EffectsStruct {
                     $(
-                        $field: match (self.$field, other.$field) {
-                            (Some(a), Some(b)) => Some(a - b),
-                            (Some(a), None) => Some(a),
-                            (None, Some(b)) => Some(-b),
-                            (None, None) => None,
-                        },
+                        $field: self.$field - other.$field,
                     )+
                 }
             }
         }
 
-        impl<'a, 'b> Add<&'b Effects> for &'a Effects {
-            type Output = Effects;
+        impl<'a, 'b> Add<&'b EffectsStruct> for &'a EffectsStruct {
+            type Output = EffectsStruct;
 
-            fn add(self, other: &'b Effects) -> Effects {
-                Effects {
+            fn add(self, other: &'b EffectsStruct) -> EffectsStruct {
+                EffectsStruct {
                     $(
-                        $field: match (self.$field, other.$field) {
-                            (Some(a), Some(b)) => Some(a + b),
-                            (Some(a), None) => Some(a),
-                            (None, Some(b)) => Some(b),
-                            (None, None) => None,
-                        },
+                        $field: self.$field + other.$field,
                     )+
                 }
             }
         }
 
-        impl<'a, 'b> Sub<&'b Effects> for &'a Effects {
-            type Output = Effects;
+        impl<'a, 'b> Sub<&'b EffectsStruct> for &'a EffectsStruct {
+            type Output = EffectsStruct;
 
-            fn sub(self, other: &'b Effects) -> Effects {
-                Effects {
+            fn sub(self, other: &'b EffectsStruct) -> EffectsStruct {
+                EffectsStruct {
                     $(
-                        $field: match (self.$field, other.$field) {
-                            (Some(a), Some(b)) => Some(a - b),
-                            (Some(a), None) => Some(a),
-                            (None, Some(b)) => Some(-b),
-                            (None, None) => None,
-                        },
+                        $field: self.$field - other.$field,
                     )+
                 }
             }
@@ -344,7 +324,7 @@ macro_rules! impl_effects_ops {
     };
 }
 
-impl_effects_ops!(
+impl_EffectsStruct_ops!(
     ability_point,
     ability_point_parry,
     ability_point_reduction,
@@ -398,13 +378,13 @@ impl_effects_ops!(
     wisdom
 );
 
-impl AddAssign<&Effects> for Effects {
+impl AddAssign<&EffectsStruct> for EffectsStruct {
     fn add_assign(&mut self, other: &Self) {
         *self = &*self + &other;
     }
 }
 
-impl SubAssign<&Effects> for Effects {
+impl SubAssign<&EffectsStruct> for EffectsStruct {
     fn sub_assign(&mut self, other: &Self) {
         *self = &*self - &other;
     }
@@ -412,10 +392,10 @@ impl SubAssign<&Effects> for Effects {
 
 #[cfg(test)]
 mod tests {
-    use crate::model::{Effects, ALL_CHARACTERISTIC_TYPES};
+    use crate::model::{EffectsStruct, ALL_CHARACTERISTIC_TYPES};
 
-    fn create_test_effects() -> Effects {
-        let mut effects = Effects::empty();
+    fn create_test_effects() -> EffectsStruct {
+        let mut effects = EffectsStruct::empty();
 
         for (i, characteristic_type) in ALL_CHARACTERISTIC_TYPES.iter().enumerate() {
             effects.set(characteristic_type, i as i32 + 1);
@@ -426,7 +406,7 @@ mod tests {
 
     #[test]
     fn empty_get() {
-        let effects = Effects::empty();
+        let effects = EffectsStruct::empty();
 
         for characteristic_type in ALL_CHARACTERISTIC_TYPES {
             assert_eq!(effects.get(characteristic_type), 0)

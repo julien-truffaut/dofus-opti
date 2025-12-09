@@ -1,5 +1,5 @@
 use criterion::{criterion_group, criterion_main, Criterion};
-use dofus_opti_dofus_build::model::{EffectsVec, EffectsArray, Effects};
+use dofus_opti_dofus_build::model::{EffectsVec, EffectsArray, EffectsStruct, EffectsStructOpt};
 
 fn bench_effects_addition(c: &mut Criterion) {
     let effects_vec1 = EffectsVec::random_sample();
@@ -35,12 +35,24 @@ fn bench_effects_addition(c: &mut Criterion) {
         })
     });
 
-    let effects_struct1 = Effects::random_sample();
-    let effects_struct2 = Effects::random_sample();
+    let effects_struct1 = EffectsStruct::random_sample();
+    let effects_struct2 = EffectsStruct::random_sample();
 
     c.bench_function("EffectsStruct add", |b| {
         b.iter(|| {
-            let mut sum = Effects::empty();
+            let mut sum = EffectsStruct::empty();
+            sum.add(&effects_struct1);
+            sum.add(&effects_struct2);
+            sum
+        })
+    });
+
+    let effects_struct1 = EffectsStructOpt::random_sample();
+    let effects_struct2 = EffectsStructOpt::random_sample();
+
+    c.bench_function("EffectsStructOpt add", |b| {
+        b.iter(|| {
+            let mut sum = EffectsStructOpt::empty();
             sum.add(&effects_struct1);
             sum.add(&effects_struct2);
             sum
