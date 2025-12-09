@@ -1,5 +1,7 @@
 use crate::model::Language;
 
+use rand::Rng;
+
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum CharacteristicType {
     AbilityPoint,
@@ -53,6 +55,71 @@ pub enum CharacteristicType {
     WaterResistancePercent,
     WeaponDamage,
     Wisdom,
+}
+
+impl CharacteristicType {
+    pub const COUNT: usize = CharacteristicType::Wisdom.index() + 1; 
+
+    pub const fn index(&self) -> usize {
+        match self {
+            CharacteristicType::AbilityPoint => 0,
+            CharacteristicType::AbilityPointParry => 1,
+            CharacteristicType::AbilityPointReduction => 2,
+            CharacteristicType::Agility => 3,
+            CharacteristicType::AirDamage => 4,
+            CharacteristicType::AirResistance => 5,
+            CharacteristicType::AirResistancePercent => 6,
+            CharacteristicType::Chance => 7,
+            CharacteristicType::Critical => 8,
+            CharacteristicType::CriticalDamage => 9,
+            CharacteristicType::CriticalResistance => 10,
+            CharacteristicType::Damage => 11,
+            CharacteristicType::Dodge => 12,
+            CharacteristicType::EarthDamage => 13,
+            CharacteristicType::EarthResistance => 14,
+            CharacteristicType::EarthResistancePercent => 15,
+            CharacteristicType::FireDamage => 16,
+            CharacteristicType::FireResistance => 17,
+            CharacteristicType::FireResistancePercent => 18,
+            CharacteristicType::Heals => 19,
+            CharacteristicType::Initiative => 20,
+            CharacteristicType::Intelligence => 21,
+            CharacteristicType::Lock => 22,
+            CharacteristicType::MeleeDamage => 23,
+            CharacteristicType::MeleeResistance => 24,
+            CharacteristicType::MovementPoint => 25,
+            CharacteristicType::MovementPointParry => 26,
+            CharacteristicType::MovementPointReduction => 27,
+            CharacteristicType::NeutralDamage => 28,
+            CharacteristicType::NeutralResistance => 29,
+            CharacteristicType::NeutralResistancePercent => 30,
+            CharacteristicType::Pods => 31,
+            CharacteristicType::Power => 32,
+            CharacteristicType::Prospecting => 33,
+            CharacteristicType::PushBackDamage => 34,
+            CharacteristicType::PushBackResistance => 35,
+            CharacteristicType::Range => 36,
+            CharacteristicType::RangeDamage => 37,
+            CharacteristicType::RangeResistance => 38,
+            CharacteristicType::ReflectedDamage => 39,
+            CharacteristicType::SpellDamage => 40,
+            CharacteristicType::Strength => 41,
+            CharacteristicType::Summon => 42,
+            CharacteristicType::TrapDamage => 43,
+            CharacteristicType::TrapPower => 44,
+            CharacteristicType::Vitality => 45,
+            CharacteristicType::WaterDamage => 46,
+            CharacteristicType::WaterResistance => 47,
+            CharacteristicType::WaterResistancePercent => 48,
+            CharacteristicType::WeaponDamage => 49,
+            CharacteristicType::Wisdom => 50,
+        }
+    }
+
+    pub fn random() -> CharacteristicType {
+        let mut rng = rand::thread_rng();
+        ALL_CHARACTERISTIC_TYPES[rng.gen_range(0..ALL_CHARACTERISTIC_TYPES.len())].clone()
+    }
 }
 
 pub static ALL_CHARACTERISTIC_TYPES: &[CharacteristicType] = &[
