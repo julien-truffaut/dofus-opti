@@ -2,8 +2,6 @@ use crate::model::{CharacteristicType, Language, TranslatedName};
 
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
-use rand::{thread_rng, Rng};
-
 #[derive(Clone, Debug, PartialEq)]
 pub struct EffectsStruct {
     pub ability_point: i32,
@@ -120,20 +118,6 @@ impl EffectsStruct {
         *self += other;
     }
 
-    pub fn random_sample() -> Self {
-        let mut rng = thread_rng();
-
-        let n = rng.gen_range(5..15);
-
-        let mut effects = Self::empty();
-
-        for _ in 0..n {
-            effects.set(&CharacteristicType::random(), rng.gen_range(-50..200));
-        }
-
-        effects
-    }
-
     pub fn get(&self, characteristic_type: &CharacteristicType) -> i32 {
         match characteristic_type {
             CharacteristicType::AbilityPoint => self.ability_point,
@@ -222,7 +206,9 @@ impl EffectsStruct {
             CharacteristicType::MovementPointReduction => self.movement_point_reduction = new_value,
             CharacteristicType::NeutralDamage => self.neutral_damage = new_value,
             CharacteristicType::NeutralResistance => self.neutral_resistance = new_value,
-            CharacteristicType::NeutralResistancePercent => self.neutral_resistance_percent = new_value,
+            CharacteristicType::NeutralResistancePercent => {
+                self.neutral_resistance_percent = new_value
+            }
             CharacteristicType::Pods => self.pods = new_value,
             CharacteristicType::Power => self.power = new_value,
             CharacteristicType::Prospecting => self.prospecting = new_value,
@@ -392,7 +378,7 @@ impl SubAssign<&EffectsStruct> for EffectsStruct {
 
 #[cfg(test)]
 mod tests {
-    use crate::model::{EffectsStruct, ALL_CHARACTERISTIC_TYPES};
+    use crate::model::{ALL_CHARACTERISTIC_TYPES, EffectsStruct};
 
     fn create_test_effects() -> EffectsStruct {
         let mut effects = EffectsStruct::empty();
@@ -411,7 +397,6 @@ mod tests {
         for characteristic_type in ALL_CHARACTERISTIC_TYPES {
             assert_eq!(effects.get(characteristic_type), 0)
         }
-
     }
 
     #[test]
@@ -446,5 +431,4 @@ mod tests {
             assert_eq!(effects.get(characteristic_type), 0);
         }
     }
-
 }

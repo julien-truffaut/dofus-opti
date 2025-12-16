@@ -10,13 +10,13 @@ impl LevelRange {
     pub fn new(min: Option<u32>, max: Option<u32>) -> Result<LevelRange, String> {
         if let Some(min) = min {
             if min > 200 {
-                return Err("min must be between 0 and 200".into())
+                return Err("min must be between 0 and 200".into());
             }
         }
 
         if let Some(max) = max {
             if max > 200 {
-                return Err("max must be between 0 and 200".into())
+                return Err("max must be between 0 and 200".into());
             }
         }
 
@@ -26,7 +26,10 @@ impl LevelRange {
             }
         }
 
-        Ok(LevelRange { min : min, max : max })
+        Ok(LevelRange {
+            min: min,
+            max: max,
+        })
     }
 
     pub fn min(&self) -> Option<u32> {
@@ -38,8 +41,7 @@ impl LevelRange {
     }
 
     pub fn is_valid(self, level: u32) -> bool {
-        self.min.map_or(true, |m| level >= m) &&
-        self.max.map_or(true, |m| level <= m)
+        self.min.map_or(true, |m| level >= m) && self.max.map_or(true, |m| level <= m)
     }
 }
 

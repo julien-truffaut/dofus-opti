@@ -1,4 +1,4 @@
-use crate::model::{MinRequirement, EffectsStructOpt, RequirementId};
+use crate::model::{EffectsStructOpt, MinRequirement, RequirementId};
 
 pub fn default_score(requirements: &Vec<MinRequirement>, effects: &EffectsStructOpt) -> i32 {
     requirements

@@ -28,7 +28,7 @@ impl GearCatalog {
         for gears in self.gears_by_slot.values_mut() {
             gears.retain(predicate);
         }
-    }   
+    }
 
     pub fn filter<F>(&mut self, mut gear_selector: F)
     where

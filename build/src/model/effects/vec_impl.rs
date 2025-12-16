@@ -1,18 +1,15 @@
-use rand::{thread_rng, Rng};
+use crate::model::{ALL_CHARACTERISTIC_TYPES, CharacteristicType};
 
 #[derive(Debug)]
 pub struct EffectsVec {
-    values: Vec<Effect>
+    values: Vec<Effect>,
 }
 
 impl EffectsVec {
-
-    fn one(effect: Effect) -> Self {
-        Self { values: vec!(effect) }
-    }
-
     pub fn empty() -> Self {
-        Self { values: vec!() }
+        Self {
+            values: vec![],
+        }
     }
 
     pub fn get(&self, characteristic_type: &CharacteristicType) -> i32 {
@@ -23,7 +20,10 @@ impl EffectsVec {
         if let Some(existing) = self.values.iter_mut().find(|e| e.kind == *characteristic_type) {
             existing.value = new_value;
         } else {
-            self.values.push(Effect { kind: *characteristic_type, value: new_value });
+            self.values.push(Effect {
+                kind: *characteristic_type,
+                value: new_value,
+            });
         }
     }
 
@@ -69,25 +69,6 @@ impl EffectsVec {
 
         self.values = result;
     }
-
-    pub fn random_sample() -> Self {
-        let mut rng = thread_rng();
-
-        // choose how many effects will be generated
-        let n = rng.gen_range(5..15);
-
-        let mut effects = Self::empty();
-
-        for _ in 0..n {
-            let effect = Effect {
-                kind: CharacteristicType::random(),
-                value: rng.gen_range(-50..200),
-            };
-            effects.add_ordered(&Self::one(effect));
-        }
-
-        effects
-    }
 }
 
 #[derive(Debug, Clone)]
@@ -96,127 +77,10 @@ struct Effect {
     pub value: i32,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub enum CharacteristicType {
-    AbilityPoint,
-    AbilityPointParry,
-    AbilityPointReduction,
-    Agility,
-    AirDamage,
-    AirResistance,
-    AirResistancePercent,
-    Chance,
-    Critical,
-    CriticalDamage,
-    CriticalResistance,
-    Damage,
-    Dodge,
-    EarthDamage,
-    EarthResistance,
-    EarthResistancePercent,
-    FireDamage,
-    FireResistance,
-    FireResistancePercent,
-    Heals,
-    Initiative,
-    Intelligence,
-    Lock,
-    MeleeDamage,
-    MeleeResistance,
-    MovementPoint,
-    MovementPointParry,
-    MovementPointReduction,
-    NeutralDamage,
-    NeutralResistance,
-    NeutralResistancePercent,
-    Pods,
-    Power,
-    Prospecting,
-    PushBackDamage,
-    PushBackResistance,
-    Range,
-    RangeDamage,
-    RangeResistance,
-    ReflectedDamage,
-    SpellDamage,
-    Strength,
-    Summon,
-    TrapDamage,
-    TrapPower,
-    Vitality,
-    WaterDamage,
-    WaterResistance,
-    WaterResistancePercent,
-    WeaponDamage,
-    Wisdom,
-}
-
-static ALL_CHARACTERISTIC_TYPES: &[CharacteristicType] = &[
-    CharacteristicType::AbilityPoint,
-    CharacteristicType::AbilityPointParry,
-    CharacteristicType::AbilityPointReduction,
-    CharacteristicType::Agility,
-    CharacteristicType::AirDamage,
-    CharacteristicType::AirResistance,
-    CharacteristicType::AirResistancePercent,
-    CharacteristicType::Chance,
-    CharacteristicType::Critical,
-    CharacteristicType::CriticalDamage,
-    CharacteristicType::CriticalResistance,
-    CharacteristicType::Damage,
-    CharacteristicType::Dodge,
-    CharacteristicType::EarthDamage,
-    CharacteristicType::EarthResistance,
-    CharacteristicType::EarthResistancePercent,
-    CharacteristicType::FireDamage,
-    CharacteristicType::FireResistance,
-    CharacteristicType::FireResistancePercent,
-    CharacteristicType::Heals,
-    CharacteristicType::Initiative,
-    CharacteristicType::Intelligence,
-    CharacteristicType::Lock,
-    CharacteristicType::MeleeDamage,
-    CharacteristicType::MeleeResistance,
-    CharacteristicType::MovementPoint,
-    CharacteristicType::MovementPointParry,
-    CharacteristicType::MovementPointReduction,
-    CharacteristicType::NeutralDamage,
-    CharacteristicType::NeutralResistance,
-    CharacteristicType::NeutralResistancePercent,
-    CharacteristicType::Pods,
-    CharacteristicType::Power,
-    CharacteristicType::Prospecting,
-    CharacteristicType::PushBackDamage,
-    CharacteristicType::PushBackResistance,
-    CharacteristicType::Range,
-    CharacteristicType::RangeDamage,
-    CharacteristicType::RangeResistance,
-    CharacteristicType::ReflectedDamage,
-    CharacteristicType::SpellDamage,
-    CharacteristicType::Strength,
-    CharacteristicType::Summon,
-    CharacteristicType::TrapDamage,
-    CharacteristicType::TrapPower,
-    CharacteristicType::Vitality,
-    CharacteristicType::WaterDamage,
-    CharacteristicType::WaterResistance,
-    CharacteristicType::WaterResistancePercent,
-    CharacteristicType::WeaponDamage,
-    CharacteristicType::Wisdom,
-];
-
-impl CharacteristicType {
-    pub fn random() -> Self {
-        let mut rng = rand::thread_rng();
-        ALL_CHARACTERISTIC_TYPES[rng.gen_range(0..ALL_CHARACTERISTIC_TYPES.len())]
-    }
-}
-
 #[cfg(test)]
 mod tests {
-    use crate::model::{EffectsVec};
     use super::*;
-    
+    use crate::model::EffectsVec;
 
     fn create_test_effects() -> EffectsVec {
         let mut effects = EffectsVec::empty();
@@ -235,7 +99,6 @@ mod tests {
         for characteristic_type in ALL_CHARACTERISTIC_TYPES {
             assert_eq!(effects.get(characteristic_type), 0)
         }
-
     }
 
     #[test]
@@ -259,5 +122,4 @@ mod tests {
             assert_eq!(effects.get(characteristic_type), expected);
         }
     }
-
 }

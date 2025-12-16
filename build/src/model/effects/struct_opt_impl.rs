@@ -2,8 +2,6 @@ use crate::model::{CharacteristicType, Language, TranslatedName};
 
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
-use rand::{thread_rng, Rng};
-
 #[derive(Clone, Debug, PartialEq)]
 pub struct EffectsStructOpt {
     pub ability_point: Option<i32>,
@@ -120,20 +118,6 @@ impl EffectsStructOpt {
         *self += other;
     }
 
-    pub fn random_sample() -> Self {
-        let mut rng = thread_rng();
-
-        let n = rng.gen_range(5..15);
-
-        let mut effects = Self::empty();
-
-        for _ in 0..n {
-            effects.set(&CharacteristicType::random(), rng.gen_range(-50..200));
-        }
-
-        effects
-    }
-
     pub fn get(&self, characteristic_type: &CharacteristicType) -> i32 {
         match characteristic_type {
             CharacteristicType::AbilityPoint => self.ability_point.unwrap_or(0),
@@ -151,7 +135,9 @@ impl EffectsStructOpt {
             CharacteristicType::Dodge => self.dodge.unwrap_or(0),
             CharacteristicType::EarthDamage => self.earth_damage.unwrap_or(0),
             CharacteristicType::EarthResistance => self.earth_resistance.unwrap_or(0),
-            CharacteristicType::EarthResistancePercent => self.earth_resistance_percent.unwrap_or(0),
+            CharacteristicType::EarthResistancePercent => {
+                self.earth_resistance_percent.unwrap_or(0)
+            }
             CharacteristicType::FireDamage => self.fire_damage.unwrap_or(0),
             CharacteristicType::FireResistance => self.fire_resistance.unwrap_or(0),
             CharacteristicType::FireResistancePercent => self.fire_resistance_percent.unwrap_or(0),
@@ -163,10 +149,14 @@ impl EffectsStructOpt {
             CharacteristicType::MeleeResistance => self.melee_resistance.unwrap_or(0),
             CharacteristicType::MovementPoint => self.movement_point.unwrap_or(0),
             CharacteristicType::MovementPointParry => self.movement_point_parry.unwrap_or(0),
-            CharacteristicType::MovementPointReduction => self.movement_point_reduction.unwrap_or(0),
+            CharacteristicType::MovementPointReduction => {
+                self.movement_point_reduction.unwrap_or(0)
+            }
             CharacteristicType::NeutralDamage => self.neutral_damage.unwrap_or(0),
             CharacteristicType::NeutralResistance => self.neutral_resistance.unwrap_or(0),
-            CharacteristicType::NeutralResistancePercent => self.neutral_resistance_percent.unwrap_or(0),
+            CharacteristicType::NeutralResistancePercent => {
+                self.neutral_resistance_percent.unwrap_or(0)
+            }
             CharacteristicType::Pods => self.pods.unwrap_or(0),
             CharacteristicType::Power => self.power.unwrap_or(0),
             CharacteristicType::Prospecting => self.prospecting.unwrap_or(0),
@@ -184,7 +174,9 @@ impl EffectsStructOpt {
             CharacteristicType::Vitality => self.vitality.unwrap_or(0),
             CharacteristicType::WaterDamage => self.water_damage.unwrap_or(0),
             CharacteristicType::WaterResistance => self.water_resistance.unwrap_or(0),
-            CharacteristicType::WaterResistancePercent => self.water_resistance_percent.unwrap_or(0),
+            CharacteristicType::WaterResistancePercent => {
+                self.water_resistance_percent.unwrap_or(0)
+            }
             CharacteristicType::WeaponDamage => self.weapon_damage.unwrap_or(0),
             CharacteristicType::Wisdom => self.wisdom.unwrap_or(0),
         }
@@ -194,11 +186,15 @@ impl EffectsStructOpt {
         match characteristic_type {
             CharacteristicType::AbilityPoint => self.ability_point = Some(new_value),
             CharacteristicType::AbilityPointParry => self.ability_point_parry = Some(new_value),
-            CharacteristicType::AbilityPointReduction => self.ability_point_reduction = Some(new_value),
+            CharacteristicType::AbilityPointReduction => {
+                self.ability_point_reduction = Some(new_value)
+            }
             CharacteristicType::Agility => self.agility = Some(new_value),
             CharacteristicType::AirDamage => self.air_damage = Some(new_value),
             CharacteristicType::AirResistance => self.air_resistance = Some(new_value),
-            CharacteristicType::AirResistancePercent => self.air_resistance_percent = Some(new_value),
+            CharacteristicType::AirResistancePercent => {
+                self.air_resistance_percent = Some(new_value)
+            }
             CharacteristicType::Chance => self.chance = Some(new_value),
             CharacteristicType::Critical => self.critical = Some(new_value),
             CharacteristicType::CriticalDamage => self.critical_damage = Some(new_value),
@@ -207,10 +203,14 @@ impl EffectsStructOpt {
             CharacteristicType::Dodge => self.dodge = Some(new_value),
             CharacteristicType::EarthDamage => self.earth_damage = Some(new_value),
             CharacteristicType::EarthResistance => self.earth_resistance = Some(new_value),
-            CharacteristicType::EarthResistancePercent => self.earth_resistance_percent = Some(new_value),
+            CharacteristicType::EarthResistancePercent => {
+                self.earth_resistance_percent = Some(new_value)
+            }
             CharacteristicType::FireDamage => self.fire_damage = Some(new_value),
             CharacteristicType::FireResistance => self.fire_resistance = Some(new_value),
-            CharacteristicType::FireResistancePercent => self.fire_resistance_percent = Some(new_value),
+            CharacteristicType::FireResistancePercent => {
+                self.fire_resistance_percent = Some(new_value)
+            }
             CharacteristicType::Heals => self.heals = Some(new_value),
             CharacteristicType::Initiative => self.initiative = Some(new_value),
             CharacteristicType::Intelligence => self.intelligence = Some(new_value),
@@ -219,10 +219,14 @@ impl EffectsStructOpt {
             CharacteristicType::MeleeResistance => self.melee_resistance = Some(new_value),
             CharacteristicType::MovementPoint => self.movement_point = Some(new_value),
             CharacteristicType::MovementPointParry => self.movement_point_parry = Some(new_value),
-            CharacteristicType::MovementPointReduction => self.movement_point_reduction = Some(new_value),
+            CharacteristicType::MovementPointReduction => {
+                self.movement_point_reduction = Some(new_value)
+            }
             CharacteristicType::NeutralDamage => self.neutral_damage = Some(new_value),
             CharacteristicType::NeutralResistance => self.neutral_resistance = Some(new_value),
-            CharacteristicType::NeutralResistancePercent => self.neutral_resistance_percent = Some(new_value),
+            CharacteristicType::NeutralResistancePercent => {
+                self.neutral_resistance_percent = Some(new_value)
+            }
             CharacteristicType::Pods => self.pods = Some(new_value),
             CharacteristicType::Power => self.power = Some(new_value),
             CharacteristicType::Prospecting => self.prospecting = Some(new_value),
@@ -240,7 +244,9 @@ impl EffectsStructOpt {
             CharacteristicType::Vitality => self.vitality = Some(new_value),
             CharacteristicType::WaterDamage => self.water_damage = Some(new_value),
             CharacteristicType::WaterResistance => self.water_resistance = Some(new_value),
-            CharacteristicType::WaterResistancePercent => self.water_resistance_percent = Some(new_value),
+            CharacteristicType::WaterResistancePercent => {
+                self.water_resistance_percent = Some(new_value)
+            }
             CharacteristicType::WeaponDamage => self.weapon_damage = Some(new_value),
             CharacteristicType::Wisdom => self.wisdom = Some(new_value),
         }
@@ -412,7 +418,7 @@ impl SubAssign<&EffectsStructOpt> for EffectsStructOpt {
 
 #[cfg(test)]
 mod tests {
-    use crate::model::{EffectsStructOpt, ALL_CHARACTERISTIC_TYPES};
+    use crate::model::{ALL_CHARACTERISTIC_TYPES, EffectsStructOpt};
 
     fn create_test_effects() -> EffectsStructOpt {
         let mut effects = EffectsStructOpt::empty();
@@ -431,7 +437,6 @@ mod tests {
         for characteristic_type in ALL_CHARACTERISTIC_TYPES {
             assert_eq!(effects.get(characteristic_type), 0)
         }
-
     }
 
     #[test]
@@ -466,5 +471,4 @@ mod tests {
             assert_eq!(effects.get(characteristic_type), 0);
         }
     }
-
 }

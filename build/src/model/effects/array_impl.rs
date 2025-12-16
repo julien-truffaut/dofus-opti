@@ -1,10 +1,8 @@
 use crate::model::{ALL_CHARACTERISTIC_TYPES, CharacteristicType};
 
-use rand::Rng;
-
 #[derive(Debug)]
 pub struct EffectsArray {
-    values: [i32; CharacteristicType::COUNT]
+    values: [i32; CharacteristicType::COUNT],
 }
 
 impl EffectsArray {
@@ -33,26 +31,11 @@ impl EffectsArray {
             self.values[i] -= other.values[i];
         }
     }
-
-    pub fn random_sample() -> Self {
-        let mut rng = rand::thread_rng();
-
-        let n = rng.gen_range(5..15);
-
-        let mut effects = Self::empty();
-
-        for _ in 0..n {
-            effects.set(&CharacteristicType::random(), rng.gen_range(-50..200));
-        }
-
-        effects
-    }
 }
-
 
 #[cfg(test)]
 mod tests {
-    use crate::model::{EffectsArray, ALL_CHARACTERISTIC_TYPES};
+    use crate::model::{ALL_CHARACTERISTIC_TYPES, EffectsArray};
 
     fn create_test_effects() -> EffectsArray {
         let mut effects = EffectsArray::empty();
@@ -71,7 +54,6 @@ mod tests {
         for characteristic_type in ALL_CHARACTERISTIC_TYPES {
             assert_eq!(effects.get(characteristic_type), 0)
         }
-
     }
 
     #[test]
@@ -106,5 +88,4 @@ mod tests {
             assert_eq!(effects.get(characteristic_type), 0);
         }
     }
-
 }

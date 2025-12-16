@@ -56,9 +56,7 @@ impl<'a> Build<'a> {
     }
 
     pub fn satisfy_requirements(&self, requirements: &Vec<MinRequirement>) -> bool {
-        requirements
-            .iter()
-            .all(|requirement| self.satisfy_requirement(requirement))
+        requirements.iter().all(|requirement| self.satisfy_requirement(requirement))
     }
 
     pub fn satisfy_requirement(&self, requirement: &MinRequirement) -> bool {

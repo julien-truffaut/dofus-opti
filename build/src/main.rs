@@ -61,7 +61,7 @@ async fn main() -> anyhow::Result<()> {
     if let Some(level_range) = args.level_range {
         catalog.retain(|g| level_range.is_valid(g.level));
     }
-    
+
     catalog.filter(gear_selector::select_top(gear_scorer, 30));
     catalog.filter(gear_selector::select_by_stdev(gear_scorer, 0.5));
 

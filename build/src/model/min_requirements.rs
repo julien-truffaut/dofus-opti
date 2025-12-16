@@ -1,6 +1,5 @@
 use std::str::FromStr;
 
-
 #[derive(Debug, PartialEq, Clone)]
 pub struct MinRequirement {
     pub id: RequirementId,

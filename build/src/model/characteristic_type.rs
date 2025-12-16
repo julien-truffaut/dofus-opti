@@ -1,8 +1,6 @@
 use crate::model::Language;
 
-use rand::Rng;
-
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum CharacteristicType {
     AbilityPoint,
     AbilityPointParry,
@@ -58,7 +56,7 @@ pub enum CharacteristicType {
 }
 
 impl CharacteristicType {
-    pub const COUNT: usize = CharacteristicType::Wisdom.index() + 1; 
+    pub const COUNT: usize = CharacteristicType::Wisdom.index() + 1;
 
     pub const fn index(&self) -> usize {
         match self {
@@ -114,11 +112,6 @@ impl CharacteristicType {
             CharacteristicType::WeaponDamage => 49,
             CharacteristicType::Wisdom => 50,
         }
-    }
-
-    pub fn random() -> CharacteristicType {
-        let mut rng = rand::thread_rng();
-        ALL_CHARACTERISTIC_TYPES[rng.gen_range(0..ALL_CHARACTERISTIC_TYPES.len())].clone()
     }
 }
 

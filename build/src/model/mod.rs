@@ -1,6 +1,5 @@
 pub mod build;
 pub mod build_error;
-pub mod min_requirements;
 pub mod characteristic_type;
 pub mod effects;
 pub mod gear;
@@ -9,11 +8,11 @@ pub mod gear_slot;
 pub mod gear_slot_type;
 pub mod language;
 pub mod level_range;
+pub mod min_requirements;
 pub mod translated_name;
 
 pub use build::*;
 pub use build_error::*;
-pub use min_requirements::*;
 pub use characteristic_type::*;
 pub use effects::*;
 pub use gear::*;
@@ -22,4 +21,5 @@ pub use gear_slot::*;
 pub use gear_slot_type::*;
 pub use language::*;
 pub use level_range::*;
+pub use min_requirements::*;
 pub use translated_name::*;
