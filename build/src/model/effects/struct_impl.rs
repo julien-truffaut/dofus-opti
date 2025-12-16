@@ -1,7 +1,5 @@
 use crate::model::{CharacteristicType, Language, TranslatedName};
 
-use std::ops::{Add, AddAssign, Sub, SubAssign};
-
 #[derive(Clone, Debug, PartialEq)]
 pub struct EffectsStruct {
     pub ability_point: i32,
@@ -115,7 +113,111 @@ impl EffectsStruct {
     }
 
     pub fn add(&mut self, other: &EffectsStruct) {
-        *self += other;
+        self.ability_point += other.ability_point;
+        self.ability_point_parry += other.ability_point_parry;
+        self.ability_point_reduction += other.ability_point_reduction;
+        self.agility += other.agility;
+        self.air_damage += other.air_damage;
+        self.air_resistance += other.air_resistance;
+        self.air_resistance_percent += other.air_resistance_percent;
+        self.chance += other.chance;
+        self.critical += other.critical;
+        self.critical_damage += other.critical_damage;
+        self.critical_resistance += other.critical_resistance;
+        self.damage += other.damage;
+        self.dodge += other.dodge;
+        self.earth_damage += other.earth_damage;
+        self.earth_resistance += other.earth_resistance;
+        self.earth_resistance_percent += other.earth_resistance_percent;
+        self.fire_damage += other.fire_damage;
+        self.fire_resistance += other.fire_resistance;
+        self.fire_resistance_percent += other.fire_resistance_percent;
+        self.heals += other.heals;
+        self.initiative += other.initiative;
+        self.intelligence += other.intelligence;
+        self.lock += other.lock;
+        self.melee_damage += other.melee_damage;
+        self.melee_resistance += other.melee_resistance;
+        self.movement_point += other.movement_point;
+        self.movement_point_parry += other.movement_point_parry;
+        self.movement_point_reduction += other.movement_point_reduction;
+        self.neutral_damage += other.neutral_damage;
+        self.neutral_resistance += other.neutral_resistance;
+        self.neutral_resistance_percent += other.neutral_resistance_percent;
+        self.pods += other.pods;
+        self.power += other.power;
+        self.prospecting += other.prospecting;
+        self.push_back_damage += other.push_back_damage;
+        self.push_back_resistance += other.push_back_resistance;
+        self.range += other.range;
+        self.range_damage += other.range_damage;
+        self.range_resistance += other.range_resistance;
+        self.reflected_damage += other.reflected_damage;
+        self.spell_damage += other.spell_damage;
+        self.strength += other.strength;
+        self.summon += other.summon;
+        self.trap_damage += other.trap_damage;
+        self.trap_power += other.trap_power;
+        self.vitality += other.vitality;
+        self.water_damage += other.water_damage;
+        self.water_resistance += other.water_resistance;
+        self.water_resistance_percent += other.water_resistance_percent;
+        self.weapon_damage += other.weapon_damage;
+        self.wisdom += other.wisdom;
+    }
+
+    pub fn sub(&mut self, other: &EffectsStruct) {
+        self.ability_point -= other.ability_point;
+        self.ability_point_parry -= other.ability_point_parry;
+        self.ability_point_reduction -= other.ability_point_reduction;
+        self.agility -= other.agility;
+        self.air_damage -= other.air_damage;
+        self.air_resistance -= other.air_resistance;
+        self.air_resistance_percent -= other.air_resistance_percent;
+        self.chance -= other.chance;
+        self.critical -= other.critical;
+        self.critical_damage -= other.critical_damage;
+        self.critical_resistance -= other.critical_resistance;
+        self.damage -= other.damage;
+        self.dodge -= other.dodge;
+        self.earth_damage -= other.earth_damage;
+        self.earth_resistance -= other.earth_resistance;
+        self.earth_resistance_percent -= other.earth_resistance_percent;
+        self.fire_damage -= other.fire_damage;
+        self.fire_resistance -= other.fire_resistance;
+        self.fire_resistance_percent -= other.fire_resistance_percent;
+        self.heals -= other.heals;
+        self.initiative -= other.initiative;
+        self.intelligence -= other.intelligence;
+        self.lock -= other.lock;
+        self.melee_damage -= other.melee_damage;
+        self.melee_resistance -= other.melee_resistance;
+        self.movement_point -= other.movement_point;
+        self.movement_point_parry -= other.movement_point_parry;
+        self.movement_point_reduction -= other.movement_point_reduction;
+        self.neutral_damage -= other.neutral_damage;
+        self.neutral_resistance -= other.neutral_resistance;
+        self.neutral_resistance_percent -= other.neutral_resistance_percent;
+        self.pods -= other.pods;
+        self.power -= other.power;
+        self.prospecting -= other.prospecting;
+        self.push_back_damage -= other.push_back_damage;
+        self.push_back_resistance -= other.push_back_resistance;
+        self.range -= other.range;
+        self.range_damage -= other.range_damage;
+        self.range_resistance -= other.range_resistance;
+        self.reflected_damage -= other.reflected_damage;
+        self.spell_damage -= other.spell_damage;
+        self.strength -= other.strength;
+        self.summon -= other.summon;
+        self.trap_damage -= other.trap_damage;
+        self.trap_power -= other.trap_power;
+        self.vitality -= other.vitality;
+        self.water_damage -= other.water_damage;
+        self.water_resistance -= other.water_resistance;
+        self.water_resistance_percent -= other.water_resistance_percent;
+        self.weapon_damage -= other.weapon_damage;
+        self.wisdom -= other.wisdom;
     }
 
     pub fn get(&self, characteristic_type: &CharacteristicType) -> i32 {
@@ -258,124 +360,6 @@ impl EffectsStruct {
     }
 }
 
-macro_rules! impl_EffectsStruct_ops {
-    ($($field:ident),+) => {
-        impl Add for EffectsStruct {
-            type Output = EffectsStruct;
-
-            fn add(self, other: EffectsStruct) -> EffectsStruct {
-                EffectsStruct {
-                    $(
-                        $field: self.$field + other.$field,
-                    )+
-                }
-            }
-        }
-
-        impl Sub for EffectsStruct {
-            type Output = EffectsStruct;
-
-            fn sub(self, other: EffectsStruct) -> EffectsStruct {
-                EffectsStruct {
-                    $(
-                        $field: self.$field - other.$field,
-                    )+
-                }
-            }
-        }
-
-        impl<'a, 'b> Add<&'b EffectsStruct> for &'a EffectsStruct {
-            type Output = EffectsStruct;
-
-            fn add(self, other: &'b EffectsStruct) -> EffectsStruct {
-                EffectsStruct {
-                    $(
-                        $field: self.$field + other.$field,
-                    )+
-                }
-            }
-        }
-
-        impl<'a, 'b> Sub<&'b EffectsStruct> for &'a EffectsStruct {
-            type Output = EffectsStruct;
-
-            fn sub(self, other: &'b EffectsStruct) -> EffectsStruct {
-                EffectsStruct {
-                    $(
-                        $field: self.$field - other.$field,
-                    )+
-                }
-            }
-        }
-    };
-}
-
-impl_EffectsStruct_ops!(
-    ability_point,
-    ability_point_parry,
-    ability_point_reduction,
-    agility,
-    air_damage,
-    air_resistance,
-    air_resistance_percent,
-    chance,
-    critical,
-    critical_damage,
-    critical_resistance,
-    damage,
-    dodge,
-    earth_damage,
-    earth_resistance,
-    earth_resistance_percent,
-    fire_damage,
-    fire_resistance,
-    fire_resistance_percent,
-    heals,
-    initiative,
-    intelligence,
-    lock,
-    melee_damage,
-    melee_resistance,
-    movement_point,
-    movement_point_parry,
-    movement_point_reduction,
-    neutral_damage,
-    neutral_resistance,
-    neutral_resistance_percent,
-    pods,
-    power,
-    prospecting,
-    push_back_damage,
-    push_back_resistance,
-    range,
-    range_damage,
-    range_resistance,
-    reflected_damage,
-    spell_damage,
-    strength,
-    summon,
-    trap_damage,
-    trap_power,
-    vitality,
-    water_damage,
-    water_resistance,
-    water_resistance_percent,
-    weapon_damage,
-    wisdom
-);
-
-impl AddAssign<&EffectsStruct> for EffectsStruct {
-    fn add_assign(&mut self, other: &Self) {
-        *self = &*self + &other;
-    }
-}
-
-impl SubAssign<&EffectsStruct> for EffectsStruct {
-    fn sub_assign(&mut self, other: &Self) {
-        *self = &*self - &other;
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use crate::model::{ALL_CHARACTERISTIC_TYPES, EffectsStruct};
@@ -413,7 +397,7 @@ mod tests {
     fn add() {
         let mut effects = create_test_effects();
 
-        effects += &create_test_effects();
+        effects.add(&create_test_effects());
 
         for (i, characteristic_type) in ALL_CHARACTERISTIC_TYPES.iter().enumerate() {
             let expected = (i as i32 + 1) * 2;
@@ -425,7 +409,7 @@ mod tests {
     fn minus() {
         let mut effects = create_test_effects();
 
-        effects -= &create_test_effects();
+        effects.sub(&create_test_effects());
 
         for characteristic_type in ALL_CHARACTERISTIC_TYPES {
             assert_eq!(effects.get(characteristic_type), 0);

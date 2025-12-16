@@ -114,10 +114,6 @@ impl EffectsStructOpt {
         }
     }
 
-    pub fn add(&mut self, other: &EffectsStructOpt) {
-        *self += other;
-    }
-
     pub fn get(&self, characteristic_type: &CharacteristicType) -> i32 {
         match characteristic_type {
             CharacteristicType::AbilityPoint => self.ability_point.unwrap_or(0),
@@ -249,6 +245,365 @@ impl EffectsStructOpt {
             }
             CharacteristicType::WeaponDamage => self.weapon_damage = Some(new_value),
             CharacteristicType::Wisdom => self.wisdom = Some(new_value),
+        }
+    }
+
+    pub fn add(&mut self, other: &EffectsStructOpt) {
+        match (self.ability_point, other.ability_point) {
+            (Some(a), Some(b)) => self.ability_point = Some(a + b),
+            (None, Some(b)) => self.ability_point = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.ability_point_parry, other.ability_point_parry) {
+            (Some(a), Some(b)) => self.ability_point_parry = Some(a + b),
+            (None, Some(b)) => self.ability_point_parry = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.ability_point_reduction, other.ability_point_reduction) {
+            (Some(a), Some(b)) => self.ability_point_reduction = Some(a + b),
+            (None, Some(b)) => self.ability_point_reduction = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.agility, other.agility) {
+            (Some(a), Some(b)) => self.agility = Some(a + b),
+            (None, Some(b)) => self.agility = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.air_damage, other.air_damage) {
+            (Some(a), Some(b)) => self.air_damage = Some(a + b),
+            (None, Some(b)) => self.air_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.air_resistance, other.air_resistance) {
+            (Some(a), Some(b)) => self.air_resistance = Some(a + b),
+            (None, Some(b)) => self.air_resistance = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.air_resistance_percent, other.air_resistance_percent) {
+            (Some(a), Some(b)) => self.air_resistance_percent = Some(a + b),
+            (None, Some(b)) => self.air_resistance_percent = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.chance, other.chance) {
+            (Some(a), Some(b)) => self.chance = Some(a + b),
+            (None, Some(b)) => self.chance = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.critical, other.critical) {
+            (Some(a), Some(b)) => self.critical = Some(a + b),
+            (None, Some(b)) => self.critical = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.critical_damage, other.critical_damage) {
+            (Some(a), Some(b)) => self.critical_damage = Some(a + b),
+            (None, Some(b)) => self.critical_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.critical_resistance, other.critical_resistance) {
+            (Some(a), Some(b)) => self.critical_resistance = Some(a + b),
+            (None, Some(b)) => self.critical_resistance = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.damage, other.damage) {
+            (Some(a), Some(b)) => self.damage = Some(a + b),
+            (None, Some(b)) => self.damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.dodge, other.dodge) {
+            (Some(a), Some(b)) => self.dodge = Some(a + b),
+            (None, Some(b)) => self.dodge = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.earth_damage, other.earth_damage) {
+            (Some(a), Some(b)) => self.earth_damage = Some(a + b),
+            (None, Some(b)) => self.earth_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.earth_resistance, other.earth_resistance) {
+            (Some(a), Some(b)) => self.earth_resistance = Some(a + b),
+            (None, Some(b)) => self.earth_resistance = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.earth_resistance_percent, other.earth_resistance_percent) {
+            (Some(a), Some(b)) => self.earth_resistance_percent = Some(a + b),
+            (None, Some(b)) => self.earth_resistance_percent = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.fire_damage, other.fire_damage) {
+            (Some(a), Some(b)) => self.fire_damage = Some(a + b),
+            (None, Some(b)) => self.fire_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.fire_resistance, other.fire_resistance) {
+            (Some(a), Some(b)) => self.fire_resistance = Some(a + b),
+            (None, Some(b)) => self.fire_resistance = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.fire_resistance_percent, other.fire_resistance_percent) {
+            (Some(a), Some(b)) => self.fire_resistance_percent = Some(a + b),
+            (None, Some(b)) => self.fire_resistance_percent = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.heals, other.heals) {
+            (Some(a), Some(b)) => self.heals = Some(a + b),
+            (None, Some(b)) => self.heals = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.initiative, other.initiative) {
+            (Some(a), Some(b)) => self.initiative = Some(a + b),
+            (None, Some(b)) => self.initiative = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.intelligence, other.intelligence) {
+            (Some(a), Some(b)) => self.intelligence = Some(a + b),
+            (None, Some(b)) => self.intelligence = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.lock, other.lock) {
+            (Some(a), Some(b)) => self.lock = Some(a + b),
+            (None, Some(b)) => self.lock = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.melee_damage, other.melee_damage) {
+            (Some(a), Some(b)) => self.melee_damage = Some(a + b),
+            (None, Some(b)) => self.melee_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.melee_resistance, other.melee_resistance) {
+            (Some(a), Some(b)) => self.melee_resistance = Some(a + b),
+            (None, Some(b)) => self.melee_resistance = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.movement_point, other.movement_point) {
+            (Some(a), Some(b)) => self.movement_point = Some(a + b),
+            (None, Some(b)) => self.movement_point = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+        
+        match (self.movement_point_parry, other.movement_point_parry) {
+            (Some(a), Some(b)) => self.movement_point_parry = Some(a + b),
+            (None, Some(b)) => self.movement_point_parry = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.movement_point_reduction, other.movement_point_reduction) {
+            (Some(a), Some(b)) => self.movement_point_reduction = Some(a + b),
+            (None, Some(b)) => self.movement_point_reduction = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.neutral_damage, other.neutral_damage) {
+            (Some(a), Some(b)) => self.neutral_damage = Some(a + b),
+            (None, Some(b)) => self.neutral_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.neutral_resistance, other.neutral_resistance) {
+            (Some(a), Some(b)) => self.neutral_resistance = Some(a + b),
+            (None, Some(b)) => self.neutral_resistance = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.neutral_resistance_percent, other.neutral_resistance_percent) {
+            (Some(a), Some(b)) => self.neutral_resistance_percent = Some(a + b),
+            (None, Some(b)) => self.neutral_resistance_percent = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.pods, other.pods) {
+            (Some(a), Some(b)) => self.pods = Some(a + b),
+            (None, Some(b)) => self.pods = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.power, other.power) {
+            (Some(a), Some(b)) => self.power = Some(a + b),
+            (None, Some(b)) => self.power = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.prospecting, other.prospecting) {
+            (Some(a), Some(b)) => self.prospecting = Some(a + b),
+            (None, Some(b)) => self.prospecting = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.push_back_damage, other.push_back_damage) {
+            (Some(a), Some(b)) => self.push_back_damage = Some(a + b),
+            (None, Some(b)) => self.push_back_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.push_back_resistance, other.push_back_resistance) {
+            (Some(a), Some(b)) => self.push_back_resistance = Some(a + b),
+            (None, Some(b)) => self.push_back_resistance = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.range, other.range) {
+            (Some(a), Some(b)) => self.range = Some(a + b),
+            (None, Some(b)) => self.range = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.range_damage, other.range_damage) {
+            (Some(a), Some(b)) => self.range_damage = Some(a + b),
+            (None, Some(b)) => self.range_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.range_resistance, other.range_resistance) {
+            (Some(a), Some(b)) => self.range_resistance = Some(a + b),
+            (None, Some(b)) => self.range_resistance = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.reflected_damage, other.reflected_damage) {
+            (Some(a), Some(b)) => self.reflected_damage = Some(a + b),
+            (None, Some(b)) => self.reflected_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.spell_damage, other.spell_damage) {
+            (Some(a), Some(b)) => self.spell_damage = Some(a + b),
+            (None, Some(b)) => self.spell_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.strength, other.strength) {
+            (Some(a), Some(b)) => self.strength = Some(a + b),
+            (None, Some(b)) => self.strength = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.summon, other.summon) {
+            (Some(a), Some(b)) => self.summon = Some(a + b),
+            (None, Some(b)) => self.summon = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.trap_damage, other.trap_damage) {
+            (Some(a), Some(b)) => self.trap_damage = Some(a + b),
+            (None, Some(b)) => self.trap_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.trap_power, other.trap_power) {
+            (Some(a), Some(b)) => self.trap_power = Some(a + b),
+            (None, Some(b)) => self.trap_power = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.vitality, other.vitality) {
+            (Some(a), Some(b)) => self.vitality = Some(a + b),
+            (None, Some(b)) => self.vitality = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.water_damage, other.water_damage) {
+            (Some(a), Some(b)) => self.water_damage = Some(a + b),
+            (None, Some(b)) => self.water_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.water_resistance, other.water_resistance) {
+            (Some(a), Some(b)) => self.water_resistance = Some(a + b),
+            (None, Some(b)) => self.water_resistance = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.water_resistance_percent, other.water_resistance_percent) {
+            (Some(a), Some(b)) => self.water_resistance_percent = Some(a + b),
+            (None, Some(b)) => self.water_resistance_percent = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.weapon_damage, other.weapon_damage) {
+            (Some(a), Some(b)) => self.weapon_damage = Some(a + b),
+            (None, Some(b)) => self.weapon_damage = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
+        }
+
+        match (self.wisdom, other.wisdom) {
+            (Some(a), Some(b)) => self.wisdom = Some(a + b),
+            (None, Some(b)) => self.wisdom = Some(b),
+            (Some(_), None) => (),
+            (None, None) => (),
         }
     }
 
@@ -453,7 +808,7 @@ mod tests {
     fn add() {
         let mut effects = create_test_effects();
 
-        effects += &create_test_effects();
+        effects.add(&create_test_effects());
 
         for (i, characteristic_type) in ALL_CHARACTERISTIC_TYPES.iter().enumerate() {
             let expected = (i as i32 + 1) * 2;

@@ -26,7 +26,7 @@ impl EffectsArray {
         }
     }
 
-    pub fn minus(&mut self, other: &EffectsArray) {
+    pub fn sub(&mut self, other: &EffectsArray) {
         for i in 0..ALL_CHARACTERISTIC_TYPES.len() {
             self.values[i] -= other.values[i];
         }
@@ -79,10 +79,10 @@ mod tests {
     }
 
     #[test]
-    fn minus() {
+    fn sub() {
         let mut effects = create_test_effects();
 
-        effects.minus(&create_test_effects());
+        effects.sub(&create_test_effects());
 
         for characteristic_type in ALL_CHARACTERISTIC_TYPES {
             assert_eq!(effects.get(characteristic_type), 0);
