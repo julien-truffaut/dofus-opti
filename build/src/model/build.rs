@@ -1,5 +1,5 @@
 use crate::model::{
-    BuildError, EffectsStructOpt, Gear, GearSlot, GearSlotType, Language, MinRequirement,
+    BuildError, Effects, Gear, GearSlot, GearSlotType, Language, MinRequirement,
     RequirementId, TranslatedName,
 };
 use std::collections::HashMap;
@@ -8,14 +8,14 @@ use std::collections::hash_map::Entry::{Occupied, Vacant};
 #[derive(Debug, PartialEq)]
 pub struct Build<'a> {
     gear_slots: HashMap<GearSlot, &'a Gear>,
-    pub effects: EffectsStructOpt,
+    pub effects: Effects,
 }
 
 impl<'a> Build<'a> {
     pub fn new() -> Self {
         Self {
             gear_slots: HashMap::new(),
-            effects: EffectsStructOpt::empty(),
+            effects: Effects::empty(),
         }
     }
 
@@ -25,7 +25,7 @@ impl<'a> Build<'a> {
 
     pub fn delete_gear(&mut self, gear_slot: &GearSlot) {
         if let Some(old_gear) = self.gear_slots.remove(gear_slot) {
-            self.effects -= &old_gear.effects;
+            self.effects.sub(&old_gear.effects);
         }
     }
 
@@ -34,13 +34,13 @@ impl<'a> Build<'a> {
         let gear_effects = gear.effects.clone();
         match self.gear_slots.entry(gear_slot) {
             Vacant(entry) => {
-                self.effects += &gear_effects;
+                self.effects.add(&gear_effects);
                 entry.insert(gear);
             }
             Occupied(mut entry) => {
                 let old_gear = entry.get();
-                self.effects -= &old_gear.effects;
-                self.effects += &gear_effects;
+                self.effects.sub(&old_gear.effects);
+                self.effects.add(&gear_effects);
                 entry.insert(gear);
             }
         }
@@ -63,7 +63,7 @@ impl<'a> Build<'a> {
         match requirement.id {
             RequirementId::Strength => self.effects.derived_strength() >= requirement.desired_value,
             RequirementId::Vitality => {
-                self.effects.vitality.unwrap_or(0) >= requirement.desired_value
+                self.effects.vitality() >= requirement.desired_value
             }
         }
     }
@@ -153,7 +153,7 @@ fn pad_from_line2(text: String, prefix: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::model::{ALL_GEAR_SLOTS, TranslatedName};
+    use crate::model::{ALL_GEAR_SLOTS, CharacteristicType, TranslatedName};
     use dofus_opti_core::{GearType, Id};
 
     #[test]
@@ -168,7 +168,7 @@ mod tests {
             gear_type: GearType::Amulet,
             has_set: true,
             level: 200,
-            effects: EffectsStructOpt::empty(),
+            effects: Effects::empty(),
         };
         build.set_gear(GearSlot::Amulet, &amulet)?;
         build.delete_gear(&GearSlot::Amulet);
@@ -180,10 +180,10 @@ mod tests {
     fn set_erase_existing_gear() -> Result<(), BuildError> {
         let mut build_1 = Build::new();
         let mut build_2 = Build::new();
-        let mut effects_1 = EffectsStructOpt::empty();
-        let mut effects_2 = EffectsStructOpt::empty();
-        effects_1.agility = Some(24);
-        effects_2.agility = Some(32);
+        let mut effects_1 = Effects::empty();
+        let mut effects_2 = Effects::empty();
+        effects_1.set(&CharacteristicType::Agility, 24);
+        effects_2.set(&CharacteristicType::Agility, 32);
         let amulet_1 = Gear {
             id: Id::from("gear_id"),
             name: TranslatedName {
@@ -211,8 +211,8 @@ mod tests {
     fn set_get_gear_round_trip() -> Result<(), BuildError> {
         let mut build = Build::new();
         let mut gears_map: HashMap<GearSlot, Gear> = HashMap::new();
-        let mut effects = EffectsStructOpt::empty();
-        effects.strength = Some(1);
+        let mut effects = Effects::empty();
+        effects.set(&CharacteristicType::Strength, 1);
         let default_gear = Gear {
             id: Id::from("gear_id"),
             name: TranslatedName {
@@ -252,8 +252,8 @@ mod tests {
             found_gears.push(build.get_gear(gear_slot).cloned());
         }
 
-        let mut expected_effects = EffectsStructOpt::empty();
-        expected_effects.strength = Some(9);
+        let mut expected_effects = Effects::empty();
+        expected_effects.set(&CharacteristicType::Strength, 9);
 
         assert_eq!(gears, found_gears);
         assert_eq!(build.effects, expected_effects);
@@ -272,7 +272,7 @@ mod tests {
             gear_type: GearType::Amulet,
             has_set: true,
             level: 200,
-            effects: EffectsStructOpt::empty(),
+            effects: Effects::empty(),
         };
         let result = build.set_gear(GearSlot::Belt, &amulet);
         assert_eq!(result, Err(BuildError::InvalidGearSlot(Id::from("gear_id"), GearSlot::Belt)));
