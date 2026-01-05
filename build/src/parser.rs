@@ -1,7 +1,7 @@
 use crate::model::{CharacteristicType, Effects, Gear, TranslatedName};
-use dofus_opti_core::model::Gear as CoreGear;
-use dofus_opti_core::model::CharacteristicType as CoreCharacteristicType;
 use dofus_opti_core::model::CharacteristicRange;
+use dofus_opti_core::model::CharacteristicType as CoreCharacteristicType;
+use dofus_opti_core::model::Gear as CoreGear;
 
 pub fn parse_gear(gear: CoreGear) -> Gear {
     Gear {
@@ -20,13 +20,17 @@ pub fn parse_gear(gear: CoreGear) -> Gear {
 pub fn parse_effects(characteristics: Vec<CharacteristicRange>) -> Effects {
     let mut effects = Effects::empty();
 
-    characteristics.iter().for_each(|characteristic_range| 
-        effects.set(&parse_characteristic_type(&characteristic_range.kind), characteristic_range.max));
+    characteristics.iter().for_each(|characteristic_range| {
+        effects
+            .set(&parse_characteristic_type(&characteristic_range.kind), characteristic_range.max)
+    });
 
     effects
 }
 
-pub fn parse_characteristic_type(characteristic_type: &CoreCharacteristicType) -> CharacteristicType {
+pub fn parse_characteristic_type(
+    characteristic_type: &CoreCharacteristicType,
+) -> CharacteristicType {
     match characteristic_type {
         CoreCharacteristicType::AbilityPoint => CharacteristicType::AbilityPoint,
         CoreCharacteristicType::AbilityPointParry => CharacteristicType::AbilityPointParry,
@@ -43,7 +47,9 @@ pub fn parse_characteristic_type(characteristic_type: &CoreCharacteristicType) -
         CoreCharacteristicType::Dodge => CharacteristicType::Dodge,
         CoreCharacteristicType::EarthDamage => CharacteristicType::EarthDamage,
         CoreCharacteristicType::EarthResistance => CharacteristicType::EarthResistance,
-        CoreCharacteristicType::EarthResistancePercent => CharacteristicType::EarthResistancePercent,
+        CoreCharacteristicType::EarthResistancePercent => {
+            CharacteristicType::EarthResistancePercent
+        }
         CoreCharacteristicType::FireDamage => CharacteristicType::FireDamage,
         CoreCharacteristicType::FireResistance => CharacteristicType::FireResistance,
         CoreCharacteristicType::FireResistancePercent => CharacteristicType::FireResistancePercent,
@@ -55,10 +61,14 @@ pub fn parse_characteristic_type(characteristic_type: &CoreCharacteristicType) -
         CoreCharacteristicType::MeleeResistance => CharacteristicType::MeleeResistance,
         CoreCharacteristicType::MovementPoint => CharacteristicType::MovementPoint,
         CoreCharacteristicType::MovementPointParry => CharacteristicType::MovementPointParry,
-        CoreCharacteristicType::MovementPointReduction => CharacteristicType::MovementPointReduction,
+        CoreCharacteristicType::MovementPointReduction => {
+            CharacteristicType::MovementPointReduction
+        }
         CoreCharacteristicType::NeutralDamage => CharacteristicType::NeutralDamage,
         CoreCharacteristicType::NeutralResistance => CharacteristicType::NeutralResistance,
-        CoreCharacteristicType::NeutralResistancePercent => CharacteristicType::NeutralResistancePercent,
+        CoreCharacteristicType::NeutralResistancePercent => {
+            CharacteristicType::NeutralResistancePercent
+        }
         CoreCharacteristicType::Pods => CharacteristicType::Pods,
         CoreCharacteristicType::Power => CharacteristicType::Power,
         CoreCharacteristicType::Prospecting => CharacteristicType::Prospecting,
@@ -76,7 +86,9 @@ pub fn parse_characteristic_type(characteristic_type: &CoreCharacteristicType) -
         CoreCharacteristicType::Vitality => CharacteristicType::Vitality,
         CoreCharacteristicType::WaterDamage => CharacteristicType::WaterDamage,
         CoreCharacteristicType::WaterResistance => CharacteristicType::WaterResistance,
-        CoreCharacteristicType::WaterResistancePercent => CharacteristicType::WaterResistancePercent,
+        CoreCharacteristicType::WaterResistancePercent => {
+            CharacteristicType::WaterResistancePercent
+        }
         CoreCharacteristicType::WeaponDamage => CharacteristicType::WeaponDamage,
         CoreCharacteristicType::Wisdom => CharacteristicType::Wisdom,
     }

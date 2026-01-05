@@ -1,6 +1,6 @@
 use crate::model::{
-    BuildError, Effects, Gear, GearSlot, GearSlotType, Language, MinRequirement,
-    RequirementId, TranslatedName,
+    BuildError, Effects, Gear, GearSlot, GearSlotType, Language, MinRequirement, RequirementId,
+    TranslatedName,
 };
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
@@ -62,9 +62,7 @@ impl<'a> Build<'a> {
     pub fn satisfy_requirement(&self, requirement: &MinRequirement) -> bool {
         match requirement.id {
             RequirementId::Strength => self.effects.derived_strength() >= requirement.desired_value,
-            RequirementId::Vitality => {
-                self.effects.vitality() >= requirement.desired_value
-            }
+            RequirementId::Vitality => self.effects.vitality() >= requirement.desired_value,
         }
     }
 
