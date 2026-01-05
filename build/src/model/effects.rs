@@ -430,7 +430,7 @@ impl EffectsStructOpt {
             (Some(_), None) => (),
             (None, None) => (),
         }
-        
+
         match (self.movement_point_parry, other.movement_point_parry) {
             (Some(a), Some(b)) => self.movement_point_parry = Some(a + b),
             (None, Some(b)) => self.movement_point_parry = Some(b),

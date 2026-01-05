@@ -1,4 +1,4 @@
-use crate::model::{CharacteristicType, Language, TranslatedName};
+use dofus_opti_dofus_build::model::{CharacteristicType, Language, TranslatedName};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct EffectsStruct {
@@ -362,7 +362,8 @@ impl EffectsStruct {
 
 #[cfg(test)]
 mod tests {
-    use crate::model::{ALL_CHARACTERISTIC_TYPES, EffectsStruct};
+    use crate::EffectsStruct;
+    use dofus_opti_dofus_build::model::ALL_CHARACTERISTIC_TYPES;
 
     fn create_test_effects() -> EffectsStruct {
         let mut effects = EffectsStruct::empty();

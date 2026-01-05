@@ -1,4 +1,4 @@
-use crate::model::{ALL_CHARACTERISTIC_TYPES, CharacteristicType};
+use dofus_opti_dofus_build::model::{ALL_CHARACTERISTIC_TYPES, CharacteristicType};
 
 #[derive(Debug)]
 pub struct EffectsVec {
@@ -80,7 +80,7 @@ struct Effect {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::model::EffectsVec;
+    use crate::EffectsVec;
 
     fn create_test_effects() -> EffectsVec {
         let mut effects = EffectsVec::empty();

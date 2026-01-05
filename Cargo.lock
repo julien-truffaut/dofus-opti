@@ -335,15 +335,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "dofus-opti-bench"
+version = "0.1.0"
+dependencies = [
+ "criterion",
+ "dofus-opti-build",
+ "rand",
+]
+
+[[package]]
 name = "dofus-opti-build"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "clap",
- "criterion",
  "dofus-opti-core",
  "num-format",
- "rand",
  "serde",
  "serde_json",
  "thiserror",

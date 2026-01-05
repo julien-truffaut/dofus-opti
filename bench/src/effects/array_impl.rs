@@ -1,4 +1,4 @@
-use crate::model::{ALL_CHARACTERISTIC_TYPES, CharacteristicType};
+use dofus_opti_dofus_build::model::{ALL_CHARACTERISTIC_TYPES, CharacteristicType};
 
 #[derive(Debug)]
 pub struct EffectsArray {
@@ -35,7 +35,8 @@ impl EffectsArray {
 
 #[cfg(test)]
 mod tests {
-    use crate::model::{ALL_CHARACTERISTIC_TYPES, EffectsArray};
+    use crate::EffectsArray;
+    use dofus_opti_dofus_build::model::ALL_CHARACTERISTIC_TYPES;
 
     fn create_test_effects() -> EffectsArray {
         let mut effects = EffectsArray::empty();

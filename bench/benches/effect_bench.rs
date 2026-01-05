@@ -1,8 +1,6 @@
 use criterion::{Criterion, criterion_group, criterion_main};
-use dofus_opti_dofus_build::model::{
-    ALL_CHARACTERISTIC_TYPES, CharacteristicType, EffectsArray, EffectsStruct, EffectsStructOpt,
-    EffectsVec,
-};
+use dofus_opti_dofus_bench::{EffectsArray, EffectsStruct, EffectsStructOpt, EffectsVec};
+use dofus_opti_dofus_build::model::{ALL_CHARACTERISTIC_TYPES, CharacteristicType};
 use rand::Rng;
 
 fn bench_effects_addition(c: &mut Criterion) {

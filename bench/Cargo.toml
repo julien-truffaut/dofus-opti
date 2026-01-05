@@ -1,0 +1,19 @@
+[package]
+name = "dofus-opti-bench"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+dofus-opti-build = { path = "../build" }
+
+[dev-dependencies]
+criterion = "0.5"
+rand = "0.8"
+
+[[bench]]
+name = "effect_bench"
+harness = false
+
+[lib]
+name = "dofus_opti_dofus_bench"
+path = "src/lib.rs"
