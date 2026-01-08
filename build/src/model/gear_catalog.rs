@@ -3,6 +3,7 @@ use crate::model::{ALL_GEAR_SLOT_TYPES, ALL_GEAR_SLOTS, Gear, GearSlotType};
 use std::collections::HashMap;
 use std::fmt::Write;
 
+#[derive(Debug)]
 pub struct GearCatalog {
     gears_by_slot: HashMap<GearSlotType, Vec<Gear>>,
 }
@@ -19,6 +20,14 @@ impl GearCatalog {
         Self {
             gears_by_slot: map,
         }
+    }
+
+    pub fn all_gears(&self) -> Vec<&Gear> {
+        self.gears_by_slot.values().flat_map(|gears| gears.iter()).collect()
+    }
+
+    pub fn size(&self) -> usize {
+        self.gears_by_slot.values().map(|gears| gears.len()).sum()
     }
 
     pub fn retain<F>(&mut self, predicate: F)
@@ -61,4 +70,61 @@ impl GearCatalog {
 
         result
     }
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use proptest::prelude::*;
+    use crate::test_support::strategies::*;
+
+    proptest! {
+        #[test]
+        fn all_gears(gears in proptest::collection::vec(gen_gear(), 0..50)) {
+            let catalog = GearCatalog::new(gears.clone());
+            let all_gears = catalog.all_gears();
+
+            prop_assert!(all_gears.len() == gears.len());
+            
+            for gear in gears {
+                let found_gear = all_gears.iter().find(|g| g.id == gear.id);
+
+                prop_assert!(found_gear == Some(&&gear));
+            }
+        }
+
+        #[test]
+        fn size_stays_the_same(gears in proptest::collection::vec(gen_gear(), 0..50)) {
+            let size = gears.len();
+            let catalog = GearCatalog::new(gears);
+            
+            prop_assert!(catalog.size() == size);
+        }
+
+        #[test]
+        fn all_gears_can_be_retrieved_by_slot_type(gears in proptest::collection::vec(gen_gear(), 0..50)) {
+            let catalog = GearCatalog::new(gears.clone());
+
+            for gear in gears {
+                let slot_type = GearSlotType::from(&gear.gear_type);
+                let found_gear = catalog.get_gears(slot_type).iter().find(|g| g.id == gear.id);
+
+                prop_assert!(found_gear == Some(&gear));
+            }
+        }
+
+        #[test]
+        fn retain_per_level((mut catalog, min_level) in (gen_gear_catalog(0..50), gen_gear_level())) {
+            let count = catalog.all_gears().iter().filter(|gear| gear.level >= min_level).count();
+            catalog.retain(|gear| gear.level >= min_level);
+
+            prop_assert!(catalog.size() == count);
+            
+            for gear in catalog.all_gears() {
+                prop_assert!(gear.level >= min_level);
+            }
+        }
+    }
+
 }

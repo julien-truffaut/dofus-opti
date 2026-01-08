@@ -1,4 +1,4 @@
-use dofus_opti_dofus_build::model::{CharacteristicType, Language, TranslatedName};
+use dofus_opti_dofus_build::model::CharacteristicType;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct EffectsStruct {
@@ -333,36 +333,12 @@ impl EffectsStruct {
             CharacteristicType::Wisdom => self.wisdom = new_value,
         }
     }
-
-    pub fn derived_strength(&self) -> i32 {
-        self.strength + self.power
-    }
-
-    pub fn summary(&self, language: Language) -> String {
-        format!(
-            "{} {{
-    {}: {},
-    {}: {},
-    {}: {},
-}}",
-            TranslatedName {
-                en: "Effects".to_string(),
-                fr: "Effets".to_string(),
-            }
-            .localized(language),
-            CharacteristicType::Power.localized(language),
-            self.power,
-            CharacteristicType::Strength.localized(language),
-            self.strength,
-            CharacteristicType::Vitality.localized(language),
-            self.vitality,
-        )
-    }
 }
 
 #[cfg(test)]
 mod tests {
     use crate::EffectsStruct;
+
     use dofus_opti_dofus_build::model::ALL_CHARACTERISTIC_TYPES;
 
     fn create_test_effects() -> EffectsStruct {
