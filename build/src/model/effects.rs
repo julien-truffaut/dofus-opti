@@ -75,16 +75,8 @@ impl Effects {
 #[cfg(test)]
 mod tests {
     use crate::model::{ALL_CHARACTERISTIC_TYPES, Effects};
-
-    fn create_test_effects() -> Effects {
-        let mut effects = Effects::empty();
-
-        for (i, characteristic_type) in ALL_CHARACTERISTIC_TYPES.iter().enumerate() {
-            effects.set(characteristic_type, i as i32 + 1);
-        }
-
-        effects
-    }
+    use crate::test_support::strategies::*;
+    use proptest::prelude::*;
 
     #[test]
     fn empty_get() {
@@ -95,36 +87,47 @@ mod tests {
         }
     }
 
-    #[test]
-    fn set_get() {
-        let effects = create_test_effects();
-
-        for (i, characteristic_type) in ALL_CHARACTERISTIC_TYPES.iter().enumerate() {
-            let expected = i as i32 + 1;
-            assert_eq!(effects.get(characteristic_type), expected);
+    proptest! {
+        #[test]
+        fn set_get((mut effects, new_value) in (gen_effects(), -100..500)) {
+            for characteristic_type in ALL_CHARACTERISTIC_TYPES {
+                effects.set(characteristic_type, new_value);
+                prop_assert!(effects.get(characteristic_type) == new_value);
+            }
         }
-    }
 
-    #[test]
-    fn add() {
-        let mut effects = create_test_effects();
-
-        effects.add(&create_test_effects());
-
-        for (i, characteristic_type) in ALL_CHARACTERISTIC_TYPES.iter().enumerate() {
-            let expected = (i as i32 + 1) * 2;
-            assert_eq!(effects.get(characteristic_type), expected);
+        #[test]
+        fn get_set(mut effects in gen_effects()) {
+            let original = effects.clone();
+            for characteristic_type in ALL_CHARACTERISTIC_TYPES {
+                let current_value = effects.get(characteristic_type);
+                effects.set(characteristic_type, current_value);
+                prop_assert!(effects == original);
+            }
         }
-    }
 
-    #[test]
-    fn sub() {
-        let mut effects = create_test_effects();
+        #[test]
+        fn add((effects1, effects2) in (gen_effects(), gen_effects())) {
+            let mut effects = effects1.clone();
+            effects.add(&effects2);
 
-        effects.sub(&create_test_effects());
+            for characteristic_type in ALL_CHARACTERISTIC_TYPES {
+                let expected = effects1.get(characteristic_type) + effects2.get(characteristic_type);
+                let found = effects.get(characteristic_type);
+                prop_assert!(found == expected);
+            }
+        }
 
-        for characteristic_type in ALL_CHARACTERISTIC_TYPES {
-            assert_eq!(effects.get(characteristic_type), 0);
+        #[test]
+        fn sub((effects1, effects2) in (gen_effects(), gen_effects())) {
+            let mut effects = effects1.clone();
+            effects.sub(&effects2);
+
+            for characteristic_type in ALL_CHARACTERISTIC_TYPES {
+                let expected = effects1.get(characteristic_type) - effects2.get(characteristic_type);
+                let found = effects.get(characteristic_type);
+                prop_assert!(found == expected);
+            }
         }
     }
 }

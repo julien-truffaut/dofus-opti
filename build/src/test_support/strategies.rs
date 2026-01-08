@@ -1,37 +1,31 @@
 use crate::model::*;
-use dofus_opti_core::model::{Id, GearType};
+use dofus_opti_core::model::{GearType, Id};
 
 use proptest::prelude::*;
 
-pub fn gen_gear_catalog(
-    size: std::ops::Range<usize>,
-) -> impl Strategy<Value = GearCatalog> {
-    proptest::collection::vec(gen_gear(), size)
-        .prop_map(GearCatalog::new)
+pub fn gen_gear_catalog(size: std::ops::Range<usize>) -> impl Strategy<Value = GearCatalog> {
+    proptest::collection::vec(gen_gear(), size).prop_map(GearCatalog::new)
 }
 
 pub fn gen_gear() -> impl Strategy<Value = Gear> {
-    (
-        gen_id(),
-        "[a-z]{6,20}",
-        gen_gear_type(),
-        gen_gear_level(),
-        gen_effects()
-    ).prop_map(|(id, name, gear_type, level, effects)|
-        Gear {
+    (gen_id(), "[a-z]{6,20}", gen_gear_type(), gen_gear_level(), gen_effects()).prop_map(
+        |(id, name, gear_type, level, effects)| Gear {
             id: id,
-            name: TranslatedName { en: name.clone(), fr: name },
+            name: TranslatedName {
+                en: name.clone(),
+                fr: name,
+            },
             gear_type: gear_type,
             level: level,
             has_set: false,
-            effects: effects
-        }
+            effects: effects,
+        },
     )
 }
 
 pub fn gen_id() -> impl Strategy<Value = Id> {
     "[a-z0-9]{8,12}".prop_map(|id| Id(id))
-} 
+}
 
 pub fn gen_gear_type() -> impl Strategy<Value = GearType> {
     prop_oneof![

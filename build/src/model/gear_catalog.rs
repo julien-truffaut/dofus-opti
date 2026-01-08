@@ -72,12 +72,11 @@ impl GearCatalog {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    use proptest::prelude::*;
     use crate::test_support::strategies::*;
+    use proptest::prelude::*;
 
     proptest! {
         #[test]
@@ -86,7 +85,7 @@ mod tests {
             let all_gears = catalog.all_gears();
 
             prop_assert!(all_gears.len() == gears.len());
-            
+
             for gear in gears {
                 let found_gear = all_gears.iter().find(|g| g.id == gear.id);
 
@@ -98,7 +97,7 @@ mod tests {
         fn size_stays_the_same(gears in proptest::collection::vec(gen_gear(), 0..50)) {
             let size = gears.len();
             let catalog = GearCatalog::new(gears);
-            
+
             prop_assert!(catalog.size() == size);
         }
 
@@ -120,11 +119,10 @@ mod tests {
             catalog.retain(|gear| gear.level >= min_level);
 
             prop_assert!(catalog.size() == count);
-            
+
             for gear in catalog.all_gears() {
                 prop_assert!(gear.level >= min_level);
             }
         }
     }
-
 }
